@@ -45,7 +45,6 @@ sort: MatSort = new MatSort;
         this._liveAnnouncer.announce('Sorting cleared');
       }
     }
-
   getData()
   {
     this.http.getTasks().subscribe({
@@ -62,5 +61,8 @@ sort: MatSort = new MatSort;
       }
     })
   }
-
+  goToPost(id:number)
+  {
+    this.router.navigate(['http://localhost:3000/tasks/',id])
+  }
 }
