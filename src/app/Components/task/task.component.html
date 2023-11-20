@@ -5,26 +5,30 @@
     <input id="name"
     matInput 
     formControlName="name"
-    placeholder="Enter name of task">
+    placeholder="Enter name of task"
+    [ngClass]="{'has-error': taskForm.get('name')?.invalid && taskForm.get('name')?.touched}">
 </mat-form-field>
 <mat-form-field>
     <mat-label>Priority</mat-label>
-    <mat-select formControlName="priority">
+    <mat-select formControlName="priority"
+    [ngClass]="{'has-error': taskForm.get('priority')?.invalid && taskForm.get('priority')?.touched}">
       <mat-option value="Primary">Primary</mat-option>
       <mat-option value="Secondary">Secondary</mat-option>
     </mat-select>
 </mat-form-field>
 <mat-form-field>
     <label mat-label>Date</label>
-    <input id="cathegory"
+    <input id="date"
     matInput 
     type="date"
     formControlName="date"
-    placeholder="Enter date">
+    placeholder="Enter date"
+    [ngClass]="{'has-error': taskForm.get('date')?.invalid && taskForm.get('date')?.touched}">
 </mat-form-field>
 <mat-form-field>
     <mat-label>Cathegory</mat-label>
-    <mat-select formControlName="cathegory">
+    <mat-select formControlName="cathegory"
+    [ngClass]="{'has-error': taskForm.get('cathegory')?.invalid && taskForm.get('cathegory')?.touched}">
         <div *ngFor="let cathegory of cathegories" >
       <mat-option value="{{cathegory}}">{{cathegory}}</mat-option>
     </div>

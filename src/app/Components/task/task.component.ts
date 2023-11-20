@@ -38,6 +38,8 @@ export class TaskComponent implements OnInit {
   }
   postTask():void
   {
+    if (this.taskForm.valid)
+     {
     const task: Task = this.taskForm.value;
     task.author="thats me"//AUTHORIZED USER CREATE PULL HERE
     this.http.postTask(task).subscribe(
@@ -48,5 +50,8 @@ export class TaskComponent implements OnInit {
     )
     this.router.navigate([""]) ///CLOSE MODAL
   }
+  else
+  {console.log("invalid")}
+}
 }
 

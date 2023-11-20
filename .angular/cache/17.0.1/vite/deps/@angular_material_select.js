@@ -12,12 +12,6 @@ import {
   MatFormFieldModule
 } from "./chunk-2KMHDMEX.js";
 import {
-  FormGroupDirective,
-  NgControl,
-  NgForm,
-  Validators
-} from "./chunk-IV3UY6AS.js";
-import {
   BidiModule,
   Directionality,
   ErrorStateMatcher,
@@ -67,6 +61,12 @@ import {
   supportsScrollBehavior
 } from "./chunk-FAJ7CSS3.js";
 import "./chunk-KZWLTZ5B.js";
+import {
+  FormGroupDirective,
+  NgControl,
+  NgForm,
+  Validators
+} from "./chunk-IV3UY6AS.js";
 import {
   CommonModule,
   DOCUMENT,
