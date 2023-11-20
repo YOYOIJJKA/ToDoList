@@ -16,7 +16,6 @@ import {
   trigger
 } from "./chunk-VGO3ZOCX.js";
 import "./chunk-OWN4UWFO.js";
-import "./chunk-KZWLTZ5B.js";
 import {
   AriaDescriber,
   ENTER,
@@ -24,6 +23,7 @@ import {
   SPACE,
   coerceBooleanProperty
 } from "./chunk-FAJ7CSS3.js";
+import "./chunk-KZWLTZ5B.js";
 import "./chunk-GGWX53FE.js";
 import {
   ChangeDetectionStrategy,

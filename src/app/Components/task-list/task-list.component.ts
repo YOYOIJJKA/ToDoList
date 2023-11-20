@@ -14,9 +14,7 @@ import {MatTableDataSource} from '@angular/material/table';
 })
 export class TaskListComponent implements AfterViewInit {
   
-
   tasks!:Task[]
-
 
   constructor
   (
@@ -24,20 +22,21 @@ export class TaskListComponent implements AfterViewInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private _liveAnnouncer: LiveAnnouncer
-     
+    
   )
   { }
 
-    displayedColumns: string[] = ['id', 'name', 'author', 'cathegory', 'priority','date'];
-    dataSource = new MatTableDataSource(this.tasks);
-    @ViewChild(MatSort) 
-  sort: MatSort = new MatSort;
-  
-    ngAfterViewInit() {
-      this.getData()
-      this.dataSource.sort = this.sort;
-    }
-  
+  ngAfterViewInit() {
+    this.getData()
+
+  }
+
+  displayedColumns: string[] = ['id', 'name', 'author', 'cathegory', 'priority','date'];
+  dataSource = new MatTableDataSource(this.tasks);
+  @ViewChild(MatSort) 
+sort: MatSort = new MatSort;
+
+
     /** Announce the change in sort state for assistive technology. */
     announceSortChange(sortState: Sort) {
       if (sortState.direction) {
@@ -47,18 +46,19 @@ export class TaskListComponent implements AfterViewInit {
       }
     }
 
-
   getData()
   {
     this.http.getTasks().subscribe({
       next: (newTasks:Task[]) =>
       {
-        this.tasks=newTasks;
+        this.dataSource=new MatTableDataSource (newTasks);
+        this.dataSource.sort = this.sort;
       },
       error:(e) => console.error(e),
       complete: () => 
       {
         console.log(this.tasks)
+        console.log (this.dataSource)
       }
     })
   }
