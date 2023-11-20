@@ -8,14 +8,19 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
-    "config": {
-      "commitizen": {
-        "path": "node_modules/cz-customizable"
-      },
-      "cz-customizable": {
-        "config": "config/git/commitizen.js"
-      }
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS -g './config/git/commitlint.js'"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
     },
+    "cz-customizable": {
+      "config": "config/git/commitizen.js"
+    }
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "^17.0.0",
@@ -36,8 +41,10 @@
     "@angular-devkit/build-angular": "^17.0.0",
     "@angular/cli": "^17.0.0",
     "@angular/compiler-cli": "^17.0.0",
+    "@commitlint/cli": "^18.4.2",
     "@types/jasmine": "~5.1.0",
     "cz-customizable": "^7.0.0",
+    "husky": "^8.0.3",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
@@ -47,4 +54,3 @@
     "typescript": "~5.2.2"
   }
 }
-
