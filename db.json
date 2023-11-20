@@ -1,0 +1,54 @@
+{
+  "tasks": [
+    {
+      "name": "Александр",
+      "priority": "one",
+      "date": "2002-02-13",
+      "cathegory": "one",
+      "author": "thats me",
+      "id": 2
+    },
+    {
+      "name": "NotNull",
+      "priority": null,
+      "date": null,
+      "cathegory": null,
+      "author": "thats me",
+      "id": 3
+    },
+    {
+      "name": "null",
+      "priority": null,
+      "date": null,
+      "cathegory": null,
+      "author": "thats me",
+      "id": 4
+    },
+    {
+      "name": null,
+      "priority": null,
+      "date": null,
+      "cathegory": null,
+      "author": "thats me",
+      "id": 5
+    },
+    {
+      "name": null,
+      "priority": null,
+      "date": null,
+      "cathegory": null,
+      "author": "thats me",
+      "id": 6
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
