@@ -10,8 +10,9 @@
 <mat-form-field>
     <mat-label>Priority</mat-label>
     <mat-select formControlName="priority">
-      <mat-option value="Primary">Primary</mat-option>
-      <mat-option value="Secondary">Secondary</mat-option>
+        <div *ngFor="let priority of priorities" >
+            <mat-option value="{{priority}}">{{priority}}</mat-option>
+          </div>
     </mat-select>
 </mat-form-field>
 <mat-form-field>

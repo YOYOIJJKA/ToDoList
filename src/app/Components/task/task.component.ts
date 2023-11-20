@@ -14,6 +14,7 @@ export class TaskComponent implements OnInit {
 
   taskForm!:FormGroup;
   cathegories = [("One"),("Two")];//write pull request  
+  priorities = [("primary"),("secondary")]
   
  public constructor 
   (
