@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ToDoList';
+  isShow = false;
+ 
+  toggleDisplay() {
+    this.isShow = !this.isShow;
+  }
 }

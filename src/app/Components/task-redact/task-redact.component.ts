@@ -47,7 +47,7 @@ export class TaskRedactComponent extends TaskComponent {
      {
     const task: Task = this.taskForm.value;
     task.id = this.id;
-    task.author="thats me"//AUTHORIZED USER CREATE PULL HERE
+    task.author="thats me *edited*"//AUTHORIZED USER CREATE PULL HERE
     this.http.putTask(task).subscribe(
       {
         error: (e) => console.error(e),

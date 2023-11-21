@@ -17,7 +17,8 @@ import { TaskListComponent } from './Components/task-list/task-list.component';
 import {MatTableModule} from '@angular/material/table'
 import {MatSortModule} from '@angular/material/sort';
 import {MatDialogModule, matDialogAnimations} from '@angular/material/dialog'
-
+import {MatToolbarModule} from '@angular/material/toolbar'
+import {MatIconModule} from '@angular/material/icon'
 
 @NgModule({
   declarations: [
@@ -41,7 +42,9 @@ import {MatDialogModule, matDialogAnimations} from '@angular/material/dialog'
     ///////////////////////
     MatTableModule,
     MatSortModule,
-    MatDialogModule
+    MatDialogModule,
+    MatToolbarModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

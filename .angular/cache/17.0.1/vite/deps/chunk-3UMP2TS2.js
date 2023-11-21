@@ -1,7 +1,7 @@
 import {
   DOCUMENT,
   isPlatformBrowser
-} from "./chunk-GGWX53FE.js";
+} from "./chunk-TUXSKZU5.js";
 import {
   APP_ID,
   BehaviorSubject,
@@ -46,7 +46,7 @@ import {
   ɵɵdefineNgModule,
   ɵɵdirectiveInject,
   ɵɵinject
-} from "./chunk-5D7ZWNOA.js";
+} from "./chunk-RS7OVMRY.js";
 
 // node_modules/@angular/cdk/fesm2022/platform.mjs
 var hasV8BreakIterator;
@@ -2811,12 +2811,6 @@ var A11yModule = _A11yModule;
 })();
 
 export {
-  coerceBooleanProperty,
-  coerceNumberProperty,
-  _isNumberValue,
-  coerceArray,
-  coerceCssPixelValue,
-  coerceElement,
   Platform,
   getSupportedInputTypes,
   normalizePassiveListenerOptions,
@@ -2834,6 +2828,12 @@ export {
   DOWN_ARROW,
   A,
   hasModifierKey,
+  coerceBooleanProperty,
+  coerceNumberProperty,
+  _isNumberValue,
+  coerceArray,
+  coerceCssPixelValue,
+  coerceElement,
   ObserversModule,
   addAriaReferencedId,
   removeAriaReferencedId,
@@ -2870,4 +2870,4 @@ export {
   HighContrastModeDetector,
   A11yModule
 };
-//# sourceMappingURL=chunk-E7UNELPA.js.map
+//# sourceMappingURL=chunk-3UMP2TS2.js.map

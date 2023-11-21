@@ -1,1 +1,22 @@
+<header>
+    <p>
+        <mat-toolbar color="primary">
+            <div>
+          <mat-toolbar-row>
+            <span>My App</span>
+            <span class="spacer"></span>
+            <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"(click)="toggleDisplay()">
+              <mat-icon>menu</mat-icon>
+            </button>
+          </mat-toolbar-row>
+        </div>
+          <div [hidden]="isShow">
+          <mat-toolbar-row [hidden]="isShow" style="gap: 10px;" >
+            <button mat-raised-button color="basic">Redact cathegories</button>
+            <button mat-raised-button color="basic">Redact priorities</button>
+          </mat-toolbar-row>
+        </div>
+        </mat-toolbar>
+      </p>
+</header>
 <router-outlet></router-outlet>
