@@ -31,7 +31,7 @@ export class TaskListComponent implements AfterViewInit {
 
   }
 
-  displayedColumns: string[] = ['id', 'name', 'author', 'cathegory', 'priority','date'];
+  displayedColumns: string[] = ['id', 'name', 'author', 'cathegory', 'priority','date', 'delete'];
   dataSource = new MatTableDataSource(this.tasks);
   @ViewChild(MatSort) 
 sort: MatSort = new MatSort;
@@ -64,5 +64,18 @@ sort: MatSort = new MatSort;
   goToPost(id:number)
   {
     this.router.navigate(['http://localhost:3000/tasks/',id])
+  }
+  deleteTask(id:number)
+  {
+    console.log(id)
+    if(confirm("Are you sure to delete "+id))
+    {
+      this.http.deleteTask(id).subscribe({
+        next: () =>console.log(id),
+        error: (e) => console.log(e),
+        complete: () =>console.log("deleted")
+      })
+    }
+    this.ngAfterViewInit()
   }
 }
