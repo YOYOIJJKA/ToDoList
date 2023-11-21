@@ -2811,11 +2811,18 @@ var A11yModule = _A11yModule;
 })();
 
 export {
+  coerceBooleanProperty,
+  coerceNumberProperty,
+  _isNumberValue,
+  coerceArray,
+  coerceCssPixelValue,
+  coerceElement,
   Platform,
   getSupportedInputTypes,
   normalizePassiveListenerOptions,
   supportsScrollBehavior,
   getRtlScrollAxisType,
+  _getFocusedElementPierceShadowDom,
   _getEventTarget,
   _isTestEnvironment,
   ENTER,
@@ -2827,12 +2834,6 @@ export {
   DOWN_ARROW,
   A,
   hasModifierKey,
-  coerceBooleanProperty,
-  coerceNumberProperty,
-  _isNumberValue,
-  coerceArray,
-  coerceCssPixelValue,
-  coerceElement,
   ObserversModule,
   addAriaReferencedId,
   removeAriaReferencedId,
@@ -2869,4 +2870,4 @@ export {
   HighContrastModeDetector,
   A11yModule
 };
-//# sourceMappingURL=chunk-FAJ7CSS3.js.map
+//# sourceMappingURL=chunk-E7UNELPA.js.map

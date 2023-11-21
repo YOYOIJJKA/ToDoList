@@ -16,6 +16,7 @@ import { TaskRedactComponent } from './Components/task-redact/task-redact.compon
 import { TaskListComponent } from './Components/task-list/task-list.component';
 import {MatTableModule} from '@angular/material/table'
 import {MatSortModule} from '@angular/material/sort';
+import {MatDialogModule, matDialogAnimations} from '@angular/material/dialog'
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import {MatSortModule} from '@angular/material/sort';
     HttpClientModule,
     ///////////////////////
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

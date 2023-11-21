@@ -33,7 +33,7 @@ export class TaskRedactComponent extends TaskComponent {
             {
               name: this.task.name,
               date: this.task.date,
-              priority: this.priorities[this.priorities.findIndex(x => x === this.task.priority)], //NOT WORKING
+              priority: this.priorities[this.priorities.findIndex(x => x === this.task.priority)], 
               cathegory: this.cathegories[this.cathegories.findIndex(x => x === this.task.cathegory)]
             }
           )
@@ -41,4 +41,22 @@ export class TaskRedactComponent extends TaskComponent {
       }
     )
   }
+  putTask ()
+  {
+    if (this.taskForm.valid)
+     {
+    const task: Task = this.taskForm.value;
+    task.id = this.id;
+    task.author="thats me"//AUTHORIZED USER CREATE PULL HERE
+    this.http.putTask(task).subscribe(
+      {
+        error: (e) => console.error(e),
+        complete: () => console.log("posted")
+      }
+    )
+    this.router.navigate([""]) ///CLOSE MODAL
+  }
+  else
+  {console.log("invalid")}
+}
 }

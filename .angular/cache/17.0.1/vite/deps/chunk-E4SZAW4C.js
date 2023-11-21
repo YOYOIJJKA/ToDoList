@@ -40,6 +40,13 @@ function animate(timings, styles = null) {
     timings
   };
 }
+function group(steps, options = null) {
+  return {
+    type: 3,
+    steps,
+    options
+  };
+}
 function sequence(steps, options = null) {
   return {
     type: 2,
@@ -4607,6 +4614,7 @@ function provideNoopAnimations() {
 export {
   trigger,
   animate,
+  group,
   style,
   state,
   keyframes,
@@ -4642,4 +4650,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-VGO3ZOCX.js.map
+//# sourceMappingURL=chunk-E4SZAW4C.js.map
