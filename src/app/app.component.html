@@ -1,22 +1,19 @@
 <header>
-    <p>
-        <mat-toolbar color="primary">
-            <div>
-          <mat-toolbar-row>
-            <span>My App</span>
-            <span class="spacer"></span>
-            <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"(click)="toggleDisplay()">
-              <mat-icon>menu</mat-icon>
-            </button>
-          </mat-toolbar-row>
-        </div>
-          <div [hidden]="isShow">
-          <mat-toolbar-row [hidden]="isShow" style="gap: 10px;" >
-            <button mat-raised-button color="basic">Redact cathegories</button>
-            <button mat-raised-button color="basic">Redact priorities</button>
-          </mat-toolbar-row>
-        </div>
-        </mat-toolbar>
-      </p>
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" class="header">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-toolbar-row>
+                        <span>To do list</span>
+                    </mat-toolbar-row>
+                </mat-panel-title>  
+            </mat-expansion-panel-header>
+            
+                <mat-toolbar-row>
+                    <button  mat-raised-button color="basic">Add task</button>
+                    <button  mat-raised-button color="basic">Redact cathegories</button>
+                    <button mat-raised-button color="basic">Redact priorities</button>
+                </mat-toolbar-row>
+            
+        </mat-expansion-panel>
 </header>
 <router-outlet></router-outlet>

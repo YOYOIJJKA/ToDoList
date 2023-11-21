@@ -19,6 +19,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatDialogModule, matDialogAnimations} from '@angular/material/dialog'
 import {MatToolbarModule} from '@angular/material/toolbar'
 import {MatIconModule} from '@angular/material/icon'
+import {MatExpansionModule} from '@angular/material/expansion'
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import {MatIconModule} from '@angular/material/icon'
     MatSortModule,
     MatDialogModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    MatExpansionModule
   ],
   providers: [],
   bootstrap: [AppComponent]
