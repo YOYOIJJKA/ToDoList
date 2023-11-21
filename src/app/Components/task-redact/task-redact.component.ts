@@ -11,6 +11,7 @@ export class TaskRedactComponent extends TaskComponent {
   task!: Task;
   cathegoryId!:number;
   priorityId!:number;
+  id!:number;
 
   override ngOnInit(): void {
     this.getFormData()
@@ -26,6 +27,8 @@ export class TaskRedactComponent extends TaskComponent {
         },
         error: (e) => console.error(e),
         complete: () => {
+          if (this.task.id)
+          this.id=this.task.id
           this.taskForm.patchValue(
             {
               name: this.task.name,

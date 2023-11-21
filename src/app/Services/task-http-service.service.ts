@@ -30,6 +30,10 @@ deleteTask (id:number):Observable<Task>
 {
   return this.http.delete<Task>('http://localhost:3000/tasks/'+id)
 }
+putTask (task:Task):Observable<Task>
+{
+  return this.http.put<Task>('http://localhost:3000/tasks/', task)
+}
 //cathegories
 postCathegory (cathegory:string):Observable<Cathegory>
 {
