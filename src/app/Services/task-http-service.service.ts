@@ -32,10 +32,10 @@ deleteTask (id:number):Observable<Task>
 }
 putTask (task:Task):Observable<Task>
 {
-  return this.http.put<Task>('http://localhost:3000/tasks/', task)
+  return this.http.put<Task>('http://localhost:3000/tasks/'+task.id, task)
 }
 //cathegories
-postCathegory (cathegory:string):Observable<Cathegory>
+postCathegory (cathegory:Cathegory):Observable<Cathegory>
 {
   return this.http.post<Cathegory>('http://localhost:3000/cathegories/',cathegory)
 }
@@ -47,8 +47,12 @@ deleteCathegory (id:number):Observable<Cathegory>
 {
   return this.http.delete<Cathegory>('http://localhost:3000/cathegories/'+id)
 }
+putCathegory (cathegory:Cathegory):Observable<Cathegory>
+{
+  return this.http.put<Cathegory>('http://localhost:3000/cathegories/'+cathegory.id, cathegory)
+}
 //priorities
-postPriority (priority:string):Observable<Priority>
+postPriority (priority:Priority):Observable<Priority>
 {
   return this.http.post<Priority>('http://localhost:3000/priority/',priority)
 }
@@ -60,4 +64,5 @@ deletePriority (id:number):Observable<Priority>
 {
   return this.http.delete<Priority>('http://localhost:3000/priority/'+id)
 }
+
 }

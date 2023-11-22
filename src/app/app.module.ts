@@ -22,6 +22,7 @@ import {MatIconModule} from '@angular/material/icon'
 import {MatExpansionModule} from '@angular/material/expansion';
 import { CathegoriesComponent } from './Components/cathegories/cathegories.component'
 import {MatChipsModule} from '@angular/material/chips';
+import { AutorizationComponent } from './Components/autorization/autorization.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {MatChipsModule} from '@angular/material/chips';
     TaskComponent,
     TaskRedactComponent,
     TaskListComponent,
-    CathegoriesComponent
+    CathegoriesComponent,
+    AutorizationComponent
   ],
   imports: [
     BrowserModule,

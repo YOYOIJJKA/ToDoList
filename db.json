@@ -56,5 +56,19 @@
       "author": "thats me",
       "id": 13
     }
+  ],
+  "cathegories": [
+    {
+      "name": "FirsCath",
+      "id": 2
+    },
+    {
+      "name": "daaa",
+      "id": 3
+    },
+    {
+      "name": "dasda",
+      "id": 4
+    }
   ]
 }

@@ -8,7 +8,7 @@ import { CathegoriesComponent } from './Components/cathegories/cathegories.compo
 const routes: Routes = [
   {
     path:"",
-    component:TaskListComponent
+    component:CathegoriesComponent
   }
 ];
 

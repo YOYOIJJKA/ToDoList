@@ -1,7 +1,9 @@
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {MatChipEditedEvent, MatChipInputEvent, MatChipGrid} from '@angular/material/chips';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
+import { TaskHttpServiceService } from '../../Services/task-http-service.service';
+import { Cathegory } from '../../Interfaces/cathegory';
 
 
 export interface Cath 
@@ -15,10 +17,22 @@ export interface Cath
   styleUrl: './cathegories.component.scss'
 })
 
-export class CathegoriesComponent {
+export class CathegoriesComponent implements OnInit {
+
+  constructor
+  (
+    private http: TaskHttpServiceService
+  )
+  {}
+
+  ngOnInit(): void {
+    this.getCathegories();
+  }
+
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
-  cathegories: Cath[] = [{name: 'Lemon'}, {name: 'Lime'}, {name: 'Apple'}];
+  cathegories!: Cathegory[];
+  newId!: number 
 
   announcer = inject(LiveAnnouncer);
 
@@ -26,14 +40,28 @@ export class CathegoriesComponent {
     const value = (event.value || '').trim();
     // Add our fruit
     if (value) {
-      this.cathegories.push({name: value});
+
+      if (this.cathegories) {
+      this.newId = this.cathegories[this.cathegories.length-1].id+1;
+      }
+      else
+      {
+        this.newId = 1;
+      }
+      this.cathegories.push({name: value, id:this.newId});
+     this.http.postCathegory(this.cathegories[this.cathegories.length-1]).subscribe
+     (
+      {
+        next: () => console.log(this.cathegories[this.cathegories.length-1]+" posted")
+      }
+     )
     }
 
     // Clear the input value
     event.chipInput!.clear();
   }
 
-  remove(cathegory: Cath): void {
+  remove(cathegory: Cathegory): void {
     const index = this.cathegories.indexOf(cathegory);
 
     if (index >= 0) {
@@ -43,7 +71,7 @@ export class CathegoriesComponent {
     }
   }
 
-  edit(cathegory: Cath, event: MatChipEditedEvent) {
+  edit(cathegory: Cathegory, event: MatChipEditedEvent) {
     const value = event.value.trim();
 
     // Remove fruit if it no longer has a name
@@ -57,6 +85,32 @@ export class CathegoriesComponent {
     if (index >= 0) {
       this.cathegories[index].name = value;
     }
+    this.http.putCathegory(this.cathegories[index]).subscribe
+    (
+      {
+        next:()=> console.log(this.cathegories[index]),
+        error: (e) => console.log(e)
+      }
+    )
+  }
+
+  getCathegories()
+  {
+    this.http.getCathegories().subscribe
+    ({
+      next: (newCathegories: Cathegory[]) => {
+        console.log(newCathegories)
+        this.cathegories=newCathegories
+      },
+      error: (e) => console.error(e),
+      // complete: ()=>
+      // {
+      //   this.arrayCathegories.forEach(cathegoriesEl => {
+      //     this.cathegories[cathegoriesEl.id]
+      //   });
+      // }
+    }
+    )
   }
   
 }
