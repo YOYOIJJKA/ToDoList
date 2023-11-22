@@ -21,6 +21,7 @@ import {MatToolbarModule} from '@angular/material/toolbar'
 import {MatIconModule} from '@angular/material/icon'
 import {MatExpansionModule} from '@angular/material/expansion';
 import { CathegoriesComponent } from './Components/cathegories/cathegories.component'
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { CathegoriesComponent } from './Components/cathegories/cathegories.compo
     MatDialogModule,
     MatToolbarModule,
     MatIconModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatChipsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

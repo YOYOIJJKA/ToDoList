@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskComponent } from './Components/task/task.component';
 import { audit } from 'rxjs';
+import { CathegoriesComponent } from './Components/cathegories/cathegories.component';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,13 @@ export class AppComponent {
   openTaskDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
     this.dialog.open(TaskComponent, {
       width: "auto",
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+  }
+  openCathegoriesDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    this.dialog.open(CathegoriesComponent, {
+      width: "50%",
       enterAnimationDuration,
       exitAnimationDuration,
     });

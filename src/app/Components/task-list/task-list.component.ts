@@ -84,9 +84,9 @@ sort: MatSort = new MatSort;
 
   openRedactDIalog(enterAnimationDuration: string, exitAnimationDuration: string, id: number): void {
 
+///////WRITE INPUT ID HERE
 
-
-    this.dialog.open(TaskRedactComponent, {
+   const dialogRedact= this.dialog.open(TaskRedactComponent, {
       
       width: "auto",
       enterAnimationDuration,
