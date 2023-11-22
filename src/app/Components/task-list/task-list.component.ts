@@ -6,6 +6,8 @@ import {LiveAnnouncer} from '@angular/cdk/a11y';
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {MatSort, Sort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import { TaskRedactComponent } from '../task-redact/task-redact.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-task-list',
@@ -21,7 +23,8 @@ export class TaskListComponent implements AfterViewInit {
     private http: TaskHttpServiceService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private _liveAnnouncer: LiveAnnouncer
+    private _liveAnnouncer: LiveAnnouncer,
+    private dialog: MatDialog
     
   )
   { }
@@ -63,7 +66,7 @@ sort: MatSort = new MatSort;
   }
   goToPost(id:number)
   {
-    this.router.navigate(['http://localhost:3000/tasks/',id])
+    this.openRedactDIalog("0ms","oms",id)
   }
   deleteTask(id:number)
   {
@@ -73,9 +76,21 @@ sort: MatSort = new MatSort;
       this.http.deleteTask(id).subscribe({
         next: () =>console.log(id),
         error: (e) => console.log(e),
-        complete: () =>console.log("deleted")
+        complete: () =>this.ngAfterViewInit()
       })
     }
-    this.ngAfterViewInit()
+
+  }
+
+  openRedactDIalog(enterAnimationDuration: string, exitAnimationDuration: string, id: number): void {
+
+
+
+    this.dialog.open(TaskRedactComponent, {
+      
+      width: "auto",
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
   }
 }

@@ -19,14 +19,16 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatDialogModule, matDialogAnimations} from '@angular/material/dialog'
 import {MatToolbarModule} from '@angular/material/toolbar'
 import {MatIconModule} from '@angular/material/icon'
-import {MatExpansionModule} from '@angular/material/expansion'
+import {MatExpansionModule} from '@angular/material/expansion';
+import { CathegoriesComponent } from './Components/cathegories/cathegories.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     TaskComponent,
     TaskRedactComponent,
-    TaskListComponent
+    TaskListComponent,
+    CathegoriesComponent
   ],
   imports: [
     BrowserModule,

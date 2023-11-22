@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { TaskComponent } from './Components/task/task.component';
+import { audit } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +12,17 @@ export class AppComponent {
   title = 'ToDoList';
 
   panelOpenState = false;
+
+  constructor(public dialog: MatDialog) {}
+  openTaskDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    this.dialog.open(TaskComponent, {
+      width: "auto",
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+  }
+
+
 
 }
 

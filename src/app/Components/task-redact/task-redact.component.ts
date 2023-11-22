@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TaskComponent } from '../task/task.component';
 import { Task } from '../../Interfaces/task';
 
@@ -11,12 +11,12 @@ export class TaskRedactComponent extends TaskComponent {
   task!: Task;
   cathegoryId!:number;
   priorityId!:number;
-  id!:number;
+  @Input() id!:number;
 
   override ngOnInit(): void {
     this.getFormData()
     // id = this.router.getCurrentNavigation()
-    this.getTaskData(13)
+    this.getTaskData(this.id)
   }
 
   getTaskData(id: number) {

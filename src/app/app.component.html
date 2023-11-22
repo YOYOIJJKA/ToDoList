@@ -8,12 +8,12 @@
                 </mat-panel-title>  
             </mat-expansion-panel-header>
             
+            
                 <mat-toolbar-row>
-                    <button  mat-raised-button color="basic">Add task</button>
-                    <button  mat-raised-button color="basic">Redact cathegories</button>
+                    <button  mat-raised-button color="basic" (click)="openTaskDialog('0ms', '0ms')">Add task</button>
+                    <button  mat-raised-button color="basic" >Redact cathegories</button>
                     <button mat-raised-button color="basic">Redact priorities</button>
                 </mat-toolbar-row>
-            
         </mat-expansion-panel>
 </header>
 <router-outlet></router-outlet>

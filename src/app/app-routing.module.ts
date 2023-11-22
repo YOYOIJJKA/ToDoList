@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { TaskComponent } from './Components/task/task.component';
 import { TaskRedactComponent } from './Components/task-redact/task-redact.component';
 import { TaskListComponent } from './Components/task-list/task-list.component';
+import { CathegoriesComponent } from './Components/cathegories/cathegories.component';
 
 const routes: Routes = [
   {
