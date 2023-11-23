@@ -33,17 +33,31 @@ export class TaskRedactComponent extends TaskComponent {
         complete: () => {
           if (this.task.id)
           this.id=this.task.id
-////WRITE IF NULL
-          let termTask = {
-            name: this.task.name ? this.task.name :"",
-            date: this.task.date ? this.task.date :"",
-            priority: this.priorities[this.priorities.findIndex(x => x.name == this.task.priority) ].name 
-            ? this.priorities[this.priorities.findIndex(x => x.name == this.task.priority)].name :"", 
-            cathegory: this.cathegories[this.cathegories.findIndex(x => x.name == this.task.cathegory)].name
-            ? this.cathegories[this.cathegories.findIndex(x => x.name == this.task.cathegory)].name :""
-          }
+          let cathegoriesSelectId, prioritySelectId
 
-          this.taskForm.patchValue(termTask)
+          if (this.task.priority)
+          prioritySelectId = this.priorities.findIndex(x => x.name == this.task.priority)
+          if (this.task.cathegory)
+          cathegoriesSelectId = this.cathegories.findIndex(x=> x.name == this.task.cathegory)
+          // let termTaskForm = {
+          //   name: this.task.name ? this.task.name :"",
+          //   date: this.task.date ? this.task.date :"",
+          //   priority: this.priorities[prioritySelectId].name 
+          //   ? this.priorities[prioritySelectId].name :"", 
+          //   cathegory: this.cathegories[cathegoriesSelectId].name
+          //   ? this.cathegories[cathegoriesSelectId].name :""
+          // }
+          if (this.task.name)
+          this.taskForm.patchValue({name: this.task.name})
+
+          if (this.task.date)
+          this.taskForm.patchValue({Date: this.task.date})
+
+          if (prioritySelectId)
+          this.taskForm.patchValue({priority: this.priorities[prioritySelectId]})
+
+          if (cathegoriesSelectId)
+          this.taskForm.patchValue({cathegory: this.cathegories[cathegoriesSelectId]})
         }
       }
     )

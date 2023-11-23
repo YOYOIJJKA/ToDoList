@@ -67,6 +67,30 @@ export class TaskListComponent implements AfterViewInit {
     }
   }
 
+  filterTasks(type:string)
+  {
+    let newTaskList
+   switch (type) {
+    case "author":
+      newTaskList = this.tasks.filter(
+        (task) => task.author.includes(task.author)
+       )
+      break;
+   
+    default:
+      newTaskList = this.tasks
+      break;
+   }
+   this.dataSource = new MatTableDataSource(newTaskList);
+   this.ngAfterViewInit()
+  }
+
+  resetFilter ()
+  {
+    this.dataSource = new MatTableDataSource(this.tasks)
+    this.ngAfterViewInit()
+  }
+
   openRedactDIalog(enterAnimationDuration: string, exitAnimationDuration: string, taskId: number): void {
     ///////WRITE INPUT ID HERE
     console.log(taskId)
