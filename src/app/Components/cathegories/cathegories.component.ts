@@ -1,6 +1,6 @@
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {Component, inject, OnInit} from '@angular/core';
-import {MatChipEditedEvent, MatChipInputEvent, MatChipGrid} from '@angular/material/chips';
+import {MatChipEditedEvent, MatChipInputEvent} from '@angular/material/chips';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
 import { TaskHttpServiceService } from '../../Services/task-http-service.service';
 import { Cathegory } from '../../Interfaces/cathegory';

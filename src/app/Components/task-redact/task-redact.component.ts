@@ -33,14 +33,17 @@ export class TaskRedactComponent extends TaskComponent {
         complete: () => {
           if (this.task.id)
           this.id=this.task.id
-          this.taskForm.patchValue(
-            {
-              name: this.task.name,
-              date: this.task.date,
-              priority: this.priorities[this.priorities.findIndex(x => x.name == this.task.priority)].name, 
-              cathegory: this.cathegories[this.cathegories.findIndex(x => x.name == this.task.cathegory)].name
-            }
-          )
+////WRITE IF NULL
+          let termTask = {
+            name: this.task.name ? this.task.name :"",
+            date: this.task.date ? this.task.date :"",
+            priority: this.priorities[this.priorities.findIndex(x => x.name == this.task.priority) ].name 
+            ? this.priorities[this.priorities.findIndex(x => x.name == this.task.priority)].name :"", 
+            cathegory: this.cathegories[this.cathegories.findIndex(x => x.name == this.task.cathegory)].name
+            ? this.cathegories[this.cathegories.findIndex(x => x.name == this.task.cathegory)].name :""
+          }
+
+          this.taskForm.patchValue(termTask)
         }
       }
     )

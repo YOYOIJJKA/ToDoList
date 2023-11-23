@@ -1,0 +1,23 @@
+<mat-form-field class="example-chip-list">
+    <mat-label>Priorities</mat-label>
+    <mat-chip-grid #chipGrid aria-label="Enter priorities">
+      @for (priority of prioroties; track priority) {
+        <mat-chip-row
+          (removed)="remove(priority)"
+          [editable]="true"
+          (edited)="edit(priority, $event!)"
+          [aria-description]="'press enter to edit ' + priority.name">
+          {{priority.name}}
+          <button matChipRemove [attr.aria-label]="'remove ' + priority.name">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      }
+      <input placeholder="New priority..."
+             [matChipInputFor]="chipGrid"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="addOnBlur"
+             (matChipInputTokenEnd)="add($event)"/>
+    </mat-chip-grid>
+</mat-form-field>
+  

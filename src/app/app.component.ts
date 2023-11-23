@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TaskComponent } from './Components/task/task.component';
 import { audit } from 'rxjs';
 import { CathegoriesComponent } from './Components/cathegories/cathegories.component';
+import { PrioritiesComponent } from './Components/priorities/priorities.component';
 
 @Component({
   selector: 'app-root',
@@ -30,6 +31,13 @@ export class AppComponent {
     });
   }
 
+  openPrioritiesDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    this.dialog.open(PrioritiesComponent, {
+      width: "50%",
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+  }
 
 
 }
