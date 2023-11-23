@@ -48,7 +48,7 @@ postUser():void {
   })
   this.storageService.saveLogin(user.login);
   this.storageService.savePassword(user.password);
-  this.router.navigate([""])
+  this.router.navigate(["list"])
 }
 }
 tryLogIn():void {
@@ -59,9 +59,12 @@ tryLogIn():void {
   this.users.forEach(user => {
     if((user.password)==(this.storageService.getPassword())&&(user.login)==(this.storageService.getLogin()))
     {
-      this.router.navigate([""])
+      this.router.navigate(["list"])
     }
   });
+  }
+  else {
+    alert("Wrong password or login")
   }
 }
 }

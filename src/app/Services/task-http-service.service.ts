@@ -54,15 +54,15 @@ putCathegory (cathegory:Cathegory):Observable<Cathegory>
 //priorities
 postPriority (priority:Priority):Observable<Priority>
 {
-  return this.http.post<Priority>('http://localhost:3000/priority/',priority)
+  return this.http.post<Priority>('http://localhost:3000/priorities/',priority)
 }
 getPriorities ():Observable<Priority[]>
 {
-  return this.http.get<Priority[]>('http://localhost:3000/priority/')
+  return this.http.get<Priority[]>('http://localhost:3000/priorities/')
 }
 deletePriority (id:number):Observable<Priority>
 {
-  return this.http.delete<Priority>('http://localhost:3000/priority/'+id)
+  return this.http.delete<Priority>('http://localhost:3000/priorities/'+id)
 }
 
 }

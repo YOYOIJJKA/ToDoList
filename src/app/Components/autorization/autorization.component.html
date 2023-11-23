@@ -7,7 +7,7 @@
     <form [formGroup] = "userForm">
       <input type="text" id="login" class="fadeIn second userForm" formControlName="login" placeholder="login" 
       [ngClass]="{'has-error': userForm.get('login')?.invalid && userForm.get('login')?.touched}">
-      <input type="text" id="password" class="fadeIn third userForm" formControlName="password" placeholder="password" 
+      <input type="password" id="password" class="fadeIn third userForm" formControlName="password" placeholder="password" 
       [ngClass]="{'has-error': userForm.get('password')?.invalid && userForm.get('password')?.touched}">
       <input type="submit" class="fadeIn fourth" value="Log In" (click)="tryLogIn()">
       <input type="submit" class="fadeIn fourth" value="Sing In" (click)="postUser()">

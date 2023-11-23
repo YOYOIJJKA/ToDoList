@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Inject} from '@angular/core';
 import { TaskComponent } from '../task/task.component';
 import { Task } from '../../Interfaces/task';
 
@@ -11,16 +11,20 @@ export class TaskRedactComponent extends TaskComponent {
   task!: Task;
   cathegoryId!:number;
   priorityId!:number;
-  @Input() id!:number;
-
+  id!:number;
+  
   override ngOnInit(): void {
+    console.log("transfered ID"+this.data)
+    this.id=this.data
+    this.getCathegories()
+    this.getPriorities()
     this.getFormData()
     // id = this.router.getCurrentNavigation()
-    this.getTaskData(this.id)
+    this.getTaskData()
   }
 
-  getTaskData(id: number) {
-    this.http.getTask(id).subscribe(
+  getTaskData() {
+    this.http.getTask(this.id).subscribe(
       {
         next: (newTask: Task) => {
           this.task = newTask;
@@ -33,8 +37,8 @@ export class TaskRedactComponent extends TaskComponent {
             {
               name: this.task.name,
               date: this.task.date,
-              priority: this.priorities[this.priorities.findIndex(x => x === this.task.priority)], 
-              cathegory: this.cathegories[this.cathegories.findIndex(x => x === this.task.cathegory)]
+              priority: this.priorities[this.priorities.findIndex(x => x.name == this.task.priority)].name, 
+              cathegory: this.cathegories[this.cathegories.findIndex(x => x.name == this.task.cathegory)].name
             }
           )
         }

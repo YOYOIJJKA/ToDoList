@@ -66,7 +66,13 @@ export class CathegoriesComponent implements OnInit {
 
     if (index >= 0) {
       this.cathegories.splice(index, 1);
-
+      this.http.deleteCathegory(cathegory.id).subscribe
+      (
+        {
+          error: (e) => console.log(e),
+          complete: () => console.log("cathegory deleted " +cathegory.name)
+        }
+      )
       this.announcer.announce(`Removed ${cathegory}`);
     }
   }

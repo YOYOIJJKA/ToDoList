@@ -11,7 +11,7 @@
     <mat-label>Priority</mat-label>
     <mat-select formControlName="priority">
         <div *ngFor="let priority of priorities" >
-            <mat-option value="{{priority}}">{{priority}}</mat-option>
+            <mat-option value="{{priority.name}}">{{priority.name}}</mat-option>
           </div>
     </mat-select>
 </mat-form-field>
@@ -27,10 +27,11 @@
     <mat-label>Cathegory</mat-label>
     <mat-select formControlName="cathegory">
         <div *ngFor="let cathegory of cathegories" >
-      <mat-option value="{{cathegory}}">{{cathegory}}</mat-option>
+      <mat-option value="{{cathegory.name}}">{{cathegory.name}}</mat-option>
     </div>
     </mat-select>
 </mat-form-field>
 <button mat-stroked-button color="accent" (click)="putTask()">Submit</button>
+<button mat-stroked-button color="primary" (click)="closeModal()">Close</button>
 </form>
 </div>
