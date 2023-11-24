@@ -2,19 +2,19 @@
   "tasks": [
     {
       "name": "Александр",
-      "priority": "one",
+      "priority": "theOnlyPriority",
       "date": "2002-02-13",
-      "cathegory": "one",
-      "author": "thats me",
-      "id": 2
+      "cathegory": "hgchgc",
+      "id": 2,
+      "author": "thats me *edited*"
     },
     {
-      "name": null,
-      "priority": null,
-      "date": null,
-      "cathegory": null,
-      "author": "thats me",
-      "id": 8
+      "name": "Name",
+      "priority": "theOnlyPriority",
+      "date": "0002-02-13",
+      "cathegory": "hgchgc",
+      "id": 8,
+      "author": "dedinside"
     },
     {
       "name": "ssss",

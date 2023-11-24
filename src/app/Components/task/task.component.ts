@@ -8,6 +8,8 @@ import { Cathegory } from '../../Interfaces/cathegory';
 import { Priority } from '../../Interfaces/priority';
 import { MatDialog } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AutorizationService } from '../../Services/autorization.service';
+import { StorageService } from '../../Services/storage.service';
 
 @Component({
   selector: 'app-task',
@@ -26,7 +28,8 @@ export class TaskComponent implements OnInit {
     public formBuilder: FormBuilder,
     public router: Router,
     public http:TaskHttpServiceService,
-    public dialog:MatDialog
+    public dialog:MatDialog,
+    public storage: StorageService
   )
   {}
 
@@ -77,14 +80,14 @@ export class TaskComponent implements OnInit {
     if (this.taskForm.valid)
      {
     const task: Task = this.taskForm.value;
-    task.author="thats me"//AUTHORIZED USER CREATE PULL HERE
+    task.author=this.storage.getLogin()
     this.http.postTask(task).subscribe(
       {
         error: (e) => console.error(e),
         complete: () => console.log("posted")
       }
     )
-    this.router.navigate([""]) ///CLOSE MODAL
+    this.closeModal()
   }
   else
   {console.log("invalid")}
