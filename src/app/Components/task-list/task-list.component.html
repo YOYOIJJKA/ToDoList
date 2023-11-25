@@ -1,3 +1,22 @@
+<form [formGroup]="filterForm">
+  <mat-form-field class="filter-container" >
+    <mat-label>Find:</mat-label>
+    <input matInput #input placeholder="Type filter" id="param" formControlName="param">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Select column</mat-label>
+    <mat-select id="typeSelect" formControlName="typeSelect">
+      <div *ngFor="let type of types">
+      <mat-option value="{{type}}" >{{type}}</mat-option>
+    </div>
+    </mat-select>
+  </mat-form-field>
+  <p>
+      <button mat-stroked-button color="primary" (click)="filterTasks()">Filter</button>
+      <button mat-stroked-button color="primary" (click)="resetFilter()">Reset Filter</button>
+    </p>
+    </form>
+
 <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
   class="mat-elevation-z8">
 

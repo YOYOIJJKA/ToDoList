@@ -9,10 +9,10 @@
       "author": "thats me *edited*"
     },
     {
-      "name": "Name",
+      "name": "HAPPYHAPPYHAPPY",
       "priority": "theOnlyPriority",
-      "date": "0002-02-13",
-      "cathegory": "hgchgc",
+      "date": "2022-02-13",
+      "cathegory": "FirsCath",
       "id": 8,
       "author": "dedinside"
     },
@@ -47,14 +47,6 @@
       "cathegory": "One",
       "author": "thats me",
       "id": 12
-    },
-    {
-      "name": "Addd",
-      "priority": "secondary",
-      "date": "2002-02-13",
-      "cathegory": "One",
-      "author": "thats me",
-      "id": 13
     }
   ],
   "cathegories": [

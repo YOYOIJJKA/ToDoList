@@ -8,7 +8,6 @@ import { Cathegory } from '../../Interfaces/cathegory';
 import { Priority } from '../../Interfaces/priority';
 import { MatDialog } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AutorizationService } from '../../Services/autorization.service';
 import { StorageService } from '../../Services/storage.service';
 
 @Component({
@@ -66,7 +65,7 @@ export class TaskComponent implements OnInit {
     this.getFormData();
   }
   getFormData():void
-  {
+  { 
     this.taskForm=this.formBuilder.group({      
       name: [null, [Validators.required, Validators.pattern("[A-Za-zА-Яа-яЁё]*")]],
       priority: [null, [Validators.required]],

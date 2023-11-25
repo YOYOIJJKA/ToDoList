@@ -6,6 +6,10 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TaskRedactComponent } from '../task-redact/task-redact.component';
 import { MatDialog } from '@angular/material/dialog';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { MatInput } from '@angular/material/input';
+import { MatSelect } from '@angular/material/select';
+import { MatFormField } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-task-list',
@@ -14,14 +18,19 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class TaskListComponent implements AfterViewInit {
 
-  tasks!: Task[]
+  tasks!: Task[];
+  types = ["Author","Priority","Cathegory","Name"]
+  filterForm = new FormGroup({
+    param: new FormControl(''),
+    typeSelect: new FormControl(''),
+});
 
   constructor
     (
       private http: TaskHttpServiceService,
       private _liveAnnouncer: LiveAnnouncer,
-      private dialog: MatDialog
-
+      private dialog: MatDialog,
+      private formBuilder: FormBuilder
     ) { }
 
   ngAfterViewInit() {
@@ -43,6 +52,7 @@ export class TaskListComponent implements AfterViewInit {
   getData() {
     this.http.getTasks().subscribe({
       next: (newTasks: Task[]) => {
+        this.tasks = newTasks
         this.dataSource = new MatTableDataSource(newTasks);
         this.dataSource.sort = this.sort;
       },
@@ -67,21 +77,37 @@ export class TaskListComponent implements AfterViewInit {
     }
   }
 
-  filterTasks(type: string) {
-    let newTaskList
+  filterTasks() {
+    let newTaskList;
+    let type;
+    var filterParam; 
+    type = this.filterForm.get('typeSelect')?.value
+    filterParam = this.filterForm.get('param')?.value
+    // this.filterForm.get(param) ? this.filterForm.controls.param : ""
+    console.log("param string: " + filterParam)
+    console.log ("type string: " + type)
     switch (type) {
-      case "author":
+      case "Author":
         newTaskList = this.tasks.filter(
-          (task) => task.author.includes(task.author)
-        )
+          (task) => task.author.includes(filterParam!))
         break;
-
+      case "Name":
+          newTaskList = this.tasks.filter(
+            (task) => task.name.includes(filterParam!))
+          break;
+      case "Cathegory":
+            newTaskList = this.tasks.filter(
+              (task) => task.cathegory.includes(filterParam!))
+            break;
+      case "Priority":
+              newTaskList = this.tasks.filter(
+                (task) => task.priority.includes(filterParam!))
+              break;
       default:
         newTaskList = this.tasks
         break;
     }
     this.dataSource = new MatTableDataSource(newTaskList);
-    this.ngAfterViewInit()
   }
 
   resetFilter() {
