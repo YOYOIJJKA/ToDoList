@@ -88,18 +88,22 @@ export class TaskListComponent implements AfterViewInit {
     console.log ("type string: " + type)
     switch (type) {
       case "Author":
-        newTaskList = this.tasks.filter(
-          (task) => task.author.includes(filterParam!))
+        if (this.tasks.filter(
+          (task) => task.author.includes(filterParam!))) {
+          newTaskList = this.tasks.filter((task) => task.author.includes(filterParam!)) }
         break;
       case "Name":
+        if (this.tasks.filter((task) => task.name.includes(filterParam!)))
           newTaskList = this.tasks.filter(
             (task) => task.name.includes(filterParam!))
           break;
       case "Cathegory":
+        if (this.tasks.filter((task) => task.cathegory.includes(filterParam!)))
             newTaskList = this.tasks.filter(
               (task) => task.cathegory.includes(filterParam!))
             break;
       case "Priority":
+        if(this.tasks.filter((task) => task.priority.includes(filterParam!)))
               newTaskList = this.tasks.filter(
                 (task) => task.priority.includes(filterParam!))
               break;
