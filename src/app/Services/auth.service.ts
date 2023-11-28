@@ -10,9 +10,8 @@ import { AutorizationService } from './autorization.service';
 })
 export class AuthService implements CanActivate {
   users!: User[];
-
-  async canActivate(): Promise <boolean> {
-   await this.getUsers()
+  
+  canActivate(): boolean {
     var counter = 0;
     this.users.forEach(user => {
       if ((user.password) == (this.storageService.getPassword()) && (user.login) == (this.storageService.getLogin())) {

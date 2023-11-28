@@ -1,21 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskComponent } from './Components/task/task.component';
 import { audit } from 'rxjs';
 import { CathegoriesComponent } from './Components/cathegories/cathegories.component';
 import { PrioritiesComponent } from './Components/priorities/priorities.component';
+import { AuthService } from './Services/auth.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'ToDoList';
 
   panelOpenState = false;
 
-  constructor(public dialog: MatDialog) {}
+  ngOnInit()
+  {
+    this.auth.getUsers()
+  }
+
+  constructor(public dialog: MatDialog,
+    private auth: AuthService) {}
   openTaskDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
     this.dialog.open(TaskComponent, {
       width: "auto",
