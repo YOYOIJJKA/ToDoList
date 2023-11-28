@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskComponent } from './Components/task/task.component';
-import { audit } from 'rxjs';
 import { CathegoriesComponent } from './Components/cathegories/cathegories.component';
 import { PrioritiesComponent } from './Components/priorities/priorities.component';
 import { AuthService } from './Services/auth.service';
+import { StorageService } from './Services/storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,11 @@ export class AppComponent implements OnInit{
   }
 
   constructor(public dialog: MatDialog,
-    private auth: AuthService) {}
+    private auth: AuthService,
+    private storageService: StorageService,
+    private router: Router ) {}
+
+
   openTaskDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
     this.dialog.open(TaskComponent, {
       width: "auto",
@@ -46,6 +51,11 @@ export class AppComponent implements OnInit{
     });
   }
 
+  logOut()
+  {
+    this.storageService.clearStorage()
+    this.router.navigateByUrl("")
+  }
 
 }
 

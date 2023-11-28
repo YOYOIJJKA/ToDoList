@@ -3,14 +3,20 @@
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <mat-toolbar-row>
-                        <span>To do list</span>
+                        <span class="project-name">To do list</span>
                     </mat-toolbar-row>
                 </mat-panel-title>  
+
             </mat-expansion-panel-header>
                 <mat-toolbar-row>
+                    <div class ="mat-header-row">
+                        <div>
                     <button  mat-raised-button color="basic" (click)="openTaskDialog('0ms', '0ms')">Add task</button>
                     <button  mat-raised-button color="basic" (click)="openCathegoriesDialog('200ms','200ms')">Redact cathegories</button>
                     <button mat-raised-button color="basic" (click)="openPrioritiesDialog('200ms','200ms')">Redact priorities</button>
+                    </div>
+                    <button mat-raised-button color="warn" (click)="logOut()">LogOut</button>
+                </div>
                 </mat-toolbar-row>
         </mat-expansion-panel>
 </header>

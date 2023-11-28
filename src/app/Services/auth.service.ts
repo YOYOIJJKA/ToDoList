@@ -13,6 +13,8 @@ export class AuthService implements CanActivate {
   
   canActivate(): boolean {
     var counter = 0;
+    if (this.users)
+    {
     this.users.forEach(user => {
       if ((user.password) == (this.storageService.getPassword()) && (user.login) == (this.storageService.getLogin())) {
         console.log('authorized')
@@ -28,6 +30,11 @@ export class AuthService implements CanActivate {
       console.log(counter)
       return false;
     }
+  }
+  else 
+  {
+    return false;
+  }
   }
 
   async getUsers() {
