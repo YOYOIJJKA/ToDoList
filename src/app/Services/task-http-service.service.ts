@@ -66,6 +66,6 @@ deletePriority (id:number):Observable<Priority>
 }
 putPriority (priority:Priority):Observable<Priority>
 {
-  return this.http.put<Priority>('http://localhost:3000/cathegories/'+priority.id, priority)
+  return this.http.put<Priority>('http://localhost:3000/priorities/'+priority.id, priority)
 }
 }

@@ -43,7 +43,7 @@
   ],
   "cathegories": [
     {
-      "name": "FirsCathRedact",
+      "name": "FirsCath",
       "id": 2
     },
     {
@@ -112,12 +112,16 @@
   ],
   "priorities": [
     {
-      "name": "theOnlyPriority",
+      "name": "OnlyPriority",
       "id": 1
     },
     {
       "name": "one",
       "id": 2
+    },
+    {
+      "name": "NewOne",
+      "id": 3
     }
   ]
 }

@@ -1,9 +1,11 @@
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {Component, inject, OnInit} from '@angular/core';
-import {MatChipEditedEvent, MatChipInputEvent, MatChipGrid} from '@angular/material/chips';
-import {LiveAnnouncer} from '@angular/cdk/a11y';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Component, inject, OnInit } from '@angular/core';
+import { MatChipEditedEvent, MatChipInputEvent, MatChipGrid } from '@angular/material/chips';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TaskHttpServiceService } from '../../Services/task-http-service.service';
 import { Priority } from '../../Interfaces/priority';
+import { Task } from '../../Interfaces/task';
+import {map } from 'rxjs/operators'
 
 @Component({
   selector: 'app-priorities',
@@ -12,11 +14,12 @@ import { Priority } from '../../Interfaces/priority';
 })
 export class PrioritiesComponent implements OnInit {
 
+  tasks!: Task[]
+
   constructor
-  (
-    private http: TaskHttpServiceService
-  )
-  {}
+    (
+      private http: TaskHttpServiceService
+    ) { }
 
   ngOnInit(): void {
     this.getPriorities();
@@ -25,7 +28,7 @@ export class PrioritiesComponent implements OnInit {
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   prioroties!: Priority[];
-  newId!: number 
+  newId!: number
 
   announcer = inject(LiveAnnouncer);
 
@@ -35,19 +38,18 @@ export class PrioritiesComponent implements OnInit {
     if (value) {
 
       if (this.prioroties) {
-      this.newId = this.prioroties[this.prioroties.length-1].id+1;
+        this.newId = this.prioroties[this.prioroties.length - 1].id + 1;
       }
-      else
-      {
+      else {
         this.newId = 1;
       }
-      this.prioroties.push({name: value, id:this.newId});
-     this.http.postCathegory(this.prioroties[this.prioroties.length-1]).subscribe
-     (
-      {
-        next: () => console.log(this.prioroties[this.prioroties.length-1]+" posted")
-      }
-     )
+      this.prioroties.push({ name: value, id: this.newId });
+      this.http.postPriority(this.prioroties[this.prioroties.length - 1]).subscribe
+        (
+          {
+            next: () => console.log(this.prioroties[this.prioroties.length - 1] + " posted")
+          }
+        )
     }
 
     // Clear the input value
@@ -60,12 +62,34 @@ export class PrioritiesComponent implements OnInit {
     if (index >= 0) {
       this.prioroties.splice(index, 1);
       this.http.deletePriority(priority.id).subscribe
-      (
-        {
-          error: (e) => console.log(e),
-          complete: () => console.log("cathegory deleted " +priority.name)
-        }
-      )
+        (
+          {
+            error: (e) => console.log(e),
+            complete: () => {
+
+              const subs = this.http.getTasks().pipe(
+                map(tasks => tasks.filter(task => task.priority == priority.id.toString()))
+              ).subscribe(
+                {
+                  next: (value) => this.tasks = value,
+                  error: (e) => console.log(e),
+                  complete: () => {
+                    this.tasks.forEach(task => {
+                      /////////////////////////////////FIX OVER HERE WHEN ADD MULTICATH
+                      task.priority = task.priority?.replace(new RegExp(priority.id.toString(), 'g'), '')
+                      this.http.putTask(task).subscribe(() => console.log(task + " put"))
+                    });
+                    subs.unsubscribe()
+                  }
+                })
+
+              console.log("Priority deleted " + priority.name)
+
+            }
+          }
+        )
+
+
       this.announcer.announce(`Removed ${priority}`);
     }
   }
@@ -85,31 +109,30 @@ export class PrioritiesComponent implements OnInit {
       this.prioroties[index].name = value;
     }
     this.http.putPriority(this.prioroties[index]).subscribe
-    (
-      {
-        next:()=> console.log(this.prioroties[index]),
-        error: (e) => console.log(e)
-      }
-    )
+      (
+        {
+          next: () => console.log(this.prioroties[index]),
+          error: (e) => console.log(e)
+        }
+      )
   }
 
-  getPriorities()
-  {
+  getPriorities() {
     this.http.getPriorities().subscribe
-    ({
-      next: (newPriorities: Priority[]) => {
-        console.log(newPriorities)
-        this.prioroties=newPriorities
-      },
-      error: (e) => console.error(e),
-      // complete: ()=>
-      // {
-      //   this.arrayCathegories.forEach(cathegoriesEl => {
-      //     this.cathegories[cathegoriesEl.id]
-      //   });
-      // }
-    }
-    )
+      ({
+        next: (newPriorities: Priority[]) => {
+          console.log(newPriorities)
+          this.prioroties = newPriorities
+        },
+        error: (e) => console.error(e),
+        // complete: ()=>
+        // {
+        //   this.arrayCathegories.forEach(cathegoriesEl => {
+        //     this.cathegories[cathegoriesEl.id]
+        //   });
+        // }
+      }
+      )
   }
 
 }

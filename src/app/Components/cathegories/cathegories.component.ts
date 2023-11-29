@@ -1,14 +1,15 @@
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {Component, inject, OnInit} from '@angular/core';
-import {MatChipEditedEvent, MatChipInputEvent} from '@angular/material/chips';
-import {LiveAnnouncer} from '@angular/cdk/a11y';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Component, inject, OnInit } from '@angular/core';
+import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TaskHttpServiceService } from '../../Services/task-http-service.service';
 import { Cathegory } from '../../Interfaces/cathegory';
+import { map } from 'rxjs/operators'
+import { Task } from '../../Interfaces/task';
 
 
-export interface Cath 
-{
-  name:string
+export interface Cath {
+  name: string
 }
 
 @Component({
@@ -19,11 +20,12 @@ export interface Cath
 
 export class CathegoriesComponent implements OnInit {
 
+  tasks!: Task[]
+
   constructor
-  (
-    private http: TaskHttpServiceService
-  )
-  {}
+    (
+      private http: TaskHttpServiceService
+    ) { }
 
   ngOnInit(): void {
     this.getCathegories();
@@ -32,7 +34,7 @@ export class CathegoriesComponent implements OnInit {
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   cathegories!: Cathegory[];
-  newId!: number 
+  newId!: number
 
   announcer = inject(LiveAnnouncer);
 
@@ -42,19 +44,18 @@ export class CathegoriesComponent implements OnInit {
     if (value) {
 
       if (this.cathegories) {
-      this.newId = this.cathegories[this.cathegories.length-1].id+1;
+        this.newId = this.cathegories[this.cathegories.length - 1].id + 1;
       }
-      else
-      {
+      else {
         this.newId = 1;
       }
-      this.cathegories.push({name: value, id:this.newId});
-     this.http.postCathegory(this.cathegories[this.cathegories.length-1]).subscribe
-     (
-      {
-        next: () => console.log(this.cathegories[this.cathegories.length-1]+" posted")
-      }
-     )
+      this.cathegories.push({ name: value, id: this.newId });
+      this.http.postCathegory(this.cathegories[this.cathegories.length - 1]).subscribe
+        (
+          {
+            next: () => console.log(this.cathegories[this.cathegories.length - 1] + " posted")
+          }
+        )
     }
 
     // Clear the input value
@@ -67,46 +68,62 @@ export class CathegoriesComponent implements OnInit {
     if (index >= 0) {
       this.cathegories.splice(index, 1);
       this.http.deleteCathegory(cathegory.id).subscribe
-      (
-        {
-          error: (e) => console.log(e),
-          complete: () => console.log("cathegory deleted " +cathegory.name)
-        }
-      )
+        (
+          {
+            error: (e) => console.log(e),
+            complete: () => {
+              console.log("cathegory deleted " + cathegory.name)
+              const subs = this.http.getTasks().pipe(
+                map(tasks => tasks.filter(task => task.cathegory == cathegory.id.toString()))
+              ).subscribe(
+                {
+                  next: (value) => this.tasks = value,
+                  error: (e) => console.log(e),
+                  complete: () =>{
+                    this.tasks.forEach(task => {
+                      /////////////////////////////////FIX OVER HERE WHEN ADD MULTICATH
+                      task.cathegory = task.cathegory?.replace(new RegExp(cathegory.id.toString(), 'g'), '')
+                      this.http.putTask(task).subscribe(()=> console.log(task+" put"))
+                    });
+                    subs.unsubscribe()
+                  }
+            })
+    }
+  }
+        )
       this.announcer.announce(`Removed ${cathegory}`);
     }
   }
 
-  edit(cathegory: Cathegory, event: MatChipEditedEvent) {
-    const value = event.value.trim();
+edit(cathegory: Cathegory, event: MatChipEditedEvent) {
+  const value = event.value.trim();
 
-    // Remove fruit if it no longer has a name
-    if (!value) {
-      this.remove(cathegory);
-      return;
-    }
+  // Remove fruit if it no longer has a name
+  if (!value) {
+    this.remove(cathegory);
+    return;
+  }
 
-    // Edit existing fruit
-    const index = this.cathegories.indexOf(cathegory);
-    if (index >= 0) {
-      this.cathegories[index].name = value;
-    }
-    this.http.putCathegory(this.cathegories[index]).subscribe
+  // Edit existing fruit
+  const index = this.cathegories.indexOf(cathegory);
+  if (index >= 0) {
+    this.cathegories[index].name = value;
+  }
+  this.http.putCathegory(this.cathegories[index]).subscribe
     (
       {
-        next:()=> console.log(this.cathegories[index]),
+        next: () => console.log(this.cathegories[index]),
         error: (e) => console.log(e)
       }
     )
-  }
+}
 
-  getCathegories()
-  {
-    this.http.getCathegories().subscribe
+getCathegories() {
+  this.http.getCathegories().subscribe
     ({
       next: (newCathegories: Cathegory[]) => {
         console.log(newCathegories)
-        this.cathegories=newCathegories
+        this.cathegories = newCathegories
       },
       error: (e) => console.error(e),
       // complete: ()=>
@@ -117,6 +134,6 @@ export class CathegoriesComponent implements OnInit {
       // }
     }
     )
-  }
-  
+}
+
 }
