@@ -1,6 +1,9 @@
 import { Component, Input, Inject } from '@angular/core';
 import { TaskComponent } from '../task/task.component';
 import { Task } from '../../Interfaces/task';
+import { Observable, forkJoin, mergeMap, tap } from 'rxjs';
+import { Priority } from '../../Interfaces/priority';
+import { Cathegory } from '../../Interfaces/cathegory';
 
 @Component({
   selector: 'app-task-redact',
@@ -17,52 +20,135 @@ export class TaskRedactComponent extends TaskComponent {
   override ngOnInit(): void {
     console.log("transfered ID" + this.data)
     this.id = this.data
-    this.getCathegories()
-    this.getPriorities()
     this.getFormData()
-    this.getTaskData()
+    this.getData()
   }
 
-  getTaskData() {
-    var taskSubscribe = this.http.getTask(this.id).subscribe(
-      {
-        next: (newTask: Task) => {
-          this.task = newTask;
-        },
-        error: (e) => console.error(e),
-        complete: () => {
-          if (this.task.id)
-            this.id = this.task.id
-          let cathegoriesSelectId, prioritySelectId
+  getData() {
+    const subsTask = this.http.getTask(this.id)
+    // .subscribe(
+    //   {
+    //     next: (newTask: Task) => {
+    //       this.task = newTask;
+    //       this.getCathegories();
+    //     },
+    //     error: (e) => console.error(e),
+    //     complete: () => {
+    //       this.getTaskData()
+    //      } 
+    //   })
 
-          if (this.task.priority && this.priorities.findIndex(x => x.name == this.task.priority))
-            prioritySelectId = this.priorities.findIndex(x => x.name == this.task.priority)
-          if (this.task.cathegory && this.cathegories.findIndex(x => x.name == this.task.cathegory))
-            cathegoriesSelectId = this.cathegories.findIndex(x => x.name == this.task.cathegory)
-          // let termTaskForm = {
-          //   name: this.task.name ? this.task.name :"",
-          //   date: this.task.date ? this.task.date :"",
-          //   priority: this.priorities[prioritySelectId].name 
-          //   ? this.priorities[prioritySelectId].name :"", 
-          //   cathegory: this.cathegories[cathegoriesSelectId].name
-          //   ? this.cathegories[cathegoriesSelectId].name :""
-          // }
-          if (this.task.name)
-            this.taskForm.patchValue({ name: this.task.name })
+    const subsCath = this.http.getCathegories()
+    // .subscribe(
+    //   {
+    //     next: (newCathegories: Cathegory[]) => {
+    //       this.cathegories = newCathegories
+    //     },
+    //     error: (e) => console.error(e),
+    //     complete: () => { }
+    //   })
 
-          if (this.task.date)
-            this.taskForm.patchValue({ date: this.task.date })
+    const subsPrior = this.http.getPriorities()
+    // .subscribe(
+    //   {
+    //     next: (newPriority: Priority[]) => {
+    //       this.priorities = newPriority
+    //     },
+    //     error: (e) => console.error(e),
+    //     complete: () => {}
+    //   })
 
-          if (prioritySelectId)
-            this.taskForm.patchValue({ priority: this.priorities[prioritySelectId] })
-
-          if (cathegoriesSelectId)
-            this.taskForm.patchValue({ cathegory: this.cathegories[cathegoriesSelectId] })
-
-          taskSubscribe.unsubscribe()
-        }
+   const fork = forkJoin(subsCath, subsPrior, subsTask).pipe(
+      tap(([res1, res2, res3]) => {
+        this.cathegories = res1;
+        this.priorities = res2;
+        this.task = res3;
+      })
+    ).subscribe({
+      complete: () => {
+        console.log("everything pulled")
+        this.getTaskData()
+        fork.unsubscribe()
       }
-    )
+    })
+
+  }
+  getTaskData() {
+
+    if (this.task.id)
+      this.id = this.task.id
+
+    let cathegoriesSelectId, prioritySelectId
+     var termCath, termPrior:String|null
+
+    console.log("AllPriorities: " + this.priorities)
+    console.log("Task ID " + this.task.id)
+    console.log("Task Get Priority " + this.task.priority)
+    if (this.task.priority) {
+      var priorArray = this.priorities.filter((priority) => priority.id.toString() == this.task.priority);
+      console.log("FilteredArray: " + priorArray[0])
+      if (priorArray != undefined) {
+        console.log("workingPriorArrayIs "+priorArray[0].name)
+        termPrior = priorArray[0].name;
+      }
+      else {
+        console.log("False")
+        termPrior = null
+      }
+    }
+
+  console.log(termPrior!+" Got Priority")
+
+    console.log("AllCath: " + this.cathegories)
+    console.log("Task Get Cath " + this.task.cathegory)
+
+    if (this.task.cathegory) {
+      console.log("Task Cath " + this.task.priority)
+      var priorArray = this.cathegories.filter((cathegory) => cathegory.id.toString() == this.task.cathegory);
+      if (priorArray != undefined && priorArray.length != 0) {
+        console.log("true")
+        console.log(priorArray)
+        termCath = priorArray[0].name;
+      }
+      else
+      termCath = null
+    }
+
+    console.log("Priority Before ID " + termPrior!)
+    console.log("Cathegory Before ID " + termCath)
+
+    // if (termPrior! && this.priorities.findIndex(x => x.name == termPrior))
+      prioritySelectId = this.priorities.findIndex(x => x.name == termPrior)
+    console.log(prioritySelectId)
+ //   if (termCath && this.cathegories.findIndex(x => x.name == termCath!))
+      cathegoriesSelectId = this.cathegories.findIndex(x => x.name == termCath!)
+    // let termTaskForm = {
+    //   name: this.task.name ? this.task.name :"",
+    //   date: this.task.date ? this.task.date :"",
+    //   priority: this.priorities[prioritySelectId].name 
+    //   ? this.priorities[prioritySelectId].name :"", 
+    //   cathegory: this.cathegories[cathegoriesSelectId].name
+    //   ? this.cathegories[cathegoriesSelectId].name :""
+    // }
+    console.log (this.task.name+" THIS TASK NAMED")
+    if (this.task.name){
+    console.log("Try to patch name")
+      this.taskForm.patchValue({ name: this.task.name })
+      console.log("NAME PATCHED")
+    }
+    if (this.task.date)
+      this.taskForm.patchValue({ date: this.task.date })
+
+    if ((prioritySelectId == 0 || prioritySelectId) && prioritySelectId != -1)
+    {
+     console.log("TRY TO PATCH VALUE")
+      this.taskForm.patchValue({ priority: this.priorities[prioritySelectId].id.toString() })
+      console.log("Priority Patched")
+    }
+
+    if ((cathegoriesSelectId || cathegoriesSelectId == 0 ) && cathegoriesSelectId != -1)
+      this.taskForm.patchValue({ cathegory: this.cathegories[cathegoriesSelectId].id.toString() })
+
   }
   putTask() {
     if (this.taskForm.valid) {

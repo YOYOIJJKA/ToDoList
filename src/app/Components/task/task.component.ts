@@ -33,7 +33,7 @@ export class TaskComponent implements OnInit {
 
 
   getCathegories() {
-    this.http.getCathegories().subscribe(
+   this.http.getCathegories().subscribe(
       {
         next: (newCathegories: Cathegory[]) => {
           this.cathegories = newCathegories
@@ -43,27 +43,28 @@ export class TaskComponent implements OnInit {
       })
   }
   getPriorities() {
-    this.http.getPriorities().subscribe(
+     this.http.getPriorities().subscribe(
       {
         next: (newPriority: Priority[]) => {
           this.priorities = newPriority
         },
         error: (e) => console.error(e),
-        complete: () => { }
+        complete: () => {
+        }
       })
   }
 
   ngOnInit(): void {
-    this.getCathegories();
+    this.getCathegories()
     this.getPriorities();
     this.getFormData();
   }
   getFormData(): void {
     this.taskForm = this.formBuilder.group({
       name: [null, [Validators.required, Validators.pattern("[A-Za-zА-Яа-яЁё]*")]],
-      priority: [null, [Validators.required]],
+      priority: [null, []],
       date: [null, [Validators.required]],
-      cathegory: [null, [Validators.required]]
+      cathegory: [null, []]
     })
   }
   postTask(): void {
@@ -73,12 +74,7 @@ export class TaskComponent implements OnInit {
       task.author = this.storage.getLogin()
       this.http.postTask(task).subscribe(
         {
-          error: (e) => console.error(e),
-          complete: () => 
-          {
-            let newCath = this.cathegories.filter((cathegory)=> cathegory.name == task.cathegory);
-            console.log('filtered:'+newCath[0].name + ' id: '+ newCath[0].id)
-        }
+          error: (e) => console.error(e)
         }
       )
       this.closeModal()

@@ -1,97 +1,49 @@
 {
   "tasks": [
     {
-      "name": "Александр",
-      "priority": "theOnlyPriority",
-      "date": "2002-02-13",
-      "cathegory": "hgchgc",
-      "id": 2,
-      "author": "thats me *edited*"
-    },
-    {
-      "name": "HAPPYHAPPYHAPPY",
-      "priority": "theOnlyPriority",
-      "date": "2022-02-13",
-      "cathegory": "FirsCath",
-      "id": 8,
-      "author": "dedinside"
-    },
-    {
-      "name": "Александр",
-      "priority": "Secondary",
-      "date": "2222-03-12",
-      "cathegory": "Two",
-      "author": "thats me",
-      "id": 10
-    },
-    {
-      "name": "Addd",
-      "priority": "secondary",
-      "date": "2002-02-13",
-      "cathegory": "One",
-      "author": "thats me",
-      "id": 11
-    },
-    {
-      "name": "Addd",
-      "priority": "secondary",
-      "date": "2002-02-13",
-      "cathegory": "One",
-      "author": "thats me",
-      "id": 12
-    },
-    {
-      "name": "dedd",
-      "priority": "theOnlyPriority",
-      "date": "3222-03-13",
-      "cathegory": "one",
+      "name": "NewTask",
+      "priority": "1",
+      "date": "2200-02-18",
+      "cathegory": "2",
       "author": "dedinside",
-      "id": 13
+      "id": 19
     },
     {
-      "name": "newTask",
-      "priority": "theOnlyPriority",
-      "date": "2222-02-23",
-      "cathegory": "FirsCath",
+      "name": "daddddd",
+      "priority": "1",
+      "date": "3000-02-02",
+      "cathegory": "2",
       "author": "dedinside",
-      "id": 14
+      "id": 20
     },
     {
-      "name": "Addd",
-      "priority": "theOnlyPriority",
-      "date": "111111-11-11",
-      "cathegory": "hgchgc",
+      "name": "daddddd",
+      "priority": null,
+      "date": "3000-02-02",
+      "cathegory": null,
       "author": "dedinside",
-      "id": 15
+      "id": 21
     },
     {
-      "name": "deaasd",
-      "priority": "one",
-      "date": "2222-02-11",
-      "cathegory": "daaa",
+      "name": "NewTaskRed",
+      "priority": "1",
+      "date": "13020-02-20",
+      "cathegory": "4",
       "author": "dedinside",
-      "id": 16
+      "id": 22
     },
     {
-      "name": "nen",
-      "priority": "theOnlyPriority",
-      "date": "2222-02-12",
-      "cathegory": "FirsCath",
+      "name": "edddddd",
+      "priority": null,
+      "date": "20003-02-15",
+      "cathegory": null,
       "author": "dedinside",
-      "id": 17
-    },
-    {
-      "name": "new",
-      "priority": "theOnlyPriority",
-      "date": "2001-10-20",
-      "cathegory": "daaa",
-      "author": "dedinside",
-      "id": 18
+      "id": 23
     }
   ],
   "cathegories": [
     {
-      "name": "FirsCath",
+      "name": "FirsCathRedact",
       "id": 2
     },
     {

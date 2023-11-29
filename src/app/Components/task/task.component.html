@@ -14,7 +14,7 @@
     <mat-select formControlName="priority"
     [ngClass]="{'has-error': taskForm.get('priority')?.invalid && taskForm.get('priority')?.touched}">
     <div *ngFor="let priority of priorities" >
-        <mat-option value="{{priority.name}}">{{priority.name}}</mat-option>
+        <mat-option value="{{priority.id}}">{{priority.name}}</mat-option>
       </div>
     </mat-select>
 </mat-form-field>
@@ -32,7 +32,7 @@
     <mat-select formControlName="cathegory"
     [ngClass]="{'has-error': taskForm.get('cathegory')?.invalid && taskForm.get('cathegory')?.touched}">
         <div *ngFor="let cathegory of cathegories" >
-      <mat-option value="{{cathegory.name}}">{{cathegory.name}}</mat-option>
+      <mat-option value="{{cathegory.id}}">{{cathegory.name}}</mat-option>
     </div>
     </mat-select>
 </mat-form-field>

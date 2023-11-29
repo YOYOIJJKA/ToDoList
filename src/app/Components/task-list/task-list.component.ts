@@ -7,9 +7,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TaskRedactComponent } from '../task-redact/task-redact.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { Cathegory } from '../../Interfaces/cathegory';
 import { MatInput } from '@angular/material/input';
 import { MatSelect } from '@angular/material/select';
 import { MatFormField } from '@angular/material/form-field';
+import { Priority } from '../../Interfaces/priority';
 
 @Component({
   selector: 'app-task-list',
@@ -19,6 +21,11 @@ import { MatFormField } from '@angular/material/form-field';
 export class TaskListComponent implements AfterViewInit {
 
   tasks!: Task[];
+  cathegories!: Cathegory[];
+  priorities!:Priority[];
+  defaultCath = 'No Cathegory';
+  defaultPrior = 'No priority'
+
   types = ["Author","Priority","Cathegory","Name"]
   filterForm = new FormGroup({
     param: new FormControl(''),
@@ -60,8 +67,48 @@ export class TaskListComponent implements AfterViewInit {
       complete: () => {
         console.log(this.tasks)
         console.log(this.dataSource)
+
+        this.http.getCathegories().subscribe({
+          next:(cath:Cathegory[]) =>
+          {
+            this.cathegories = cath;
+            this.tasks.forEach(task => {
+              var cathArray= this.cathegories.filter( (cathegory) => cathegory.id.toString() == task.cathegory );
+              console.log("Cath array: " + cathArray)
+              if (cathArray != undefined && cathArray.length != 0) {
+              task.cathegory=cathArray[0].name;
+              }
+              else 
+              task.cathegory=this.defaultCath;
+            });
+
+            this.http.getPriorities().subscribe ({
+              next:(prior:Priority[]) =>
+              {
+                this.priorities = prior;
+                this.tasks.forEach(task => {
+                  var priorArray= this.priorities.filter( (priority) => priority.id.toString() == task.priority);
+                  if (priorArray !=undefined && priorArray.length != 0)
+                  {
+                  console.log(priorArray)
+                  task.priority=priorArray[0].name;
+                  }
+                  else
+                  task.priority = this.defaultPrior
+                })
+              },
+              error: (err) => 
+              {console.log(err)}
+            });
+
+          },
+          error: (err) => {
+            console.log(err)
+          }
+        })
       }
     })
+
   }
   goToPost(id: number) {
     this.openRedactDIalog("0ms", "oms", id)
@@ -98,14 +145,14 @@ export class TaskListComponent implements AfterViewInit {
             (task) => task.name.includes(filterParam!))
           break;
       case "Cathegory":
-        if (this.tasks.filter((task) => task.cathegory.includes(filterParam!)))
+        if (this.tasks.filter((task) => task.cathegory!.includes(filterParam!)))
             newTaskList = this.tasks.filter(
-              (task) => task.cathegory.includes(filterParam!))
+              (task) => task.cathegory!.includes(filterParam!))
             break;
       case "Priority":
-        if(this.tasks.filter((task) => task.priority.includes(filterParam!)))
+        if(this.tasks.filter((task) => task.priority!.includes(filterParam!)))
               newTaskList = this.tasks.filter(
-                (task) => task.priority.includes(filterParam!))
+                (task) => task.priority!.includes(filterParam!))
               break;
       default:
         newTaskList = this.tasks
