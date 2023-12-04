@@ -2,15 +2,15 @@
   "tasks": [
     {
       "name": "NewTask",
-      "priority": "1",
+      "priority": "3",
       "date": "2200-02-18",
       "cathegory": "2",
-      "author": "dedinside",
-      "id": 19
+      "id": 19,
+      "author": "dedinside"
     },
     {
       "name": "daddddd",
-      "priority": "1",
+      "priority": "",
       "date": "3000-02-02",
       "cathegory": "2",
       "author": "dedinside",
@@ -26,7 +26,7 @@
     },
     {
       "name": "NewTaskRed",
-      "priority": "1",
+      "priority": "",
       "date": "13020-02-20",
       "cathegory": "4",
       "author": "dedinside",
@@ -39,6 +39,24 @@
       "cathegory": null,
       "author": "dedinside",
       "id": 23
+    },
+    {
+      "name": "TaskOne",
+      "priority": "3",
+      "date": "2001-02-22",
+      "cathegory": "2",
+      "author": "dedinside",
+      "id": 24
+    },
+    {
+      "name": "Deddadaa",
+      "priority": [
+        3
+      ],
+      "date": "2222-02-22",
+      "cathegory": "3",
+      "author": "dedinside",
+      "id": 26
     }
   ],
   "cathegories": [
@@ -57,10 +75,6 @@
     {
       "name": "dddddd",
       "id": 5
-    },
-    {
-      "name": "hgchgc",
-      "id": 6
     }
   ],
   "users": [
@@ -112,16 +126,12 @@
   ],
   "priorities": [
     {
-      "name": "OnlyPriority",
-      "id": 1
-    },
-    {
-      "name": "one",
-      "id": 2
-    },
-    {
       "name": "NewOne",
       "id": 3
+    },
+    {
+      "name": "SecondPriority",
+      "id": 4
     }
   ]
 }

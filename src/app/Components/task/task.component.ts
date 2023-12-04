@@ -33,7 +33,7 @@ export class TaskComponent implements OnInit {
 
 
   getCathegories() {
-   this.http.getCathegories().subscribe(
+    this.http.getCathegories().subscribe(
       {
         next: (newCathegories: Cathegory[]) => {
           this.cathegories = newCathegories
@@ -43,7 +43,7 @@ export class TaskComponent implements OnInit {
       })
   }
   getPriorities() {
-     this.http.getPriorities().subscribe(
+    this.http.getPriorities().subscribe(
       {
         next: (newPriority: Priority[]) => {
           this.priorities = newPriority
@@ -67,20 +67,25 @@ export class TaskComponent implements OnInit {
       cathegory: [null, []]
     })
   }
+
   postTask(): void {
-    
+
     if (this.taskForm.valid) {
-      const task: Task = this.taskForm.value;
+      const task = this.taskForm.value;
+      // var newPriority:string = task.priority?.join(' ');
+      // task.priority = newPriority;
       task.author = this.storage.getLogin()
       this.http.postTask(task).subscribe(
         {
-          error: (e) => console.error(e)
+          error: (e) => console.error(e),
+          complete: () => console.log(this.taskForm.value)
         }
       )
       this.closeModal()
     }
     else { console.log("invalid") }
   }
+
   closeModal() {
     this.dialog.closeAll()
   }

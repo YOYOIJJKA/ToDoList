@@ -173,5 +173,12 @@ export class TaskListComponent implements AfterViewInit {
       enterAnimationDuration,
       exitAnimationDuration,
     });
+    dialogRedact.afterClosed().subscribe(
+      {
+        complete: () => {
+          this.ngAfterViewInit()
+        }
+      }
+    )
   }
 }

@@ -6,6 +6,7 @@ import { PrioritiesComponent } from './Components/priorities/priorities.componen
 import { AuthService } from './Services/auth.service';
 import { StorageService } from './Services/storage.service';
 import { Router } from '@angular/router';
+import { TaskListComponent } from './Components/task-list/task-list.component';
 
 @Component({
   selector: 'app-root',
@@ -29,13 +30,23 @@ export class AppComponent implements OnInit{
 
 
   openTaskDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    this.dialog.open(TaskComponent, {
+    if (this.auth.canActivate()) {
+   const taskDialog= this.dialog.open(TaskComponent, {
       width: "auto",
       enterAnimationDuration,
       exitAnimationDuration,
     });
+    taskDialog.afterClosed().subscribe(
+      {
+        complete: () => {
+          
+        }
+      }
+    )
+    }
   }
   openCathegoriesDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    if (this.auth.canActivate())
     this.dialog.open(CathegoriesComponent, {
       width: "50%",
       enterAnimationDuration,
@@ -44,6 +55,7 @@ export class AppComponent implements OnInit{
   }
 
   openPrioritiesDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    if (this.auth.canActivate())
     this.dialog.open(PrioritiesComponent, {
       width: "50%",
       enterAnimationDuration,

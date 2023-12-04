@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { StorageService } from './storage.service';
 import { User } from '../Interfaces/user';
@@ -10,36 +10,30 @@ import { AutorizationService } from './autorization.service';
 })
 export class AuthService implements CanActivate {
   users!: User[];
-  
+
+
+
   canActivate(): boolean {
     var counter = 0;
-    if (this.users)
-    {
-    this.users.forEach(user => {
-      if ((user.password) == (this.storageService.getPassword()) && (user.login) == (this.storageService.getLogin())) {
-        console.log('authorized')
-        counter++
+    if (this.users) {
+      this.users.forEach(user => {
+        if ((user.password) == (this.storageService.getPassword()) && (user.login) == (this.storageService.getLogin())) {
+          console.log('authorized')
+          counter++
+        }
+      });
+      if (counter > 0) {
+        this.storageService.setAuth()
+        return true;
       }
-    });
-    console.log('final ' + counter)
-    if (counter > 0) {
-      console.log(counter)
-      return true;
+      else return this.storageService.checkAuth()
     }
-    else {
-      console.log(counter)
-      return false;
-    }
-  }
-  else 
-  {
-    return false;
-  }
+    else return this.storageService.checkAuth() 
   }
 
-  async getUsers() {
-   var subs = this.httpAutorizationService.getUsers().subscribe({
-       next: (users: User[]) => {
+  getUsers() {
+    var subs = this.httpAutorizationService.getUsers().subscribe({
+      next: (users: User[]) => {
         this.users = users;
       },
       error: (e) => {
@@ -51,7 +45,8 @@ export class AuthService implements CanActivate {
 
   constructor(
     private storageService: StorageService,
-    private httpAutorizationService: AutorizationService
+    private httpAutorizationService: AutorizationService,
+    private router: Router
   ) { }
 
 
