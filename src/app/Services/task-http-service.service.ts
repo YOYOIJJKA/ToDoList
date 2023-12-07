@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Task } from '../Interfaces/task';
 import {Observable } from "rxjs";
 import { Priority } from '../Interfaces/priority';
@@ -14,6 +14,10 @@ export class TaskHttpServiceService {
     private http:HttpClient
     ) 
     {  }
+
+  private taskSignal = signal<Task[]>([]);
+
+
 postTask (task:Task):Observable<Task>
 {
   return this.http.post<Task>('http://localhost:3000/tasks/', task)

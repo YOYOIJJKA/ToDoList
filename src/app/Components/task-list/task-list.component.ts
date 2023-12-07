@@ -1,16 +1,13 @@
 import { TaskHttpServiceService } from '../../Services/task-http-service.service';
 import { Task } from '../../Interfaces/task';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, signal, effect } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TaskRedactComponent } from '../task-redact/task-redact.component';
 import { MatDialog } from '@angular/material/dialog';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { Cathegory } from '../../Interfaces/cathegory';
-import { MatInput } from '@angular/material/input';
-import { MatSelect } from '@angular/material/select';
-import { MatFormField } from '@angular/material/form-field';
 import { Priority } from '../../Interfaces/priority';
 
 @Component({
@@ -37,8 +34,12 @@ export class TaskListComponent implements AfterViewInit {
       private http: TaskHttpServiceService,
       private _liveAnnouncer: LiveAnnouncer,
       private dialog: MatDialog,
-      private formBuilder: FormBuilder
-    ) { }
+
+    ) { 
+      effect(() => {
+        console.log("Effect Appeared, filter param = "+this.filterParam())
+      })
+    }
 
   ngAfterViewInit() {
     this.getData()
@@ -124,35 +125,37 @@ export class TaskListComponent implements AfterViewInit {
     }
   }
 
+  public filterParam = signal<string>(""); 
+
   filterTasks() {
     let newTaskList;
     let type;
-    var filterParam; 
+
     type = this.filterForm.get('typeSelect')?.value
-    filterParam = this.filterForm.get('param')?.value
+    this.filterParam.update((param) => param = this.filterForm.get('param')?.value!)
     // this.filterForm.get(param) ? this.filterForm.controls.param : ""
-    console.log("param string: " + filterParam)
+    console.log("param string: " + this.filterParam())
     console.log ("type string: " + type)
     switch (type) {
       case "Author":
         if (this.tasks.filter(
-          (task) => task.author.includes(filterParam!))) {
-          newTaskList = this.tasks.filter((task) => task.author.includes(filterParam!)) }
+          (task) => task.author.includes(this.filterParam()))) {
+          newTaskList = this.tasks.filter((task) => task.author.includes(this.filterParam())) }
         break;
       case "Name":
-        if (this.tasks.filter((task) => task.name.includes(filterParam!)))
+        if (this.tasks.filter((task) => task.name.includes(this.filterParam())))
           newTaskList = this.tasks.filter(
-            (task) => task.name.includes(filterParam!))
+            (task) => task.name.includes(this.filterParam()))
           break;
       case "Cathegory":
-        if (this.tasks.filter((task) => task.cathegory!.includes(filterParam!)))
+        if (this.tasks.filter((task) => task.cathegory!.includes(this.filterParam()!)))
             newTaskList = this.tasks.filter(
-              (task) => task.cathegory!.includes(filterParam!))
+              (task) => task.cathegory!.includes(this.filterParam()!))
             break;
       case "Priority":
-        if(this.tasks.filter((task) => task.priority!.includes(filterParam!)))
+        if(this.tasks.filter((task) => task.priority!.includes(this.filterParam()!)))
               newTaskList = this.tasks.filter(
-                (task) => task.priority!.includes(filterParam!))
+                (task) => task.priority!.includes(this.filterParam()!))
               break;
       default:
         newTaskList = this.tasks

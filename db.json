@@ -49,14 +49,12 @@
       "id": 24
     },
     {
-      "name": "Deddadaa",
-      "priority": [
-        3
-      ],
+      "name": "Dedda",
+      "priority": "3",
       "date": "2222-02-22",
       "cathegory": "3",
-      "author": "dedinside",
-      "id": 26
+      "id": 26,
+      "author": "dedinside"
     }
   ],
   "cathegories": [
@@ -71,10 +69,6 @@
     {
       "name": "one",
       "id": 4
-    },
-    {
-      "name": "dddddd",
-      "id": 5
     }
   ],
   "users": [
