@@ -6,69 +6,73 @@ import { PrioritiesComponent } from './Components/priorities/priorities.componen
 import { AuthService } from './Services/auth.service';
 import { StorageService } from './Services/storage.service';
 import { Router } from '@angular/router';
-import { TaskListComponent } from './Components/task-list/task-list.component';
+import { TaskListComponent } from './Components/task-list/task-list.component'; //TODO: не оставляем неиспользуемые импорты
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit{
-  title = 'ToDoList';
+export class AppComponent implements OnInit {
+  title = 'ToDoList'; // TODO: ставим модификаторы доступа для свойств класса, используется при тестировании
 
   panelOpenState = false;
 
-  ngOnInit()
-  {
-    this.auth.getUsers()
+  ngOnInit() {
+    // TODO: методы класса должны идти после конструктора, правило хорошего тона
+    this.auth.getUsers();
   }
 
-  constructor(public dialog: MatDialog,
+  constructor(
+    public dialog: MatDialog,
     private auth: AuthService,
     private storageService: StorageService,
-    private router: Router ) {}
+    private router: Router
+  ) {}
 
-
-  openTaskDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+  openTaskDialog(
+    enterAnimationDuration: string,
+    exitAnimationDuration: string
+  ): void {
     if (this.auth.canActivate()) {
-   const taskDialog= this.dialog.open(TaskComponent, {
-      width: "auto",
-      enterAnimationDuration,
-      exitAnimationDuration,
-    });
-    taskDialog.afterClosed().subscribe(
-      {
-        complete: () => {
-          
-        }
-      }
-    )
+      const taskDialog = this.dialog.open(TaskComponent, {
+        width: 'auto',
+        enterAnimationDuration,
+        exitAnimationDuration,
+      }); // TODO: одинаковый код стилизации открывающегося диалогового окна в 3 методах - выносим в общий метод
+      taskDialog.afterClosed().subscribe({
+        complete: () => {}, //TODO: пустой метод, зачем вообще нужна эта подписка, если ничего не обрабатывается?
+      });
     }
   }
-  openCathegoriesDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+  openCathegoriesDialog(
+    enterAnimationDuration: string,
+    exitAnimationDuration: string
+  ): void {
     if (this.auth.canActivate())
-    this.dialog.open(CathegoriesComponent, {
-      width: "50%",
-      enterAnimationDuration,
-      exitAnimationDuration,
-    });
+      this.dialog.open(CathegoriesComponent, {
+        width: '50%',
+        enterAnimationDuration,
+        exitAnimationDuration,
+      });
   }
 
-  openPrioritiesDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+  openPrioritiesDialog(
+    enterAnimationDuration: string,
+    exitAnimationDuration: string
+  ): void {
     if (this.auth.canActivate())
-    this.dialog.open(PrioritiesComponent, {
-      width: "50%",
-      enterAnimationDuration,
-      exitAnimationDuration,
-    });
+      this.dialog.open(PrioritiesComponent, {
+        width: '50%',
+        enterAnimationDuration,
+        exitAnimationDuration,
+      });
   }
 
-  logOut()
-  {
-    this.storageService.clearStorage()
-    this.router.navigateByUrl("")
+  logOut() {
+    this.storageService.clearStorage();
+    this.router.navigateByUrl('');
   }
-
 }
 
 // <p>
