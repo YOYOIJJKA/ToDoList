@@ -40,7 +40,6 @@ export class CathegoriesComponent implements OnInit {
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    // Add our fruit
     if (value) {
 
       if (this.cathegories) {
@@ -58,7 +57,6 @@ export class CathegoriesComponent implements OnInit {
         )
     }
 
-    // Clear the input value
     event.chipInput!.clear();
   }
 
@@ -81,7 +79,6 @@ export class CathegoriesComponent implements OnInit {
                   error: (e) => console.log(e),
                   complete: () =>{
                     this.tasks.forEach(task => {
-                      /////////////////////////////////FIX OVER HERE WHEN ADD MULTICATH
                       task.cathegory = task.cathegory?.replace(new RegExp(cathegory.id.toString(), 'g'), '')
                       this.http.putTask(task).subscribe(()=> console.log(task+" put"))
                     });
@@ -98,13 +95,11 @@ export class CathegoriesComponent implements OnInit {
 edit(cathegory: Cathegory, event: MatChipEditedEvent) {
   const value = event.value.trim();
 
-  // Remove fruit if it no longer has a name
   if (!value) {
     this.remove(cathegory);
     return;
   }
 
-  // Edit existing fruit
   const index = this.cathegories.indexOf(cathegory);
   if (index >= 0) {
     this.cathegories[index].name = value;

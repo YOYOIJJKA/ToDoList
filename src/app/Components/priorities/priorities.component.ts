@@ -34,7 +34,6 @@ export class PrioritiesComponent implements OnInit {
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    // Add our fruit
     if (value) {
 
       if (this.prioroties) {
@@ -52,7 +51,6 @@ export class PrioritiesComponent implements OnInit {
         )
     }
 
-    // Clear the input value
     event.chipInput!.clear();
   }
 
@@ -75,7 +73,6 @@ export class PrioritiesComponent implements OnInit {
                   error: (e) => console.log(e),
                   complete: () => {
                     this.tasks.forEach(task => {
-                      /////////////////////////////////FIX OVER HERE WHEN ADD MULTICATH
                       task.priority = task.priority?.replace(new RegExp(priority.id.toString(), 'g'), '')
                       this.http.putTask(task).subscribe(() => console.log(task + " put"))
                     });
@@ -97,13 +94,11 @@ export class PrioritiesComponent implements OnInit {
   edit(priority: Priority, event: MatChipEditedEvent) {
     const value = event.value.trim();
 
-    // Remove fruit if it no longer has a name
     if (!value) {
       this.remove(priority);
       return;
     }
 
-    // Edit existing fruit
     const index = this.prioroties.indexOf(priority);
     if (index >= 0) {
       this.prioroties[index].name = value;

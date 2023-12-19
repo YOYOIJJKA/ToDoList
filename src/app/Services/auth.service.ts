@@ -1,12 +1,5 @@
-import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
-import { Observable } from 'rxjs';
+import { Injectable, Input } from '@angular/core';
+import {CanActivate} from '@angular/router';
 import { StorageService } from './storage.service';
 import { User } from '../Interfaces/user';
 import { AutorizationService } from './autorization.service';
@@ -17,9 +10,8 @@ import { AutorizationService } from './autorization.service';
 //TODO: переделать на новый стандарт использования CanActivate
 export class AuthService implements CanActivate {
   users!: User[]; //TODO: никаких non-null assertion, обход предупреждений транспилятора != качественное введение проверок
-
   canActivate(): boolean {
-    var counter = 0; //TODO: почему выбран var? Уместнее использовать переменные с временной мёртвой зоной let/const
+    let counter = 0;
     if (this.users) {
       this.users.forEach((user) => {
         if (
@@ -38,11 +30,11 @@ export class AuthService implements CanActivate {
   }
 
   getUsers() {
-    // TODO: использование подписок внутри сервисов - плохая практика, нужно стараться выстраивать как можно более длинную трубу, желательно чтобы подписка происходила в шаблоне через async pipe
+    // TODO: использование подписок внутри сервисов - плохая практика, нужно стараться выстраивать как можно более 
+    // длинную трубу, желательно чтобы подписка происходила в шаблоне через async pipe
     // https://blog.brecht.io/rxjs-best-practices-in-angular/
     // https://angularindepth.com/posts/1279/rxjs-in-angular-when-to-subscribe-rarely
-    // Также инициализирована неиспользуемая переменная
-    var subs = this.httpAutorizationService.getUsers().subscribe({
+    this.httpAutorizationService.getUsers().subscribe({
       next: (users: User[]) => {
         this.users = users;
       },
@@ -54,7 +46,6 @@ export class AuthService implements CanActivate {
 
   constructor(
     private storageService: StorageService,
-    private httpAutorizationService: AutorizationService,
-    private router: Router //TODO: пустой инжект
-  ) {}
+    private httpAutorizationService: AutorizationService
+  ) { }
 }

@@ -1,9 +1,7 @@
-import { Component, Input, Inject } from '@angular/core';
+import { Component} from '@angular/core';
 import { TaskComponent } from '../task/task.component';
 import { Task } from '../../Interfaces/task';
-import { Observable, forkJoin, mergeMap, tap } from 'rxjs';
-import { Priority } from '../../Interfaces/priority';
-import { Cathegory } from '../../Interfaces/cathegory';
+import { forkJoin, tap } from 'rxjs';
 
 @Component({
   selector: 'app-task-redact',
@@ -154,7 +152,7 @@ export class TaskRedactComponent extends TaskComponent {
     if (this.taskForm.valid) {
       const task: Task = this.taskForm.value;
       task.id = this.id;
-      task.author = this.storage.getLogin()//AUTHORIZED USER CREATE PULL HERE
+      task.author = this.storage.getLogin()
       var putTaskSubscribe = this.http.putTask(task).subscribe(
         {
           error: (e) => console.error(e),

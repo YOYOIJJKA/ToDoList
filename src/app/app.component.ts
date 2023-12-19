@@ -6,7 +6,6 @@ import { PrioritiesComponent } from './Components/priorities/priorities.componen
 import { AuthService } from './Services/auth.service';
 import { StorageService } from './Services/storage.service';
 import { Router } from '@angular/router';
-import { TaskListComponent } from './Components/task-list/task-list.component'; //TODO: не оставляем неиспользуемые импорты
 
 @Component({
   selector: 'app-root',
@@ -14,14 +13,11 @@ import { TaskListComponent } from './Components/task-list/task-list.component'; 
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'ToDoList'; // TODO: ставим модификаторы доступа для свойств класса, используется при тестировании
+ public title = 'ToDoList';
 
   panelOpenState = false;
+  
 
-  ngOnInit() {
-    // TODO: методы класса должны идти после конструктора, правило хорошего тона
-    this.auth.getUsers();
-  }
 
   constructor(
     public dialog: MatDialog,
@@ -29,6 +25,10 @@ export class AppComponent implements OnInit {
     private storageService: StorageService,
     private router: Router
   ) {}
+
+  ngOnInit() {
+    this.auth.getUsers();
+  }
 
   openTaskDialog(
     enterAnimationDuration: string,
@@ -40,9 +40,6 @@ export class AppComponent implements OnInit {
         enterAnimationDuration,
         exitAnimationDuration,
       }); // TODO: одинаковый код стилизации открывающегося диалогового окна в 3 методах - выносим в общий метод
-      taskDialog.afterClosed().subscribe({
-        complete: () => {}, //TODO: пустой метод, зачем вообще нужна эта подписка, если ничего не обрабатывается?
-      });
     }
   }
   openCathegoriesDialog(

@@ -8,7 +8,7 @@ import { TaskComponent } from './Components/task/task.component';
 ////////
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule, matFormFieldAnimations} from '@angular/material/form-field';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule } from '@angular/material/select'
 import {MatButtonModule} from '@angular/material/button'
 import { HttpClientModule} from "@angular/common/http";
@@ -16,7 +16,7 @@ import { TaskRedactComponent } from './Components/task-redact/task-redact.compon
 import { TaskListComponent } from './Components/task-list/task-list.component';
 import {MatTableModule} from '@angular/material/table'
 import {MatSortModule} from '@angular/material/sort';
-import {MatDialogModule, matDialogAnimations} from '@angular/material/dialog'
+import {MatDialogModule} from '@angular/material/dialog'
 import {MatToolbarModule} from '@angular/material/toolbar'
 import {MatIconModule} from '@angular/material/icon'
 import {MatExpansionModule} from '@angular/material/expansion';

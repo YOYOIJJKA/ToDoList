@@ -11,8 +11,6 @@ import { Cathegory } from '../Interfaces/cathegory';
 export class TaskHttpServiceService {
   constructor(private http: HttpClient) {}
 
-  private taskSignal = signal<Task[]>([]); // TODO: что это за сигнал такой? :D
-
   postTask(task: Task): Observable<Task> {
     return this.http.post<Task>('http://localhost:3000/tasks/', task);
   }

@@ -3,7 +3,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 import { TaskHttpServiceService } from '../../Services/task-http-service.service';
-import { Task } from '../../Interfaces/task';
 import { Cathegory } from '../../Interfaces/cathegory';
 import { Priority } from '../../Interfaces/priority';
 import { MatDialog } from '@angular/material/dialog';
