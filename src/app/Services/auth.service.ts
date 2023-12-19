@@ -9,7 +9,7 @@ import { AutorizationService } from './autorization.service';
 })
 //TODO: переделать на новый стандарт использования CanActivate
 export class AuthService implements CanActivate {
-  users!: User[]; //TODO: никаких non-null assertion, обход предупреждений транспилятора != качественное введение проверок
+  users: User[] | null | undefined; //TODO: никаких non-null assertion, обход предупреждений транспилятора != качественное введение проверок
   canActivate(): boolean {
     let counter = 0;
     if (this.users) {

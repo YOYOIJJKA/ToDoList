@@ -21,7 +21,7 @@ export class StorageService {
     localStorage.setItem('authorized', JSON.stringify(true))
   }
   checkAuth(): boolean {
-    if (JSON.parse(localStorage.getItem('authorized')!))
+    if (localStorage.getItem('authorized'))
       return true
     else
       return false

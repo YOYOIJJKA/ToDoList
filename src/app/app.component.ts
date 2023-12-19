@@ -6,6 +6,7 @@ import { PrioritiesComponent } from './Components/priorities/priorities.componen
 import { AuthService } from './Services/auth.service';
 import { StorageService } from './Services/storage.service';
 import { Router } from '@angular/router';
+import { ComponentType } from '@angular/cdk/portal';
 
 @Component({
   selector: 'app-root',
@@ -16,8 +17,7 @@ export class AppComponent implements OnInit {
  public title = 'ToDoList';
 
   panelOpenState = false;
-  
-
+  componentType: ComponentType<any> = PrioritiesComponent;
 
   constructor(
     public dialog: MatDialog,
@@ -28,6 +28,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.auth.getUsers();
+    this.componentType = CathegoriesComponent;
+    console.log (this.componentType);
   }
 
   openTaskDialog(

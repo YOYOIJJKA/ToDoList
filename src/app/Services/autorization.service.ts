@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../Interfaces/user';
 import { Observable } from 'rxjs';
+import { UsersURL } from '../constants';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,10 +14,10 @@ export class AutorizationService {
   ) { }
   postUser(user:User):Observable<User>
   {
-    return this.http.post<User>(`http://localhost:3000/users/`, user)
+    return this.http.post<User>(UsersURL, user)
   }
   getUsers():Observable<User[]>
   {
-    return this.http.get<User[]>(`http://localhost:3000/users/`);
+    return this.http.get<User[]>(UsersURL);
   }
 }
