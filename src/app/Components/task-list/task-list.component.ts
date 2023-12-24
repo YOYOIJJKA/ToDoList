@@ -15,6 +15,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Cathegory } from '../../Interfaces/cathegory';
 import { Priority } from '../../Interfaces/priority';
+import { TYPES } from '../../constants';
+import { ENTERANIMATIONDURATION,
+EXITANIMATIONDURATION } from '../../constants';
 
 @Component({
   selector: 'app-task-list',
@@ -27,8 +30,8 @@ export class TaskListComponent implements AfterViewInit {
   priorities!: Priority[];
   defaultCath = 'No Cathegory';
   defaultPrior = 'No priority';
+  types = ['Author', 'Priority', 'Cathegory', 'Name']
 
-  types = ['Author', 'Priority', 'Cathegory', 'Name'];
   filterForm = new FormGroup({
     param: new FormControl(''),
     typeSelect: new FormControl(''),
@@ -137,7 +140,7 @@ export class TaskListComponent implements AfterViewInit {
   filterTasks() {
     let newTaskList;
     let type;
-
+    
     type = this.filterForm.get('typeSelect')?.value;
     this.filterParam.update(
       (param) => (param = this.filterForm.get('param')?.value!)
@@ -146,7 +149,7 @@ export class TaskListComponent implements AfterViewInit {
     console.log('param string: ' + this.filterParam());
     console.log('type string: ' + type);
     switch (type) {
-      case 'Author': //TODO: текстовые константы лучше организовывать в перечисления (enum)
+      case TYPES.author:
         if (
           this.tasks.filter((task) => task.author.includes(this.filterParam()))
         ) {
@@ -155,13 +158,13 @@ export class TaskListComponent implements AfterViewInit {
           );
         }
         break;
-      case 'Name':
+      case TYPES.name:
         if (this.tasks.filter((task) => task.name.includes(this.filterParam())))
           newTaskList = this.tasks.filter((task) =>
             task.name.includes(this.filterParam())
           );
         break;
-      case 'Cathegory':
+      case TYPES.cathegory:
         if (
           this.tasks.filter((task) =>
             task.cathegory!.includes(this.filterParam()!)
@@ -171,7 +174,7 @@ export class TaskListComponent implements AfterViewInit {
             task.cathegory!.includes(this.filterParam()!)
           );
         break;
-      case 'Priority':
+      case TYPES.priority:
         if (
           this.tasks.filter((task) =>
             task.priority!.includes(this.filterParam()!)

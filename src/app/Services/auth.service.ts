@@ -1,15 +1,20 @@
-import { Injectable, Input } from '@angular/core';
-import {CanActivate} from '@angular/router';
+import { Injectable, inject } from '@angular/core';
 import { StorageService } from './storage.service';
 import { User } from '../Interfaces/user';
 import { AutorizationService } from './autorization.service';
+import { CanActivateFn } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
-//TODO: переделать на новый стандарт использования CanActivate
-export class AuthService implements CanActivate {
-  users: User[] | null | undefined; //TODO: никаких non-null assertion, обход предупреждений транспилятора != качественное введение проверок
+export class AuthService {
+  users: User[] | undefined; //TODO: никаких non-null assertion, обход предупреждений транспилятора != качественное введение проверок
+  
+  constructor(
+    private storageService: StorageService,
+    private httpAutorizationService: AutorizationService
+  ) { }
+
   canActivate(): boolean {
     let counter = 0;
     if (this.users) {
@@ -44,8 +49,9 @@ export class AuthService implements CanActivate {
     });
   }
 
-  constructor(
-    private storageService: StorageService,
-    private httpAutorizationService: AutorizationService
-  ) { }
+}
+
+export const AuthGuard: CanActivateFn = () :boolean =>
+{
+  return inject(AuthService).canActivate();
 }

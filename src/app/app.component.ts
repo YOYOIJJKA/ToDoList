@@ -7,6 +7,10 @@ import { AuthService } from './Services/auth.service';
 import { StorageService } from './Services/storage.service';
 import { Router } from '@angular/router';
 import { ComponentType } from '@angular/cdk/portal';
+import {
+  DIALOGSTYLE,
+  REDACTSTYLE
+} from './constants';
 
 @Component({
   selector: 'app-root',
@@ -14,60 +18,40 @@ import { ComponentType } from '@angular/cdk/portal';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
- public title = 'ToDoList';
+  public title = 'ToDoList';
 
-  panelOpenState = false;
-  componentType: ComponentType<any> = PrioritiesComponent;
+  public panelOpenState = false;
 
   constructor(
     public dialog: MatDialog,
     private auth: AuthService,
     private storageService: StorageService,
     private router: Router
-  ) {}
+  ) { }
 
-  ngOnInit() {
+ ngOnInit() {
     this.auth.getUsers();
-    this.componentType = CathegoriesComponent;
-    console.log (this.componentType);
+    console.log()
   }
-
-  openTaskDialog(
-    enterAnimationDuration: string,
-    exitAnimationDuration: string
-  ): void {
+  openDialog(componentType: ComponentType<any>): void {
     if (this.auth.canActivate()) {
-      const taskDialog = this.dialog.open(TaskComponent, {
-        width: 'auto',
-        enterAnimationDuration,
-        exitAnimationDuration,
-      }); // TODO: одинаковый код стилизации открывающегося диалогового окна в 3 методах - выносим в общий метод
+      this.dialog.open(componentType, DIALOGSTYLE);
     }
   }
-  openCathegoriesDialog(
-    enterAnimationDuration: string,
-    exitAnimationDuration: string
-  ): void {
-    if (this.auth.canActivate())
-      this.dialog.open(CathegoriesComponent, {
-        width: '50%',
-        enterAnimationDuration,
-        exitAnimationDuration,
-      });
+  openRedactDialog(componentType: ComponentType<any>): void {
+    if (this.auth.canActivate()) {
+      this.dialog.open(componentType, REDACTSTYLE);
+    }
   }
-
-  openPrioritiesDialog(
-    enterAnimationDuration: string,
-    exitAnimationDuration: string
-  ): void {
-    if (this.auth.canActivate())
-      this.dialog.open(PrioritiesComponent, {
-        width: '50%',
-        enterAnimationDuration,
-        exitAnimationDuration,
-      });
+  openTaskDialog() {
+    this.openDialog(TaskComponent)
   }
-
+  openCathegoriesDialog(): void {
+    this.openRedactDialog(CathegoriesComponent)
+  }
+  openPrioritiesDialog(): void {
+    this.openRedactDialog(PrioritiesComponent)
+  }
   logOut() {
     this.storageService.clearStorage();
     this.router.navigateByUrl('');

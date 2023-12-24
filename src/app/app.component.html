@@ -15,21 +15,20 @@
         <mat-toolbar-row>
             <div class="mat-header-row">
                 <div>
-                    <!-- TODO: константы не стоит прокидывать из шаблона если они не имеют никакого к нему отношения. В данном случае, константы выносятся в отдельный конфигурационный файл и используются непосредственно в методах открытия диалоговых окон -->
                     <button
                         mat-raised-button
                         color="basic"
-                        (click)="openTaskDialog('0ms', '0ms')"
+                        (click)="openTaskDialog()"
                     >Add task</button>
                     <button
                         mat-raised-button
                         color="basic"
-                        (click)="openCathegoriesDialog('200ms','200ms')"
+                        (click)="openCathegoriesDialog()"
                     >Redact cathegories</button>
                     <button
                         mat-raised-button
                         color="basic"
-                        (click)="openPrioritiesDialog('200ms','200ms')"
+                        (click)="openPrioritiesDialog()"
                     >Redact priorities</button>
                 </div>
                 <button

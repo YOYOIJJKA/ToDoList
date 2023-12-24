@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TaskListComponent } from './Components/task-list/task-list.component';
 import { AutorizationComponent } from './Components/autorization/autorization.component';
-import { AuthService } from './Services/auth.service';
+import { AuthGuard } from './Services/auth.service';
 
 const routes: Routes = [
   {
@@ -12,7 +12,7 @@ const routes: Routes = [
   {
     path:"list",
     component:TaskListComponent,
-    canActivate: [AuthService]
+    canActivate: [AuthGuard]
   }
 ];
 
