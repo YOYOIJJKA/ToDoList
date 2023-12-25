@@ -74,6 +74,7 @@ export class TaskListComponent implements AfterViewInit {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
+  ///////////////////вывести сигналом количество страниц в конце страницы 
   getData() {
     this.http.getTasks().subscribe({
       next: (newTasks: Task[]) => {

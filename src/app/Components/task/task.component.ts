@@ -8,6 +8,7 @@ import { Priority } from '../../Interfaces/priority';
 import { MatDialog } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { StorageService } from '../../Services/storage.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-task',
@@ -29,53 +30,57 @@ export class TaskComponent implements OnInit {
       public dialog: MatDialog,
       public storage: StorageService
     ) {
-      this.taskForm = this.formBuilder.group({
-        name: [null, [Validators.required, Validators.pattern("[A-Za-zА-Яа-яЁё]*")]],
-        priority: [null, []],
-        date: [null, [Validators.required]],
-        cathegory: [null, []]
-      })
+    this.taskForm = this.formBuilder.group({
+      name: [null, [Validators.required, Validators.pattern("[A-Za-zА-Яа-яЁё]*")]],
+      priority: [null, []],
+      date: [null, [Validators.required]],
+      cathegory: [null, []]
+    })
   }
 
-
+  cathegoriesObs$?: Observable<Cathegory[]>;
   getCathegories() {
-    this.http.getCathegories().subscribe(
-      {
-        next: (newCathegories: Cathegory[]) => {
-          this.cathegories = newCathegories
-        },
-        error: (e) => console.error(e),
-        complete: () => { }
-      })
+    this.cathegoriesObs$ = this.http.getCathegories()
+    // this.http.getCathegories().subscribe(
+    //   {
+    //     next: (newCathegories: Cathegory[]) => {
+    //       this.cathegories = newCathegories
+    //     },
+    //     error: (e) => console.error(e),
+    //     complete: () => { }
+    //   })
   }
+
+  prioritiesObs$?: Observable<Priority[]>;
   getPriorities() {
-    this.http.getPriorities().subscribe(
-      {
-        next: (newPriority: Priority[]) => {
-          this.priorities = newPriority
-        },
-        error: (e) => console.error(e),
-        complete: () => {
-        }
-      })
+    this.prioritiesObs$ = this.http.getPriorities()
+    // this.http.getPriorities().subscribe(
+    //   {
+    //     next: (newPriority: Priority[]) => {
+    //       this.priorities = newPriority
+    //     },
+    //     error: (e) => console.error(e),
+    //     complete: () => {
+    //     }
+    //   })
   }
   ngOnInit(): void {
     this.getCathegories()
     this.getPriorities();
   }
   postTask(): void {
-
     if (this.taskForm.valid) {
       const task = this.taskForm.value;
       // var newPriority:string = task.priority?.join(' ');
       // task.priority = newPriority;
       task.author = this.storage.getLogin()
-      this.http.postTask(task).subscribe(
-        {
-          error: (e) => console.error(e),
-          complete: () => console.log(this.taskForm.value)
-        }
-      )
+      this.http.postTask(task)
+      // .subscribe(
+      //   {
+      //     error: (e) => console.error(e),
+      //     complete: () => console.log(this.taskForm.value)
+      //   }
+      // )
       this.closeModal()
     }
     else { console.log("invalid") }

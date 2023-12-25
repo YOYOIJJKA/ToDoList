@@ -13,7 +13,7 @@ export class AuthService {
     private storageService: StorageService
   ) { }
 
-  public getUsers(users: User[]|undefined): void {
+  public getUsers(users: User[] | undefined): void {
     this.users = users;
   } //////write in app component subscribe to get users
 

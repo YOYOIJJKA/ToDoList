@@ -14,8 +14,8 @@ export class TaskRedactComponent extends TaskComponent {
   priorityId?: number;
   id = 0;
 
-
   override ngOnInit(): void {
+    this.id = this.data;
     console.log("transfered ID" + this.data)
     this.getData()
   }

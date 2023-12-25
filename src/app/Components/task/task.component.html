@@ -1,38 +1,37 @@
 <div class="jw-modal">
-<form [formGroup]="taskForm" style="display: flex; flex-direction: column;" *ngIf="taskForm">
-    <h1>Create Task</h1>
-    <mat-form-field>
-    <label mat-label>Name</label>
-    <input id="name"
-    matInput 
-    formControlName="name"
-    placeholder="Enter name of task">
-</mat-form-field>
-<mat-form-field>
-    <mat-label>Priority</mat-label>
-    <mat-select formControlName="priority">
-    <div *ngFor="let priority of priorities" >
-        <mat-option value="{{priority.id}}">{{priority.name}}</mat-option>
-      </div>
-    </mat-select>
-</mat-form-field>
-<mat-form-field>
-    <label mat-label>Date</label>
-    <input id="date"
-    matInput 
-    type="date"
-    formControlName="date"
-    placeholder="Enter date">
-</mat-form-field>
-<mat-form-field>
-    <mat-label>Cathegory</mat-label>
-    <mat-select formControlName="cathegory">
-        <div *ngFor="let cathegory of cathegories" >
-      <mat-option value="{{cathegory.id}}">{{cathegory.name}}</mat-option>
-    </div>
-    </mat-select>
-</mat-form-field>
-<button mat-stroked-button color="accent" (click)="postTask()">Submit</button>
-<button mat-stroked-button color="primary" (click)="closeModal()">Close</button>
-</form>
+    <form [formGroup]="taskForm" style="display: flex; flex-direction: column;" *ngIf="taskForm">
+        <h1>Create Task</h1>
+        <mat-form-field>
+            <label mat-label>Name</label>
+            <input id="name" matInput formControlName="name" placeholder="Enter name of task">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Priority</mat-label>
+            <mat-select formControlName="priority">
+                <ng-container *ngIf="(prioritiesObs$ | async) as priorities">
+                    <ng-container *ngFor="let priority of priorities">
+                        <mat-option value="{{priority.id}}">{{priority.name}}</mat-option>
+                    </ng-container>
+                </ng-container>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <label mat-label>Date</label>
+            <input id="date" matInput type="date" formControlName="date" placeholder="Enter date">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Cathegory</mat-label>
+            <mat-select formControlName="cathegory">
+                <ng-container *ngIf="(cathegoriesObs$ | async) as cathegories">
+                <ng-container *ngFor="let cathegory of cathegories">
+                    <mat-option value="{{cathegory.id}}">{{cathegory.name}}</mat-option>
+                    </ng-container>
+                </ng-container>
+                <div *ngFor="let cathegory of cathegories">
+                </div>
+            </mat-select>
+        </mat-form-field>
+        <button mat-stroked-button color="accent" (click)="postTask()">Submit</button>
+        <button mat-stroked-button color="primary" (click)="closeModal()">Close</button>
+    </form>
 </div>
