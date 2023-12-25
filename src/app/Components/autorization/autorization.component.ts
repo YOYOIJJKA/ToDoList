@@ -12,21 +12,22 @@ import { StorageService } from '../../Services/storage.service';
 })
 export class AutorizationComponent implements OnInit {
   users?:User[]
-  userForm!:FormGroup
+  userForm:FormGroup
   constructor (
     private formBuilder:FormBuilder,
     private httpAutorizationService:AutorizationService,
     private router:Router,
     private storageService:StorageService
   )
-  {}
+  {
+    const controls = {
+      login:[null, [Validators.required, Validators.pattern("[A-Za-zА-Яа-яЁё]*")]],
+      password:[null, [Validators.required, Validators.pattern("[A-Za-zА-Яа-яЁё]*")]]
+    }
+    this.userForm = this.formBuilder.group(controls)
+  }
 ngOnInit(): void {
   this.getData();
-  const controls = {
-    login:[null, [Validators.required, Validators.pattern("[A-Za-zА-Яа-яЁё]*")]],
-    password:[null, [Validators.required, Validators.pattern("[A-Za-zА-Яа-яЁё]*")]]
-  }
-  this.userForm = this.formBuilder.group(controls)
 }
 getData():void {
   this.httpAutorizationService.getUsers().subscribe({

@@ -1,19 +1,21 @@
 import { Injectable, inject } from '@angular/core';
 import { StorageService } from './storage.service';
 import { User } from '../Interfaces/user';
-import { AutorizationService } from './autorization.service';
 import { CanActivateFn } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  users: User[] | undefined; //TODO: никаких non-null assertion, обход предупреждений транспилятора != качественное введение проверок
+  users?: User[]; //TODO: никаких non-null assertion, обход предупреждений транспилятора != качественное введение проверок
 
   constructor(
-    private storageService: StorageService,
-    private httpAutorizationService: AutorizationService
+    private storageService: StorageService
   ) { }
+
+  public getUsers(users: User[]|undefined): void {
+    this.users = users;
+  } //////write in app component subscribe to get users
 
   canActivate(): boolean {
     console.log('USERS ARRAY = ' + this.users)
@@ -40,7 +42,7 @@ export class AuthService {
   //     // длинную трубу, желательно чтобы подписка происходила в шаблоне через async pipe
   //     // https://blog.brecht.io/rxjs-best-practices-in-angular/
   //     // https://angularindepth.com/posts/1279/rxjs-in-angular-when-to-subscribe-rarely
-  
+
   //   getUsers() {
   //     this.httpAutorizationService.getUsers().subscribe({
   //       next: (users: User[]) => {

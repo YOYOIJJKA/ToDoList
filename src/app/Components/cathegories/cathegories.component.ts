@@ -20,7 +20,7 @@ export interface Cath {
 
 export class CathegoriesComponent implements OnInit {
 
-  tasks!: Task[]
+  tasks?: Task[]
 
   constructor
     (
@@ -33,8 +33,8 @@ export class CathegoriesComponent implements OnInit {
 
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
-  cathegories!: Cathegory[];
-  newId!: number
+  cathegories?: Cathegory[];
+  newId?: number
 
   announcer = inject(LiveAnnouncer);
 
@@ -48,23 +48,24 @@ export class CathegoriesComponent implements OnInit {
       else {
         this.newId = 1;
       }
-      this.cathegories.push({ name: value, id: this.newId });
+      this.cathegories?.push({ name: value, id: this.newId });
+      if (this.cathegories)
       this.http.postCathegory(this.cathegories[this.cathegories.length - 1]).subscribe
         (
           {
-            next: () => console.log(this.cathegories[this.cathegories.length - 1] + " posted")
+            next: () => console.log(this.cathegories![this.cathegories!.length - 1] + " posted") /////////////////////////
           }
         )
     }
 
-    event.chipInput!.clear();
+    event.chipInput.clear();
   }
 
   remove(cathegory: Cathegory): void {
-    const index = this.cathegories.indexOf(cathegory);
-
+    const index = this.cathegories?.indexOf(cathegory);
+    if (index)
     if (index >= 0) {
-      this.cathegories.splice(index, 1);
+      this.cathegories?.splice(index, 1);
       this.http.deleteCathegory(cathegory.id).subscribe
         (
           {
@@ -78,7 +79,7 @@ export class CathegoriesComponent implements OnInit {
                   next: (value) => this.tasks = value,
                   error: (e) => console.log(e),
                   complete: () =>{
-                    this.tasks.forEach(task => {
+                    this.tasks?.forEach(task => {
                       task.cathegory = task.cathegory?.replace(new RegExp(cathegory.id.toString(), 'g'), '')
                       this.http.putTask(task).subscribe(()=> console.log(task+" put"))
                     });
@@ -100,14 +101,16 @@ edit(cathegory: Cathegory, event: MatChipEditedEvent) {
     return;
   }
 
-  const index = this.cathegories.indexOf(cathegory);
-  if (index >= 0) {
+  const index = this.cathegories?.indexOf(cathegory);
+  if (index)
+  if (index >= 0 && this.cathegories) {
     this.cathegories[index].name = value;
   }
+  if (this.cathegories && index)
   this.http.putCathegory(this.cathegories[index]).subscribe
     (
       {
-        next: () => console.log(this.cathegories[index]),
+        next: () => console.log(this.cathegories![index]),
         error: (e) => console.log(e)
       }
     )

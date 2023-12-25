@@ -16,9 +16,9 @@ import { StorageService } from '../../Services/storage.service';
 })
 export class TaskComponent implements OnInit {
 
-  taskForm!: FormGroup;
-  cathegories!: Cathegory[];  
-  priorities!: Priority[];
+  taskForm: FormGroup;
+  cathegories?: Cathegory[];
+  priorities?: Priority[];
 
   constructor
     (
@@ -28,7 +28,14 @@ export class TaskComponent implements OnInit {
       public http: TaskHttpServiceService,
       public dialog: MatDialog,
       public storage: StorageService
-    ) { }
+    ) {
+      this.taskForm = this.formBuilder.group({
+        name: [null, [Validators.required, Validators.pattern("[A-Za-zА-Яа-яЁё]*")]],
+        priority: [null, []],
+        date: [null, [Validators.required]],
+        cathegory: [null, []]
+      })
+  }
 
 
   getCathegories() {
@@ -52,21 +59,10 @@ export class TaskComponent implements OnInit {
         }
       })
   }
-
   ngOnInit(): void {
     this.getCathegories()
     this.getPriorities();
-    this.getFormData();
   }
-  getFormData(): void {
-    this.taskForm = this.formBuilder.group({
-      name: [null, [Validators.required, Validators.pattern("[A-Za-zА-Яа-яЁё]*")]],
-      priority: [null, []],
-      date: [null, [Validators.required]],
-      cathegory: [null, []]
-    })
-  }
-
   postTask(): void {
 
     if (this.taskForm.valid) {

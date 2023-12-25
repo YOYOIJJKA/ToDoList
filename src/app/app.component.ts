@@ -12,6 +12,7 @@ import {
   REDACTSTYLE
 } from './constants';
 import { AutorizationService } from './Services/autorization.service';
+import { User } from './Interfaces/user';
 
 @Component({
   selector: 'app-root',
@@ -20,8 +21,8 @@ import { AutorizationService } from './Services/autorization.service';
 })
 export class AppComponent implements OnInit {
   public title = 'ToDoList';
-
-  public panelOpenState = false;
+  users?: User[];
+  panelOpenState = false;
 
   constructor(
     public dialog: MatDialog,
@@ -31,8 +32,8 @@ export class AppComponent implements OnInit {
     private http: AutorizationService
   ) { }
 
- ngOnInit() {
-    console.log (this.http.getUsers())
+  ngOnInit() {
+    this.getUsers()
   }
   openDialog(componentType: ComponentType<any>): void {
     if (this.auth.canActivate()) {
@@ -56,6 +57,20 @@ export class AppComponent implements OnInit {
   logOut() {
     this.storageService.clearStorage();
     this.router.navigateByUrl('');
+  }
+  getUsers(): void {
+    const usersSubs = this.http.getUsers().subscribe(
+      {
+        next: (value) => {
+          this.users = value;
+        },
+        error: (e) => console.log(e),
+        complete: () => {
+          this.auth.getUsers(this.users)
+          usersSubs.unsubscribe()
+        }
+      }
+    )
   }
 }
 
