@@ -9,13 +9,14 @@ import { CanActivateFn } from '@angular/router';
 })
 export class AuthService {
   users: User[] | undefined; //TODO: никаких non-null assertion, обход предупреждений транспилятора != качественное введение проверок
-  
+
   constructor(
     private storageService: StorageService,
     private httpAutorizationService: AutorizationService
   ) { }
 
   canActivate(): boolean {
+    console.log('USERS ARRAY = ' + this.users)
     let counter = 0;
     if (this.users) {
       this.users.forEach((user) => {
@@ -34,24 +35,26 @@ export class AuthService {
     } else return this.storageService.checkAuth();
   }
 
-  getUsers() {
-    // TODO: использование подписок внутри сервисов - плохая практика, нужно стараться выстраивать как можно более 
-    // длинную трубу, желательно чтобы подписка происходила в шаблоне через async pipe
-    // https://blog.brecht.io/rxjs-best-practices-in-angular/
-    // https://angularindepth.com/posts/1279/rxjs-in-angular-when-to-subscribe-rarely
-    this.httpAutorizationService.getUsers().subscribe({
-      next: (users: User[]) => {
-        this.users = users;
-      },
-      error: (e) => {
-        console.log(e);
-      },
-    });
-  }
+
+  //     // TODO: использование подписок внутри сервисов - плохая практика, нужно стараться выстраивать как можно более 
+  //     // длинную трубу, желательно чтобы подписка происходила в шаблоне через async pipe
+  //     // https://blog.brecht.io/rxjs-best-practices-in-angular/
+  //     // https://angularindepth.com/posts/1279/rxjs-in-angular-when-to-subscribe-rarely
+  
+  //   getUsers() {
+  //     this.httpAutorizationService.getUsers().subscribe({
+  //       next: (users: User[]) => {
+  //         this.users = users;
+  //       },
+  //       error: (e) => {
+  //         console.log(e);
+  //       },
+  //     });
+  //   }
+
 
 }
 
-export const AuthGuard: CanActivateFn = () :boolean =>
-{
+export const AuthGuard: CanActivateFn = (): boolean => {
   return inject(AuthService).canActivate();
 }

@@ -17,7 +17,7 @@ import { StorageService } from '../../Services/storage.service';
 export class TaskComponent implements OnInit {
 
   taskForm!: FormGroup;
-  cathegories!: Cathegory[];
+  cathegories!: Cathegory[];  
   priorities!: Priority[];
 
   constructor

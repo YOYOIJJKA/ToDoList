@@ -11,7 +11,7 @@ import { StorageService } from '../../Services/storage.service';
   styleUrls: ['./autorization.component.scss']
 })
 export class AutorizationComponent implements OnInit {
-  users!:User[]
+  users?:User[]
   userForm!:FormGroup
   constructor (
     private formBuilder:FormBuilder,

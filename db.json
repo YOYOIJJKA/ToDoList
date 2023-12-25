@@ -1,60 +1,20 @@
 {
   "tasks": [
     {
-      "name": "NewTask",
-      "priority": "3",
-      "date": "2200-02-18",
-      "cathegory": "2",
-      "id": 19,
-      "author": "dedinside"
-    },
-    {
-      "name": "daddddd",
-      "priority": "",
-      "date": "3000-02-02",
+      "name": "FirstOneTask",
+      "priority": "5",
+      "date": "2002-02-22",
       "cathegory": "2",
       "author": "dedinside",
-      "id": 20
+      "id": 1
     },
     {
-      "name": "daddddd",
-      "priority": null,
-      "date": "3000-02-02",
-      "cathegory": null,
-      "author": "dedinside",
-      "id": 21
-    },
-    {
-      "name": "NewTaskRed",
-      "priority": "",
-      "date": "13020-02-20",
-      "cathegory": "4",
-      "author": "dedinside",
-      "id": 22
-    },
-    {
-      "name": "edddddd",
-      "priority": null,
-      "date": "20003-02-15",
-      "cathegory": null,
-      "author": "dedinside",
-      "id": 23
-    },
-    {
-      "name": "TaskOne",
-      "priority": "3",
-      "date": "2001-02-22",
-      "cathegory": "2",
-      "author": "dedinside",
-      "id": 24
-    },
-    {
-      "name": "Dedda",
-      "priority": "3",
-      "date": "2222-02-22",
+      "name": "ddddd",
+      "priority": "5",
+      "date": "3333-02-12",
       "cathegory": "3",
-      "id": 26,
-      "author": "dedinside"
+      "author": "dedinside",
+      "id": 2
     }
   ],
   "cathegories": [

@@ -1,18 +1,16 @@
 <div class="jw-modal">
-<form [formGroup]="taskForm" style="display: flex; flex-direction: column;">
+<form [formGroup]="taskForm" style="display: flex; flex-direction: column;" *ngIf="taskForm">
     <h1>Create Task</h1>
     <mat-form-field>
     <label mat-label>Name</label>
     <input id="name"
     matInput 
     formControlName="name"
-    placeholder="Enter name of task"
-    [ngClass]="{'has-error': taskForm.get('name')?.invalid && taskForm.get('name')?.touched}">
+    placeholder="Enter name of task">
 </mat-form-field>
 <mat-form-field>
     <mat-label>Priority</mat-label>
-    <mat-select formControlName="priority"
-    [ngClass]="{'has-error': taskForm.get('priority')?.invalid && taskForm.get('priority')?.touched}">
+    <mat-select formControlName="priority">
     <div *ngFor="let priority of priorities" >
         <mat-option value="{{priority.id}}">{{priority.name}}</mat-option>
       </div>
@@ -24,13 +22,11 @@
     matInput 
     type="date"
     formControlName="date"
-    placeholder="Enter date"
-    [ngClass]="{'has-error': taskForm.get('date')?.invalid && taskForm.get('date')?.touched}">
+    placeholder="Enter date">
 </mat-form-field>
 <mat-form-field>
     <mat-label>Cathegory</mat-label>
-    <mat-select formControlName="cathegory"
-    [ngClass]="{'has-error': taskForm.get('cathegory')?.invalid && taskForm.get('cathegory')?.touched}">
+    <mat-select formControlName="cathegory">
         <div *ngFor="let cathegory of cathegories" >
       <mat-option value="{{cathegory.id}}">{{cathegory.name}}</mat-option>
     </div>

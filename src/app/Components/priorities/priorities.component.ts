@@ -14,7 +14,7 @@ import {map } from 'rxjs/operators'
 })
 export class PrioritiesComponent implements OnInit {
 
-  tasks!: Task[]
+  tasks?: Task[]
 
   constructor
     (
@@ -27,8 +27,8 @@ export class PrioritiesComponent implements OnInit {
 
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
-  prioroties!: Priority[];
-  newId!: number
+  prioroties?: Priority[];
+  newId?: number
 
   announcer = inject(LiveAnnouncer);
 
@@ -42,23 +42,24 @@ export class PrioritiesComponent implements OnInit {
       else {
         this.newId = 1;
       }
-      this.prioroties.push({ name: value, id: this.newId });
+      this.prioroties?.push({ name: value, id: this.newId });
+      if (this.prioroties)
       this.http.postPriority(this.prioroties[this.prioroties.length - 1]).subscribe
         (
           {
-            next: () => console.log(this.prioroties[this.prioroties.length - 1] + " posted")
+            next: () => console.log(this.prioroties![this.prioroties!.length - 1] + " posted")
           }
         )
     }
 
-    event.chipInput!.clear();
+    event.chipInput?.clear();
   }
 
   remove(priority: Priority): void {
-    const index = this.prioroties.indexOf(priority);
-
+    const index = this.prioroties?.indexOf(priority);
+    if (index)
     if (index >= 0) {
-      this.prioroties.splice(index, 1);
+      this.prioroties?.splice(index, 1);
       this.http.deletePriority(priority.id).subscribe
         (
           {
@@ -72,7 +73,7 @@ export class PrioritiesComponent implements OnInit {
                   next: (value) => this.tasks = value,
                   error: (e) => console.log(e),
                   complete: () => {
-                    this.tasks.forEach(task => {
+                    this.tasks?.forEach(task => {
                       task.priority = task.priority?.replace(new RegExp(priority.id.toString(), 'g'), '')
                       this.http.putTask(task).subscribe(() => console.log(task + " put"))
                     });
@@ -99,15 +100,15 @@ export class PrioritiesComponent implements OnInit {
       return;
     }
 
-    const index = this.prioroties.indexOf(priority);
+    const index = this.prioroties?.indexOf(priority);
+    if (index && this.prioroties)
     if (index >= 0) {
       this.prioroties[index].name = value;
     }
+    if (this.prioroties && index)
     this.http.putPriority(this.prioroties[index]).subscribe
       (
         {
-          next: () => console.log(this.prioroties[index]),
-          error: (e) => console.log(e)
         }
       )
   }

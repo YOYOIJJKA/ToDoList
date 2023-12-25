@@ -16,8 +16,10 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Cathegory } from '../../Interfaces/cathegory';
 import { Priority } from '../../Interfaces/priority';
 import { TYPES } from '../../constants';
-import { ENTERANIMATIONDURATION,
-EXITANIMATIONDURATION } from '../../constants';
+import {
+  ENTERANIMATIONDURATION,
+  EXITANIMATIONDURATION
+} from '../../constants';
 
 @Component({
   selector: 'app-task-list',
@@ -25,12 +27,13 @@ EXITANIMATIONDURATION } from '../../constants';
   styleUrl: './task-list.component.scss',
 })
 export class TaskListComponent implements AfterViewInit {
-  tasks!: Task[];
-  cathegories!: Cathegory[];
-  priorities!: Priority[];
+  tasks: Task[] = [];
+  cathegories: Cathegory[] = [];
+  priorities: Priority[] = [];
   defaultCath = 'No Cathegory';
   defaultPrior = 'No priority';
   types = ['Author', 'Priority', 'Cathegory', 'Name']
+  dataSource = new MatTableDataSource(this.tasks);
 
   filterForm = new FormGroup({
     param: new FormControl(''),
@@ -60,7 +63,7 @@ export class TaskListComponent implements AfterViewInit {
     'date',
     'delete',
   ];
-  dataSource = new MatTableDataSource(this.tasks);
+
   @ViewChild(MatSort)
   sort: MatSort = new MatSort();
   /** Announce the change in sort state for assistive technology. */
@@ -122,7 +125,7 @@ export class TaskListComponent implements AfterViewInit {
     });
   }
   goToPost(id: number) {
-    this.openRedactDIalog('0ms', 'oms', id);
+    this.openRedactDIalog(ENTERANIMATIONDURATION, EXITANIMATIONDURATION, id);
   }
   deleteTask(id: number) {
     console.log(id);
@@ -140,10 +143,10 @@ export class TaskListComponent implements AfterViewInit {
   filterTasks() {
     let newTaskList;
     let type;
-    
+
     type = this.filterForm.get('typeSelect')?.value;
     this.filterParam.update(
-      (param) => (param = this.filterForm.get('param')?.value!)
+      (param) => (param = this.filterForm.get('param')?.value!) //////////////////////////////
     );
     // this.filterForm.get(param) ? this.filterForm.controls.param : ""
     console.log('param string: ' + this.filterParam());
@@ -167,21 +170,21 @@ export class TaskListComponent implements AfterViewInit {
       case TYPES.cathegory:
         if (
           this.tasks.filter((task) =>
-            task.cathegory!.includes(this.filterParam()!)
+            task.cathegory?.includes(this.filterParam())
           )
         )
           newTaskList = this.tasks.filter((task) =>
-            task.cathegory!.includes(this.filterParam()!)
+            task.cathegory?.includes(this.filterParam())
           );
         break;
       case TYPES.priority:
         if (
           this.tasks.filter((task) =>
-            task.priority!.includes(this.filterParam()!)
+            task.priority?.includes(this.filterParam())
           )
         )
           newTaskList = this.tasks.filter((task) =>
-            task.priority!.includes(this.filterParam()!)
+            task.priority?.includes(this.filterParam())
           );
         break;
       default:

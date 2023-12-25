@@ -11,6 +11,7 @@ import {
   DIALOGSTYLE,
   REDACTSTYLE
 } from './constants';
+import { AutorizationService } from './Services/autorization.service';
 
 @Component({
   selector: 'app-root',
@@ -26,12 +27,12 @@ export class AppComponent implements OnInit {
     public dialog: MatDialog,
     private auth: AuthService,
     private storageService: StorageService,
-    private router: Router
+    private router: Router,
+    private http: AutorizationService
   ) { }
 
  ngOnInit() {
-    this.auth.getUsers();
-    console.log()
+    console.log (this.http.getUsers())
   }
   openDialog(componentType: ComponentType<any>): void {
     if (this.auth.canActivate()) {
