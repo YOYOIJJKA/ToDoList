@@ -1,27 +1,30 @@
 <div class="redact-form">
-<h1>Редактировать категории</h1>
+  <h1>Редактировать категории</h1>
 </div>
 <div class="field-form">
-<mat-form-field class="example-chip-list">
+  <mat-form-field class="example-chip-list">
     <mat-label>Категории</mat-label>
     <mat-chip-grid #chipGrid aria-label="Введите категории">
       @for (cathegory of cathegories; track cathegory) {
-        <mat-chip-row
-          (removed)="remove(cathegory)"
-          [editable]="true"
-          (edited)="edit(cathegory, $event!)"
-          [aria-description]="'press enter to edit ' + cathegory.name">
-          {{cathegory.name}}
-          <button matChipRemove [attr.aria-label]="'remove ' + cathegory.name">
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </mat-chip-row>
+      <mat-chip-row
+        (removed)="remove(cathegory)"
+        [editable]="true"
+        (edited)="edit(cathegory, $event!)"
+        [aria-description]="'press enter to edit ' + cathegory.name"
+      >
+        {{ cathegory.name }}
+        <button matChipRemove [attr.aria-label]="'remove ' + cathegory.name">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
       }
-      <input placeholder="Новая категоия..."
-             [matChipInputFor]="chipGrid"
-             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-             [matChipInputAddOnBlur]="addOnBlur"
-             (matChipInputTokenEnd)="add($event)"/>
+      <input
+        placeholder="Новая категоия..."
+        [matChipInputFor]="chipGrid"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="addOnBlur"
+        (matChipInputTokenEnd)="add($event)"
+      />
     </mat-chip-grid>
-</mat-form-field>
+  </mat-form-field>
 </div>

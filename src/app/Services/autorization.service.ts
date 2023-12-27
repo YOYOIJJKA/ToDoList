@@ -5,19 +5,14 @@ import { Observable } from 'rxjs';
 import { USERURL } from '../constants';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AutorizationService {
-
-  constructor(
-    private http:HttpClient
-  ) { }
-  postUser(user:User):Observable<User>
-  {
-    return this.http.post<User>(USERURL, user)
+  constructor(private http: HttpClient) {}
+  postUser(user: User): Observable<User> {
+    return this.http.post<User>(USERURL, user);
   }
-  getUsers():Observable<User[]>
-  {
+  getUsers(): Observable<User[]> {
     return this.http.get<User[]>(USERURL);
   }
 }

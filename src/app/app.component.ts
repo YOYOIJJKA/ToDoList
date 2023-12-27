@@ -7,10 +7,7 @@ import { AuthService } from './Services/auth.service';
 import { StorageService } from './Services/storage.service';
 import { Router } from '@angular/router';
 import { ComponentType } from '@angular/cdk/portal';
-import {
-  DIALOGSTYLE,
-  REDACTSTYLE
-} from './constants';
+import { DIALOGSTYLE, REDACTSTYLE } from './constants';
 import { AutorizationService } from './Services/autorization.service';
 import { User } from './Interfaces/user';
 
@@ -30,10 +27,10 @@ export class AppComponent implements OnInit {
     private storageService: StorageService,
     private router: Router,
     private http: AutorizationService
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.getUsers()
+    this.getUsers();
   }
   openDialog(componentType: ComponentType<any>): void {
     if (this.auth.canActivate()) {
@@ -46,49 +43,28 @@ export class AppComponent implements OnInit {
     }
   }
   openTaskDialog() {
-    this.openDialog(TaskComponent)
+    this.openDialog(TaskComponent);
   }
   openCathegoriesDialog(): void {
-    this.openRedactDialog(CathegoriesComponent)
+    this.openRedactDialog(CathegoriesComponent);
   }
   openPrioritiesDialog(): void {
-    this.openRedactDialog(PrioritiesComponent)
+    this.openRedactDialog(PrioritiesComponent);
   }
   logOut() {
     this.storageService.clearStorage();
     this.router.navigateByUrl('');
   }
   getUsers(): void {
-    const usersSubs = this.http.getUsers().subscribe(
-      {
-        next: (value) => {
-          this.users = value;
-        },
-        error: (e) => console.log(e),
-        complete: () => {
-          this.auth.getUsers(this.users)
-          usersSubs.unsubscribe()
-        }
-      }
-    )
+    const usersSubs = this.http.getUsers().subscribe({
+      next: (value) => {
+        this.users = value;
+      },
+      error: (e) => console.log(e),
+      complete: () => {
+        this.auth.getUsers(this.users);
+        usersSubs.unsubscribe();
+      },
+    });
   }
 }
-
-// <p>
-// <mat-toolbar color="primary">
-//     <mat-toolbar-row>
-//         <span>My App</span>
-//         <span class="spacer"></span>
-//         <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-//             <mat-icon>menu</mat-icon>
-//         </button>
-//     </mat-toolbar-row>
-
-//     <mat-toolbar-row style="gap: 10px;">
-//         <button [hidden]="isShow" mat-raised-button color="basic">Add task</button>
-//         <button [hidden]="isShow" mat-raised-button color="basic">Redact cathegories</button>
-//         <button [hidden]="isShow" mat-raised-button color="basic">Redact priorities</button>
-//     </mat-toolbar-row>
-
-// </mat-toolbar>
-// </p>

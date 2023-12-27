@@ -7,18 +7,16 @@ import { CanActivateFn } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-  users?: User[]; //TODO: никаких non-null assertion, обход предупреждений транспилятора != качественное введение проверок
+  users?: User[];
 
-  constructor(
-    private storageService: StorageService
-  ) { }
+  constructor(private storageService: StorageService) {}
 
   public getUsers(users: User[] | undefined): void {
     this.users = users;
-  } //////write in app component subscribe to get users
+  }
 
   canActivate(): boolean {
-    console.log('USERS ARRAY = ' + this.users)
+    console.log('USERS ARRAY = ' + this.users);
     let counter = 0;
     if (this.users) {
       this.users.forEach((user) => {
@@ -37,26 +35,12 @@ export class AuthService {
     } else return this.storageService.checkAuth();
   }
 
-
-  //     // TODO: использование подписок внутри сервисов - плохая практика, нужно стараться выстраивать как можно более 
+  //     // TODO: использование подписок внутри сервисов - плохая практика, нужно стараться выстраивать как можно более
   //     // длинную трубу, желательно чтобы подписка происходила в шаблоне через async pipe
   //     // https://blog.brecht.io/rxjs-best-practices-in-angular/
   //     // https://angularindepth.com/posts/1279/rxjs-in-angular-when-to-subscribe-rarely
-
-  //   getUsers() {
-  //     this.httpAutorizationService.getUsers().subscribe({
-  //       next: (users: User[]) => {
-  //         this.users = users;
-  //       },
-  //       error: (e) => {
-  //         console.log(e);
-  //       },
-  //     });
-  //   }
-
-
 }
 
 export const AuthGuard: CanActivateFn = (): boolean => {
   return inject(AuthService).canActivate();
-}
+};

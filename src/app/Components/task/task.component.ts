@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TaskHttpServiceService } from '../../Services/task-http-service.service';
 import { Cathegory } from '../../Interfaces/cathegory';
@@ -13,81 +13,57 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',
-  styleUrl: './task.component.scss'
+  styleUrl: './task.component.scss',
 })
 export class TaskComponent implements OnInit {
-
   taskForm: FormGroup;
   cathegories?: Cathegory[];
   priorities?: Priority[];
 
-  constructor
-    (
-      @Inject(MAT_DIALOG_DATA) public data: any,
-      public formBuilder: FormBuilder,
-      public router: Router,
-      public http: TaskHttpServiceService,
-      public dialog: MatDialog,
-      public storage: StorageService
-    ) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public formBuilder: FormBuilder,
+    public router: Router,
+    public http: TaskHttpServiceService,
+    public dialog: MatDialog,
+    public storage: StorageService
+  ) {
     this.taskForm = this.formBuilder.group({
-      name: [null, [Validators.required, Validators.pattern("[A-Za-zА-Яа-яЁё]*")]],
+      name: [
+        null,
+        [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]*')],
+      ],
       priority: [null, []],
       date: [null, [Validators.required]],
-      cathegory: [null, []]
-    })
+      cathegory: [null, []],
+    });
   }
 
   cathegoriesObs$?: Observable<Cathegory[]>;
   getCathegories() {
-    this.cathegoriesObs$ = this.http.getCathegories()
-    // this.http.getCathegories().subscribe(
-    //   {
-    //     next: (newCathegories: Cathegory[]) => {
-    //       this.cathegories = newCathegories
-    //     },
-    //     error: (e) => console.error(e),
-    //     complete: () => { }
-    //   })
+    this.cathegoriesObs$ = this.http.getCathegories();
   }
 
   prioritiesObs$?: Observable<Priority[]>;
   getPriorities() {
-    this.prioritiesObs$ = this.http.getPriorities()
-    // this.http.getPriorities().subscribe(
-    //   {
-    //     next: (newPriority: Priority[]) => {
-    //       this.priorities = newPriority
-    //     },
-    //     error: (e) => console.error(e),
-    //     complete: () => {
-    //     }
-    //   })
+    this.prioritiesObs$ = this.http.getPriorities();
   }
   ngOnInit(): void {
-    this.getCathegories()
+    this.getCathegories();
     this.getPriorities();
   }
   postTask(): void {
     if (this.taskForm.valid) {
       const task = this.taskForm.value;
-      // var newPriority:string = task.priority?.join(' ');
-      // task.priority = newPriority;
-      task.author = this.storage.getLogin()
-      this.http.postTask(task)
-      // .subscribe(
-      //   {
-      //     error: (e) => console.error(e),
-      //     complete: () => console.log(this.taskForm.value)
-      //   }
-      // )
-      this.closeModal()
+      task.author = this.storage.getLogin();
+      this.http.postTask(task);
+      this.closeModal();
+    } else {
+      console.log('invalid');
     }
-    else { console.log("invalid") }
   }
 
   closeModal() {
-    this.dialog.closeAll()
+    this.dialog.closeAll();
   }
 }
-

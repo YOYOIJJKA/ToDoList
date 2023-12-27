@@ -1,12 +1,7 @@
 <div class="wrapper fadeInDown">
   <div id="formContent">
-    <!-- Tabs Titles -->
-    <h2
-      class="active"
-      id="singin"
-    >Авторизация</h2>
+    <h2 class="active" id="singin">Авторизация</h2>
 
-    <!-- Login Form -->
     <form [formGroup]="userForm">
       <input
         type="text"
@@ -14,38 +9,41 @@
         class="fadeIn second userForm"
         formControlName="login"
         placeholder="логин"
-        [ngClass]="{'has-error': userForm.get('login')?.invalid && userForm.get('login')?.touched}"
-      >
+        [ngClass]="{
+          'has-error':
+            userForm.get('login')?.invalid && userForm.get('login')?.touched
+        }"
+      />
       <input
         type="password"
         id="password"
         class="fadeIn third userForm"
         formControlName="password"
         placeholder="пароль"
-        [ngClass]="{'has-error': userForm.get('password')?.invalid && userForm.get('password')?.touched}"
-      >
+        [ngClass]="{
+          'has-error':
+            userForm.get('password')?.invalid &&
+            userForm.get('password')?.touched
+        }"
+      />
       <input
         type="submit"
         class="fadeIn fourth"
         value="Войти"
         (click)="tryLogIn()"
-      >
+      />
       <input
         type="submit"
         class="fadeIn fourth"
         value="Зарегистрироваться"
         (click)="postUser()"
-      >
+      />
     </form>
 
-
-    <!-- Remind Passowrd -->
     <div id="formFooter">
-      <a
-        class="underlineHover"
-        href="http://localhost:3000/users"
-      >Забыли пароль?</a>
+      <a class="underlineHover" href="http://localhost:3000/users"
+        >Забыли пароль?</a
+      >
     </div>
-
   </div>
 </div>

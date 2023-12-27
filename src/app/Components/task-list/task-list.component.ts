@@ -6,7 +6,7 @@ import {
   Component,
   ViewChild,
   signal,
-  effect
+  effect,
 } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -16,10 +16,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Cathegory } from '../../Interfaces/cathegory';
 import { Priority } from '../../Interfaces/priority';
 import { TYPES } from '../../constants';
-import {
-  ENTERANIMATIONDURATION,
-  EXITANIMATIONDURATION
-} from '../../constants';
+import { ENTERANIMATIONDURATION, EXITANIMATIONDURATION } from '../../constants';
 
 @Component({
   selector: 'app-task-list',
@@ -32,7 +29,7 @@ export class TaskListComponent implements AfterViewInit {
   priorities: Priority[] = [];
   defaultCath = 'No Cathegory';
   defaultPrior = 'No priority';
-  types = ['Author', 'Priority', 'Cathegory', 'Name']
+  types = ['Author', 'Priority', 'Cathegory', 'Name'];
   dataSource = new MatTableDataSource(this.tasks);
 
   filterForm = new FormGroup({
@@ -66,7 +63,6 @@ export class TaskListComponent implements AfterViewInit {
 
   @ViewChild(MatSort)
   sort: MatSort = new MatSort();
-  /** Announce the change in sort state for assistive technology. */
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
@@ -75,58 +71,57 @@ export class TaskListComponent implements AfterViewInit {
     }
   }
 
-  public counter = signal<number>(0)
+  public counter = signal<number>(0);
   getData() {
-    this.http.getTasks().subscribe(
-      {
-        next: (newTasks: Task[]) => {
-          this.tasks = newTasks;
-          this.dataSource = new MatTableDataSource(newTasks);
-          this.dataSource.sort = this.sort;
-          this.counter.update(value => value = newTasks.length)
-        },
-        error: (e) => console.error(e),
-        complete: () => {
-          console.log(this.tasks);
-          console.log(this.dataSource);
+    this.http.getTasks().subscribe({
+      next: (newTasks: Task[]) => {
+        this.tasks = newTasks;
+        this.dataSource = new MatTableDataSource(newTasks);
+        this.dataSource.sort = this.sort;
+        this.counter.update((value) => (value = newTasks.length));
+      },
+      error: (e) => console.error(e),
+      complete: () => {
+        console.log(this.tasks);
+        console.log(this.dataSource);
 
-          this.http.getCathegories().subscribe({
-            next: (cath: Cathegory[]) => {
-              this.cathegories = cath;
-              this.tasks.forEach((task) => {
-                var cathArray = this.cathegories.filter(
-                  (cathegory) => cathegory.id.toString() == task.cathegory
-                );
-                console.log('Cath array: ' + cathArray);
-                if (cathArray != undefined && cathArray.length != 0) {
-                  task.cathegory = cathArray[0].name;
-                } else task.cathegory = this.defaultCath;
-              });
+        this.http.getCathegories().subscribe({
+          next: (cath: Cathegory[]) => {
+            this.cathegories = cath;
+            this.tasks.forEach((task) => {
+              var cathArray = this.cathegories.filter(
+                (cathegory) => cathegory.id.toString() == task.cathegory
+              );
+              console.log('Cath array: ' + cathArray);
+              if (cathArray != undefined && cathArray.length != 0) {
+                task.cathegory = cathArray[0].name;
+              } else task.cathegory = this.defaultCath;
+            });
 
-              this.http.getPriorities().subscribe({
-                next: (prior: Priority[]) => {
-                  this.priorities = prior;
-                  this.tasks.forEach((task) => {
-                    var priorArray = this.priorities.filter(
-                      (priority) => priority.id.toString() == task.priority
-                    );
-                    if (priorArray != undefined && priorArray.length != 0) {
-                      console.log(priorArray);
-                      task.priority = priorArray[0].name;
-                    } else task.priority = this.defaultPrior;
-                  });
-                },
-                error: (err) => {
-                  console.log(err);
-                },
-              });
-            },
-            error: (err) => {
-              console.log(err);
-            },
-          });
-        },
-      });
+            this.http.getPriorities().subscribe({
+              next: (prior: Priority[]) => {
+                this.priorities = prior;
+                this.tasks.forEach((task) => {
+                  var priorArray = this.priorities.filter(
+                    (priority) => priority.id.toString() == task.priority
+                  );
+                  if (priorArray != undefined && priorArray.length != 0) {
+                    console.log(priorArray);
+                    task.priority = priorArray[0].name;
+                  } else task.priority = this.defaultPrior;
+                });
+              },
+              error: (err) => {
+                console.log(err);
+              },
+            });
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+      },
+    });
   }
   goToPost(id: number) {
     this.openRedactDIalog(ENTERANIMATIONDURATION, EXITANIMATIONDURATION, id);
@@ -142,8 +137,7 @@ export class TaskListComponent implements AfterViewInit {
     }
   }
 
-  public filterParam = signal<string>(''); //TODO: нет понимания сигналов, изучаем здесь: https://habr.com/ru/articles/726886/
-
+  public filterParam = signal<string>('');
   filterTasks() {
     let newTaskList;
     let type;
@@ -152,7 +146,6 @@ export class TaskListComponent implements AfterViewInit {
     this.filterParam.update(
       (param) => (param = this.filterForm.get('param')?.value!) //////////////////////////////
     );
-    // this.filterForm.get(param) ? this.filterForm.controls.param : ""
     console.log('param string: ' + this.filterParam());
     console.log('type string: ' + type);
     switch (type) {

@@ -11,6 +11,9 @@
 -----9. Никаких px в scss, одно из требований - адаптив, поэтому переходим на относительные значения rem, %, vh и т.д.
 -----10. [ngClass]="{'has-error': userForm.get('login')?.invalid && userForm.get('login')?.touched}" такое делать не нужно, правильная работа с валидаторами формы и matInput закрывает все потребности
 
+Использовать интерсепторы для сохранения в локалсторейдже, ItemName = адрес запроса
+
+
 # ToDoList
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.0.

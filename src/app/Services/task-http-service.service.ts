@@ -10,7 +10,7 @@ import { PRIORITIESURL, TASKURL, CATHEGORIESURL } from '../constants';
   providedIn: 'root',
 })
 export class TaskHttpServiceService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   postTask(task: Task): Observable<Task> {
     return this.http.post<Task>(TASKURL, task);
@@ -29,31 +29,20 @@ export class TaskHttpServiceService {
   }
   //cathegories
   postCathegory(cathegory: Cathegory): Observable<Cathegory> {
-    return this.http.post<Cathegory>(
-      CATHEGORIESURL,
-      cathegory
-    );
+    return this.http.post<Cathegory>(CATHEGORIESURL, cathegory);
   }
   getCathegories(): Observable<Cathegory[]> {
     return this.http.get<Cathegory[]>(CATHEGORIESURL);
   }
   deleteCathegory(id: number): Observable<Cathegory> {
-    return this.http.delete<Cathegory>(
-      CATHEGORIESURL + id
-    );
+    return this.http.delete<Cathegory>(CATHEGORIESURL + id);
   }
   putCathegory(cathegory: Cathegory): Observable<Cathegory> {
-    return this.http.put<Cathegory>(
-      CATHEGORIESURL + cathegory.id,
-      cathegory
-    );
+    return this.http.put<Cathegory>(CATHEGORIESURL + cathegory.id, cathegory);
   }
   //priorities
   postPriority(priority: Priority): Observable<Priority> {
-    return this.http.post<Priority>(
-      PRIORITIESURL,
-      priority
-    );
+    return this.http.post<Priority>(PRIORITIESURL, priority);
   }
   getPriorities(): Observable<Priority[]> {
     return this.http.get<Priority[]>(PRIORITIESURL);
@@ -62,9 +51,6 @@ export class TaskHttpServiceService {
     return this.http.delete<Priority>(PRIORITIESURL + id);
   }
   putPriority(priority: Priority): Observable<Priority> {
-    return this.http.put<Priority>(
-      PRIORITIESURL + priority.id,
-      priority
-    );
+    return this.http.put<Priority>(PRIORITIESURL + priority.id, priority);
   }
 }

@@ -6,18 +6,18 @@ import { AuthGuard } from './Services/auth.service';
 
 const routes: Routes = [
   {
-    path:"",
-    component:AutorizationComponent
+    path: '',
+    component: AutorizationComponent,
   },
   {
-    path:"list",
-    component:TaskListComponent,
-    canActivate: [AuthGuard]
-  }
+    path: 'list',
+    component: TaskListComponent,
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

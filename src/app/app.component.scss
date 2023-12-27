@@ -1,13 +1,11 @@
 .spacer {
-    flex: 1 1 auto;
-  }
-.mat-header-row
-{
+  flex: 1 1 auto;
+}
+.mat-header-row {
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
-.project-name
-{
+.project-name {
   font-size: large;
 }
