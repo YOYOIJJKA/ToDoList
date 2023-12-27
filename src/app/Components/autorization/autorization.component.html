@@ -4,7 +4,7 @@
     <h2
       class="active"
       id="singin"
-    > Sign In </h2>
+    >Авторизация</h2>
 
     <!-- Login Form -->
     <form [formGroup]="userForm">
@@ -13,7 +13,7 @@
         id="login"
         class="fadeIn second userForm"
         formControlName="login"
-        placeholder="login"
+        placeholder="логин"
         [ngClass]="{'has-error': userForm.get('login')?.invalid && userForm.get('login')?.touched}"
       >
       <input
@@ -21,19 +21,19 @@
         id="password"
         class="fadeIn third userForm"
         formControlName="password"
-        placeholder="password"
+        placeholder="пароль"
         [ngClass]="{'has-error': userForm.get('password')?.invalid && userForm.get('password')?.touched}"
       >
       <input
         type="submit"
         class="fadeIn fourth"
-        value="Log In"
+        value="Войти"
         (click)="tryLogIn()"
       >
       <input
         type="submit"
         class="fadeIn fourth"
-        value="Sing In"
+        value="Зарегистрироваться"
         (click)="postUser()"
       >
     </form>
@@ -44,7 +44,7 @@
       <a
         class="underlineHover"
         href="http://localhost:3000/users"
-      >Forgot Password?</a>
+      >Забыли пароль?</a>
     </div>
 
   </div>

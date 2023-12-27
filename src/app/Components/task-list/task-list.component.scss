@@ -1,18 +1,28 @@
 table {
-    width: 100%;
-  }
-  
-  th.mat-sort-header-sorted {
-    color: black;
-  }
-  :host {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .filter-container{
-    margin: 8px;
-    margin-bottom: 0;
-  }
-  
-  
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.filter-container {
+  margin: 1%;
+  margin-bottom: 0;
+}
+
+.filter-block {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+form {
+  width: 100%;
+}

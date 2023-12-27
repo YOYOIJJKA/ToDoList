@@ -1,71 +1,70 @@
 <form [formGroup]="filterForm">
-  <mat-form-field class="filter-container" >
-    <mat-label>Find:</mat-label>
-    <input matInput #input placeholder="Type filter" id="param" formControlName="param">
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Select column</mat-label>
-    <mat-select id="typeSelect" formControlName="typeSelect">
-      <div *ngFor="let type of types">
-      <mat-option value="{{type}}" >{{type}}</mat-option>
-    </div>
-    </mat-select>
-  </mat-form-field>
+  <div class="filter-block">
+      <mat-form-field class="filter-container">
+        <mat-label>Найти:</mat-label>
+        <input matInput #input placeholder="Введите параметр" id="param" formControlName="param">
+      </mat-form-field>
+      <mat-form-field class="filter-container">
+        <mat-label>Выбрать столбец</mat-label>
+        <mat-select id="typeSelect" formControlName="typeSelect" >
+          <div *ngFor="let type of types">
+            <mat-option value="{{type}}">{{type}}</mat-option>
+          </div>
+        </mat-select>
+      </mat-form-field>
+    <output class="filter-container">Общее количество задач = {{counter()}}</output>
+  </div>
   <p>
-      <button mat-stroked-button color="primary" (click)="filterTasks()">Filter</button>
-      <button mat-stroked-button color="primary" (click)="resetFilter()">Reset Filter</button>
-    </p>
-    </form>
+    <button mat-stroked-button color="primary" (click)="filterTasks()">Отфильтровать</button>
+    <button mat-stroked-button color="primary" (click)="resetFilter()">Сбросить фильтр</button>
+  </p>
+</form>
 
 <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
   class="mat-elevation-z8">
 
-  <!-- Id Column -->
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
-      Id
+      Идентификатор
     </th>
     <td mat-cell *matCellDef="let element">
       <button mat-raised-button color="primary" (click)="goToPost(element.id)">
-        Redact №{{element.id}}
+        Редактировать №{{element.id}}
       </button>
     </td>
   </ng-container>
 
-  <!-- Name Column -->
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
-      Name
+      Имя
     </th>
     <td mat-cell *matCellDef="let element"> {{element.name}} </td>
   </ng-container>
 
-  <!-- Author Column -->
   <ng-container matColumnDef="author">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight">
-      Author
+      Автор
     </th>
     <td mat-cell *matCellDef="let element"> {{element.author}} </td>
   </ng-container>
 
-  <!-- Date Column -->
   <ng-container matColumnDef="date">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
-      Date
+      Дата
     </th>
     <td mat-cell *matCellDef="let element"> {{element.date}} </td>
   </ng-container>
 
   <ng-container matColumnDef="cathegory">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
-      Cathegory
+      Категория
     </th>
     <td mat-cell *matCellDef="let element"> {{element.cathegory}} </td>
   </ng-container>
 
   <ng-container matColumnDef="priority">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
-      Priority
+      Приоритет
     </th>
     <td mat-cell *matCellDef="let element"> {{element.priority}} </td>
   </ng-container>

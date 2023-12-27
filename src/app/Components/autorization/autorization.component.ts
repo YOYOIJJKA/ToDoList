@@ -11,7 +11,7 @@ import { StorageService } from '../../Services/storage.service';
   styleUrls: ['./autorization.component.scss']
 })
 export class AutorizationComponent implements OnInit {
-  users?:User[]
+  // users?:User[]
   userForm:FormGroup
   constructor (
     private formBuilder:FormBuilder,
@@ -27,18 +27,17 @@ export class AutorizationComponent implements OnInit {
     this.userForm = this.formBuilder.group(controls)
   }
 ngOnInit(): void {
-  this.getData();
+  // this.getData();
 }
-getData():void {
-  this.httpAutorizationService.getUsers().subscribe({
-    next: (users: User[]) => {
-    this.users = users;
-    },
-    error: (e) => console.error(e),
-    complete: () => console.info(`Я нашёл юзеров ${this.users}`)
-    })
-
-}
+// getData():void {
+//   this.httpAutorizationService.getUsers().subscribe({
+//     next: (users: User[]) => {
+//     this.users = users;
+//     },
+//     error: (e) => console.error(e),
+//     complete: () => console.info(`Я нашёл юзеров ${this.users}`)
+//     })
+// }
 postUser():void {
   const user:User = this.userForm.value;
   if((user.login!=null)&&(user.password!=null)&&(user.login!="")&&(user.password!="")) {

@@ -6,7 +6,7 @@ import {
   Component,
   ViewChild,
   signal,
-  effect,
+  effect
 } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -74,56 +74,59 @@ export class TaskListComponent implements AfterViewInit {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
-  ///////////////////вывести сигналом количество страниц в конце страницы 
+
+  public counter = signal<number>(0)
   getData() {
-    this.http.getTasks().subscribe({
-      next: (newTasks: Task[]) => {
-        this.tasks = newTasks;
-        this.dataSource = new MatTableDataSource(newTasks);
-        this.dataSource.sort = this.sort;
-      },
-      error: (e) => console.error(e),
-      complete: () => {
-        console.log(this.tasks);
-        console.log(this.dataSource);
+    this.http.getTasks().subscribe(
+      {
+        next: (newTasks: Task[]) => {
+          this.tasks = newTasks;
+          this.dataSource = new MatTableDataSource(newTasks);
+          this.dataSource.sort = this.sort;
+          this.counter.update(value => value = newTasks.length)
+        },
+        error: (e) => console.error(e),
+        complete: () => {
+          console.log(this.tasks);
+          console.log(this.dataSource);
 
-        this.http.getCathegories().subscribe({
-          next: (cath: Cathegory[]) => {
-            this.cathegories = cath;
-            this.tasks.forEach((task) => {
-              var cathArray = this.cathegories.filter(
-                (cathegory) => cathegory.id.toString() == task.cathegory
-              );
-              console.log('Cath array: ' + cathArray);
-              if (cathArray != undefined && cathArray.length != 0) {
-                task.cathegory = cathArray[0].name;
-              } else task.cathegory = this.defaultCath;
-            });
+          this.http.getCathegories().subscribe({
+            next: (cath: Cathegory[]) => {
+              this.cathegories = cath;
+              this.tasks.forEach((task) => {
+                var cathArray = this.cathegories.filter(
+                  (cathegory) => cathegory.id.toString() == task.cathegory
+                );
+                console.log('Cath array: ' + cathArray);
+                if (cathArray != undefined && cathArray.length != 0) {
+                  task.cathegory = cathArray[0].name;
+                } else task.cathegory = this.defaultCath;
+              });
 
-            this.http.getPriorities().subscribe({
-              next: (prior: Priority[]) => {
-                this.priorities = prior;
-                this.tasks.forEach((task) => {
-                  var priorArray = this.priorities.filter(
-                    (priority) => priority.id.toString() == task.priority
-                  );
-                  if (priorArray != undefined && priorArray.length != 0) {
-                    console.log(priorArray);
-                    task.priority = priorArray[0].name;
-                  } else task.priority = this.defaultPrior;
-                });
-              },
-              error: (err) => {
-                console.log(err);
-              },
-            });
-          },
-          error: (err) => {
-            console.log(err);
-          },
-        });
-      },
-    });
+              this.http.getPriorities().subscribe({
+                next: (prior: Priority[]) => {
+                  this.priorities = prior;
+                  this.tasks.forEach((task) => {
+                    var priorArray = this.priorities.filter(
+                      (priority) => priority.id.toString() == task.priority
+                    );
+                    if (priorArray != undefined && priorArray.length != 0) {
+                      console.log(priorArray);
+                      task.priority = priorArray[0].name;
+                    } else task.priority = this.defaultPrior;
+                  });
+                },
+                error: (err) => {
+                  console.log(err);
+                },
+              });
+            },
+            error: (err) => {
+              console.log(err);
+            },
+          });
+        },
+      });
   }
   goToPost(id: number) {
     this.openRedactDIalog(ENTERANIMATIONDURATION, EXITANIMATIONDURATION, id);

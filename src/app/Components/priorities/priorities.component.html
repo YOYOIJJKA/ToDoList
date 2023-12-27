@@ -1,10 +1,10 @@
 <div class="redact-form">
-    <h1>Redact Priorities</h1>
+    <h1>Редактировать приоритеты</h1>
     </div>
     <div class="field-form">
 <mat-form-field class="example-chip-list">
-    <mat-label>Priorities</mat-label>
-    <mat-chip-grid #chipGrid aria-label="Enter priorities">
+    <mat-label>Приоритеты</mat-label>
+    <mat-chip-grid #chipGrid aria-label="Введите приоритеты">
       @for (priority of prioroties; track priority) {
         <mat-chip-row
           (removed)="remove(priority)"
@@ -17,7 +17,7 @@
           </button>
         </mat-chip-row>
       }
-      <input placeholder="New priority..."
+      <input placeholder="Новый приоритет..."
              [matChipInputFor]="chipGrid"
              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
              [matChipInputAddOnBlur]="addOnBlur"
