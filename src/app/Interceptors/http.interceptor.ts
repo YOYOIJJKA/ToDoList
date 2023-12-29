@@ -50,12 +50,12 @@ export class httpInterceptor implements HttpInterceptor {
         }
       } else {
         console.log('NO ID FOUND');
-        console.log(req.url)
+        console.log(req.url);
         /// Если нет ID, то просто берем всю таблицу и отправляем её. Если таблицы нет, то пустой Obs.
         if (localStorage.getItem(req.url)) {
           console.log('I GOT IT');
           newBody = JSON.parse(localStorage.getItem(req.url)!);
-          console.log(newBody)
+          console.log(newBody);
           return of(newBody);
         } else {
           return EMPTY;
@@ -100,7 +100,8 @@ export class httpInterceptor implements HttpInterceptor {
     let term: Task[];
     if (localStorage.getItem(url)) {
       term = JSON.parse(localStorage.getItem(url)!);
-      if (typeof item == typeof term) term.push(item);
+      term.push(item);
+      localStorage.setItem(url, JSON.stringify(term));
     } else {
       term = [item];
       localStorage.setItem(url, JSON.stringify(term));
@@ -112,7 +113,7 @@ export class httpInterceptor implements HttpInterceptor {
     if (localStorage.getItem(url)) {
       term = JSON.parse(localStorage.getItem(url)!);
       term.forEach((element) => {
-        if ((element.id = item.id)) element = item;
+        if (element.id == id) element = item;
       });
       localStorage.setItem(url, JSON.stringify(term));
     }

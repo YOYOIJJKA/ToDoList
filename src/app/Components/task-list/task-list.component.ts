@@ -144,7 +144,7 @@ export class TaskListComponent implements AfterViewInit {
 
     type = this.filterForm.get('typeSelect')?.value;
     this.filterParam.update(
-      (param) => (param = this.filterForm.get('param')?.value!) //////////////////////////////
+      (param) => (param = this.filterForm.get('param')?.value!)
     );
     console.log('param string: ' + this.filterParam());
     console.log('type string: ' + type);
