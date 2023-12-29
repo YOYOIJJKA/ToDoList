@@ -82,7 +82,7 @@ export class TaskListComponent implements AfterViewInit {
       },
       error: (e) => console.error(e),
       complete: () => {
-        console.log(this.tasks);
+        console.log('ТАСКИ С СЕРВЕРА ' + this.tasks);
         console.log(this.dataSource);
 
         this.http.getCathegories().subscribe({

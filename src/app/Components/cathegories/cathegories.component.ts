@@ -57,7 +57,7 @@ export class CathegoriesComponent implements OnInit {
 
   remove(cathegory: Cathegory): void {
     const index = this.cathegories?.indexOf(cathegory);
-    if (index)
+    if (index || index == 0)
       if (index >= 0) {
         this.cathegories?.splice(index, 1);
         this.http.deleteCathegory(cathegory.id).subscribe({
@@ -104,11 +104,11 @@ export class CathegoriesComponent implements OnInit {
     }
 
     const index = this.cathegories?.indexOf(cathegory);
-    if (index)
+    if (index || index == 0)
       if (index >= 0 && this.cathegories) {
         this.cathegories[index].name = value;
       }
-    if (this.cathegories && index)
+    if (this.cathegories && (index || index == 0))
       this.http.putCathegory(this.cathegories[index]).subscribe({
         next: () => console.log(this.cathegories![index]),
         error: (e) => console.log(e),

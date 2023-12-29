@@ -57,7 +57,7 @@ export class PrioritiesComponent implements OnInit {
 
   remove(priority: Priority): void {
     const index = this.prioroties?.indexOf(priority);
-    if (index)
+    if (index || index == 0)
       if (index >= 0) {
         this.prioroties?.splice(index, 1);
         this.http.deletePriority(priority.id).subscribe({
@@ -105,11 +105,11 @@ export class PrioritiesComponent implements OnInit {
     }
 
     const index = this.prioroties?.indexOf(priority);
-    if (index && this.prioroties)
+    if ((index || index == 0) && this.prioroties)
       if (index >= 0) {
         this.prioroties[index].name = value;
       }
-    if (this.prioroties && index)
+    if (this.prioroties && (index || index == 0))
       this.http.putPriority(this.prioroties[index]).subscribe({});
   }
 

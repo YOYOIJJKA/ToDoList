@@ -54,9 +54,10 @@ export class TaskComponent implements OnInit {
   }
   postTask(): void {
     if (this.taskForm.valid) {
+      console.log("TRYING TO POST")
       const task = this.taskForm.value;
       task.author = this.storage.getLogin();
-      this.http.postTask(task);
+      this.http.postTask(task).subscribe();
       this.closeModal();
     } else {
       console.log('invalid');

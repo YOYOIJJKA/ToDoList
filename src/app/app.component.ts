@@ -63,7 +63,6 @@ export class AppComponent implements OnInit {
       error: (e) => console.log(e),
       complete: () => {
         this.auth.getUsers(this.users);
-        usersSubs.unsubscribe();
       },
     });
   }

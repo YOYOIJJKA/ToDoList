@@ -24,6 +24,9 @@ import { CathegoriesComponent } from './Components/cathegories/cathegories.compo
 import { MatChipsModule } from '@angular/material/chips';
 import { AutorizationComponent } from './Components/autorization/autorization.component';
 import { PrioritiesComponent } from './Components/priorities/priorities.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpInterceptor } from '@angular/common/http';
+import { httpInterceptor } from './Interceptors/http.interceptor';
 
 @NgModule({
   declarations: [
@@ -54,7 +57,13 @@ import { PrioritiesComponent } from './Components/priorities/priorities.componen
     MatExpansionModule,
     MatChipsModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: httpInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
