@@ -40,7 +40,9 @@ export class PrioritiesComponent implements OnInit {
       } else {
         this.newId = 1;
       }
-      this.prioroties?.push({ name: value, id: this.newId });
+      if (this.prioroties)
+        this.prioroties.push({ name: value, id: this.newId });
+      else this.prioroties = [{ name: value, id: this.newId }];
       if (this.prioroties)
         this.http
           .postPriority(this.prioroties[this.prioroties.length - 1])

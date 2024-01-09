@@ -40,7 +40,9 @@ export class CathegoriesComponent implements OnInit {
       } else {
         this.newId = 1;
       }
-      this.cathegories?.push({ name: value, id: this.newId });
+      if (this.cathegories)
+        this.cathegories.push({ name: value, id: this.newId });
+      else this.cathegories = [{ name: value, id: this.newId }];
       if (this.cathegories)
         this.http
           .postCathegory(this.cathegories[this.cathegories.length - 1])
@@ -64,7 +66,7 @@ export class CathegoriesComponent implements OnInit {
           error: (e) => console.log(e),
           complete: () => {
             console.log('cathegory deleted ' + cathegory.name);
-            const subs = this.http
+            this.http
               .getTasks()
               .pipe(
                 map((tasks) =>
@@ -86,7 +88,6 @@ export class CathegoriesComponent implements OnInit {
                       .putTask(task)
                       .subscribe(() => console.log(task + ' put'));
                   });
-                  subs.unsubscribe();
                 },
               });
           },
@@ -97,12 +98,10 @@ export class CathegoriesComponent implements OnInit {
 
   edit(cathegory: Cathegory, event: MatChipEditedEvent) {
     const value = event.value.trim();
-
     if (!value) {
       this.remove(cathegory);
       return;
     }
-
     const index = this.cathegories?.indexOf(cathegory);
     if (index || index == 0)
       if (index >= 0 && this.cathegories) {

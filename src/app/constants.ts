@@ -20,3 +20,9 @@ export const REDACTSTYLE = {
   ENTERANIMATIONDURATION,
   EXITANIMATIONDURATION,
 };
+export enum URLS {
+  task = 'tasks',
+  priority = 'priorities',
+  cathegory = 'cathegories',
+  user = 'users',
+}
