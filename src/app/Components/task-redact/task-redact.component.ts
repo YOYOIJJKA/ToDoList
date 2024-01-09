@@ -54,11 +54,12 @@ export class TaskRedactComponent extends TaskComponent {
     //     complete: () => {}
     //   })
 
-    const fork = forkJoin([subsCath, subsPrior, subsTask])
+    forkJoin([subsCath, subsPrior, subsTask])
       .pipe(
         tap(([res1, res2, res3]) => {
           this.cathegories = res1;
           this.priorities = res2;
+          console.log('TASK = ' + res3);
           this.task = res3;
         })
       )
@@ -103,6 +104,8 @@ export class TaskRedactComponent extends TaskComponent {
 
     console.log('Priority Before ID ' + termPrior!);
     console.log('Cathegory Before ID ' + termCath);
+
+    console.log(this.task?.name);
 
     prioritySelectId = this.priorities?.findIndex((x) => x.name == termPrior);
     console.log(prioritySelectId);

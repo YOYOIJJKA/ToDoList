@@ -41,12 +41,10 @@ export class httpInterceptor implements HttpInterceptor {
           newUrl = newUrl.slice(0, -id.length);
           if (localStorage.getItem(req.url)) {
             term = JSON.parse(localStorage.getItem(req.url)!);
-            term.forEach((element) => {
-              if (element.id == Number(id)) item = element;
-              return of(new HttpResponse({ status: 200, body: item }));
-            });
-            //// Нет таблицы - возвращаем пустой Obs
+            let element = term.find((element) => element.id == Number(id));
+            return of(new HttpResponse({ status: 200, body: element }));
           } else {
+            //// Нет таблицы - возвращаем пустой Obs
             return of(new HttpResponse({ status: 200 }));
           }
         } else {
@@ -141,7 +139,7 @@ export class httpInterceptor implements HttpInterceptor {
     if (localStorage.getItem(url)) {
       term = JSON.parse(localStorage.getItem(url)!);
       term.forEach((element) => {
-        if (element.id == id) element.name = item.name;
+        if (element.id == id) Object.assign(element, item);
       });
       localStorage.setItem(url, JSON.stringify(term));
     }
