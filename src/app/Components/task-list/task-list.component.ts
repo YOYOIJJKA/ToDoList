@@ -29,7 +29,7 @@ export class TaskListComponent implements AfterViewInit {
   priorities: Priority[] = [];
   defaultCath = 'No Cathegory';
   defaultPrior = 'No priority';
-  types = ['Author', 'Priority', 'Cathegory', 'Name'];
+  types = ['Автор', 'Приоритет', 'Категория', 'Имя'];
   dataSource = new MatTableDataSource(this.tasks);
 
   filterForm = new FormGroup({
@@ -88,6 +88,7 @@ export class TaskListComponent implements AfterViewInit {
         this.http.getCathegories().subscribe({
           next: (cath: Cathegory[]) => {
             this.cathegories = cath;
+            if (this.cathegories)
             this.tasks.forEach((task) => {
               var cathArray = this.cathegories.filter(
                 (cathegory) => cathegory.id.toString() == task.cathegory
@@ -101,6 +102,7 @@ export class TaskListComponent implements AfterViewInit {
             this.http.getPriorities().subscribe({
               next: (prior: Priority[]) => {
                 this.priorities = prior;
+                if (this.priorities)
                 this.tasks.forEach((task) => {
                   var priorArray = this.priorities.filter(
                     (priority) => priority.id.toString() == task.priority

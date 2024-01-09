@@ -42,7 +42,7 @@ export class httpInterceptor implements HttpInterceptor {
           term = JSON.parse(localStorage.getItem(req.url)!);
           term.forEach((element) => {
             if (element.id == Number(id)) item = element;
-            return of(new HttpResponse({status: 200, body:item}));
+            return of(new HttpResponse({ status: 200, body: item }));
           });
           //// Нет таблицы - возвращаем пустой Obs
         } else {
@@ -55,9 +55,9 @@ export class httpInterceptor implements HttpInterceptor {
         if (localStorage.getItem(req.url)) {
           console.log('I GOT IT');
           item = JSON.parse(localStorage.getItem(req.url)!);
-          return of(new HttpResponse({status: 200, body:item}));
+          return of(new HttpResponse({ status: 200, body: item }));
         } else {
-          return EMPTY;
+          return of(new HttpResponse({ status: 200 }));
         }
       }
     }
@@ -67,7 +67,7 @@ export class httpInterceptor implements HttpInterceptor {
       newBody = req.body;
       newUrl = req.url;
       if (url.indexOf('tasks') != -1) this.postTaskWithId(newUrl, newBody);
-      return EMPTY;
+      return of(new HttpResponse({ status: 200 }));
     }
     if (req.method == 'PUT') {
       console.log('TRYINT TO PUT');
@@ -89,7 +89,7 @@ export class httpInterceptor implements HttpInterceptor {
     if (localStorage.getItem(url)) {
       term = JSON.parse(localStorage.getItem(url)!);
       item = term[term.length - 1];
-      if (item.id) return item.id + 1;
+      if (item.id || item.id == 0) return item.id + 1;
       else return 0;
     } else return 0;
   }
