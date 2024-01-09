@@ -54,9 +54,10 @@ export class AppComponent implements OnInit {
   logOut() {
     this.storageService.clearStorage();
     this.router.navigateByUrl('');
+    this.getUsers();
   }
   getUsers(): void {
-    const usersSubs = this.http.getUsers().subscribe({
+    this.http.getUsers().subscribe({
       next: (value) => {
         this.users = value;
       },

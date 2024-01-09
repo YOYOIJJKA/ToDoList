@@ -47,6 +47,7 @@ export class AutorizationComponent implements OnInit {
         complete: () => {
           this.storageService.saveLogin(user.login);
           this.storageService.savePassword(user.password);
+          this.storageService.setAuth();
           this.router.navigate(['list']);
         },
       });
@@ -57,4 +58,5 @@ export class AutorizationComponent implements OnInit {
     this.storageService.savePassword(this.userForm.value.password);
     this.router.navigate(['list']);
   }
+
 }
