@@ -39,10 +39,12 @@ export class httpInterceptor implements HttpInterceptor {
           /// Если есть ID, то берем всю таблицу и ищем в ней нужный элемент
           console.log('THERE IS ID IN URL');
           newUrl = newUrl.slice(0, -id.length);
-          if (localStorage.getItem(req.url)) {
-            term = JSON.parse(localStorage.getItem(req.url)!);
-            let element = term.find((element) => element.id == Number(id));
-            return of(new HttpResponse({ status: 200, body: element }));
+          if (localStorage.getItem(newUrl)) {
+            console.log(newUrl)
+            term = JSON.parse(localStorage.getItem(newUrl)!);
+            let el = term.find((element) => element.id == Number(id));
+            console.log("ELEMENT ="+el)
+            return of(new HttpResponse({ status: 200, body: el }));
           } else {
             //// Нет таблицы - возвращаем пустой Obs
             return of(new HttpResponse({ status: 200 }));
