@@ -147,11 +147,10 @@ export class TaskRedactComponent extends TaskComponent {
       const task: Task = this.taskForm.value;
       task.id = this.id;
       task.author = this.storage.getLogin();
-      var putTaskSubscribe = this.http.putTask(task).subscribe({
+      this.http.putTask(task).subscribe({
         error: (e) => console.error(e),
         complete: () => {
           console.log('posted');
-          putTaskSubscribe.unsubscribe();
         },
       });
       this.closeModal();

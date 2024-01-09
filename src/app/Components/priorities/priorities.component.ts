@@ -65,7 +65,7 @@ export class PrioritiesComponent implements OnInit {
         this.http.deletePriority(priority.id).subscribe({
           error: (e) => console.log(e),
           complete: () => {
-            const subs = this.http
+            this.http
               .getTasks()
               .pipe(
                 map((tasks) =>
@@ -87,7 +87,6 @@ export class PrioritiesComponent implements OnInit {
                       .putTask(task)
                       .subscribe(() => console.log(task + ' put'));
                   });
-                  subs.unsubscribe();
                 },
               });
 
