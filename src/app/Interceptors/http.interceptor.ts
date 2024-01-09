@@ -3,6 +3,7 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
+  HttpResponse,
 } from '@angular/common/http';
 import { EMPTY, Observable, of } from 'rxjs';
 import { Cathegory } from '../Interfaces/cathegory';
@@ -41,8 +42,7 @@ export class httpInterceptor implements HttpInterceptor {
           term = JSON.parse(localStorage.getItem(req.url)!);
           term.forEach((element) => {
             if (element.id == Number(id)) item = element;
-            newBody = item;
-            return of(newBody);
+            return of(new HttpResponse({status: 200, body:item}));
           });
           //// Нет таблицы - возвращаем пустой Obs
         } else {
@@ -54,9 +54,8 @@ export class httpInterceptor implements HttpInterceptor {
         /// Если нет ID, то просто берем всю таблицу и отправляем её. Если таблицы нет, то пустой Obs.
         if (localStorage.getItem(req.url)) {
           console.log('I GOT IT');
-          newBody = JSON.parse(localStorage.getItem(req.url)!);
-          console.log(newBody);
-          return of(newBody);
+          item = JSON.parse(localStorage.getItem(req.url)!);
+          return of(new HttpResponse({status: 200, body:item}));
         } else {
           return EMPTY;
         }
