@@ -1,14 +1,6 @@
 {
   "tasks": [
     {
-      "name": "FirstOneTask",
-      "priority": "5",
-      "date": "2002-02-22",
-      "cathegory": "2",
-      "id": 1,
-      "author": "dedinside"
-    },
-    {
       "name": "ddddd",
       "priority": "5",
       "date": "3333-02-12",
@@ -23,22 +15,6 @@
       "cathegory": "3",
       "author": "dedinside",
       "id": 3
-    },
-    {
-      "name": "deed",
-      "priority": "5",
-      "date": "2222-02-22",
-      "cathegory": "4",
-      "author": "dedinside",
-      "id": 4
-    },
-    {
-      "name": "рере",
-      "priority": "4",
-      "date": "2222-02-22",
-      "cathegory": "2",
-      "author": "dedinside",
-      "id": 5
     }
   ],
   "cathegories": [

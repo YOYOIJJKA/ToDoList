@@ -66,7 +66,6 @@ export class TaskRedactComponent extends TaskComponent {
         complete: () => {
           console.log('everything pulled');
           this.getTaskData();
-          fork.unsubscribe();
         },
       });
   }

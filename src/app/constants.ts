@@ -26,3 +26,4 @@ export enum URLS {
   cathegory = 'cathegories',
   user = 'users',
 }
+export const INTERCEPTORS: Boolean = true

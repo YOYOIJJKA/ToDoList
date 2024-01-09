@@ -34,11 +34,6 @@ export class AuthService {
       } else return this.storageService.checkAuth();
     } else return this.storageService.checkAuth();
   }
-
-  //     // TODO: использование подписок внутри сервисов - плохая практика, нужно стараться выстраивать как можно более
-  //     // длинную трубу, желательно чтобы подписка происходила в шаблоне через async pipe
-  //     // https://blog.brecht.io/rxjs-best-practices-in-angular/
-  //     // https://angularindepth.com/posts/1279/rxjs-in-angular-when-to-subscribe-rarely
 }
 
 export const AuthGuard: CanActivateFn = (): boolean => {
