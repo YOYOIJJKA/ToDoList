@@ -88,29 +88,41 @@ export class TaskListComponent implements AfterViewInit {
         this.http.getCathegories().subscribe({
           next: (cath: Cathegory[]) => {
             this.cathegories = cath;
-            if (this.cathegories)
             this.tasks.forEach((task) => {
-              var cathArray = this.cathegories.filter(
-                (cathegory) => cathegory.id.toString() == task.cathegory
-              );
-              console.log('Cath array: ' + cathArray);
-              if (cathArray != undefined && cathArray.length != 0) {
-                task.cathegory = cathArray[0].name;
-              } else task.cathegory = this.defaultCath;
+              if (
+                this.cathegories != undefined &&
+                this.cathegories.length != 0
+              ) {
+                var cathArray = this.cathegories.filter(
+                  (cathegory) => cathegory.id.toString() == task.cathegory
+                );
+                console.log('Cath array: ' + cathArray);
+                if (cathArray != undefined && cathArray.length != 0) {
+                  task.cathegory = cathArray[0].name;
+                } else task.cathegory = this.defaultCath;
+              } else {
+                task.cathegory = this.defaultCath;
+              }
             });
 
             this.http.getPriorities().subscribe({
               next: (prior: Priority[]) => {
                 this.priorities = prior;
-                if (this.priorities)
                 this.tasks.forEach((task) => {
-                  var priorArray = this.priorities.filter(
-                    (priority) => priority.id.toString() == task.priority
-                  );
-                  if (priorArray != undefined && priorArray.length != 0) {
-                    console.log(priorArray);
-                    task.priority = priorArray[0].name;
-                  } else task.priority = this.defaultPrior;
+                  if (
+                    this.priorities != undefined &&
+                    this.priorities.length != 0
+                  ) {
+                    var priorArray = this.priorities.filter(
+                      (priority) => priority.id.toString() == task.priority
+                    );
+                    if (priorArray != undefined && priorArray.length != 0) {
+                      console.log(priorArray);
+                      task.priority = priorArray[0].name;
+                    } else task.priority = this.defaultPrior;
+                  } else {
+                    task.priority = this.defaultPrior;
+                  }
                 });
               },
               error: (err) => {
