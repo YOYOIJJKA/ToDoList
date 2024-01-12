@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { User } from '../../Interfaces/user';
 import { AutorizationService } from '../../Services/autorization.service';
 import { StorageService } from '../../Services/storage.service';
+import { AUTHCONTROLS } from '../../constants';
 
 @Component({
   selector: 'app-autorization',
@@ -18,18 +19,7 @@ export class AutorizationComponent {
     private router: Router,
     private storageService: StorageService
   ) {
-    // в configs папка со статическими объектами
-    const controls = {
-      login: [
-        null,
-        [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]*')],
-      ],
-      password: [
-        null,
-        [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]*')],
-      ],
-    };
-    this.userForm = this.formBuilder.group(controls);
+    this.userForm = this.formBuilder.group(AUTHCONTROLS);
   }
 
   postUser(): void {

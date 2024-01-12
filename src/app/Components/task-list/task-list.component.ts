@@ -1,8 +1,7 @@
 import { TaskHttpServiceService } from '../../Services/task-http-service.service';
 import { Task } from '../../Interfaces/task';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, ViewChild, signal, effect } from '@angular/core';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TaskRedactComponent } from '../task-redact/task-redact.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -18,6 +17,7 @@ import {
   DEFAULTCATH,
   DEFAULTPRIOR,
 } from '../../constants';
+import { forkJoin, tap } from 'rxjs';
 
 @Component({
   selector: 'app-task-list',
@@ -33,7 +33,9 @@ export class TaskListComponent {
   readonly DISPLAYEDCOLUMNS = DISPLAYEDCOLUMNS;
   readonly defaultCath = DEFAULTCATH;
   readonly defaultPrior = DEFAULTPRIOR;
-  readonly types = [TYPES.author, TYPES.cathegory, TYPES.name, TYPES.priority];
+  readonly types = [TYPES.author, TYPES.cathegory, TYPES.name, TYPES.priority]; ////// Object.value не работает
+  public filterParam = signal<string>('');
+  public counter = signal<number>(0);
 
   filterForm = new FormGroup({
     param: new FormControl(''),
@@ -46,82 +48,65 @@ export class TaskListComponent {
     });
     this.getData();
   }
-  public filterParam = signal<string>('');
 
   @ViewChild(MatSort)
   sort: MatSort = new MatSort();
-  ///live announcer read
 
-  public counter = signal<number>(0);
-  getData() {
-    ///forkJoin
-    //вынести все операции с данными в отдельный метод
-    this.http.getTasks().subscribe({
-      next: (newTasks: Task[]) => {
-        this.tasks = newTasks;
-        this.dataSource = new MatTableDataSource(newTasks);
-        this.dataSource.sort = this.sort;
-        this.counter.update((value) => (value = newTasks.length));
-      },
-      error: (e) => console.error(e),
-      complete: () => {
-        console.log('ТАСКИ С СЕРВЕРА ' + this.tasks);
-        console.log(this.dataSource);
-        this.http.getCathegories().subscribe({
-          next: (cath: Cathegory[]) => {
-            this.cathegories = cath;
-            this.tasks.forEach((task) => {
-              if (
-                this.cathegories != undefined &&
-                this.cathegories.length != 0
-              ) {
-                let cathArray = this.cathegories.filter(
-                  (cathegory) => cathegory.id.toString() == task.cathegory
-                );
-                console.log('Cath array: ' + cathArray);
-                if (cathArray != undefined && cathArray.length != 0) {
-                  task.cathegory = cathArray[0].name;
-                } else task.cathegory = this.defaultCath;
-              } else {
-                task.cathegory = this.defaultCath;
-              }
-            });
-
-            this.http.getPriorities().subscribe({
-              next: (prior: Priority[]) => {
-                this.priorities = prior;
-                this.tasks.forEach((task) => {
-                  if (
-                    this.priorities != undefined &&
-                    this.priorities.length != 0
-                  ) {
-                    let priorArray = this.priorities.filter(
-                      (priority) => priority.id.toString() == task.priority
-                    );
-                    if (priorArray != undefined && priorArray.length != 0) {
-                      console.log(priorArray);
-                      task.priority = priorArray[0].name;
-                    } else task.priority = this.defaultPrior;
-                  } else {
-                    task.priority = this.defaultPrior;
-                  }
-                });
-              },
-              error: (err) => {
-                console.log(err);
-              },
-            });
-          },
-          error: (err) => {
-            console.log(err);
-          },
-        });
-      },
+  modifyData(sourceArray: Cathegory[] | Priority[], attribute: keyof Task) {
+    this.tasks.forEach((task: Task) => {
+      if (sourceArray != undefined && sourceArray.length != 0) {
+        let filteredArray = sourceArray.filter(
+          (element) => element.id.toString() == task[attribute]
+        );
+        if (
+          filteredArray != undefined &&
+          filteredArray.length != 0 &&
+          (attribute == TASK.priority || attribute == TASK.cathegory)
+        ) {
+          task[attribute] = filteredArray[0].name;
+        } else if (attribute == TASK.cathegory)
+          task[attribute] = this.defaultCath;
+        else if (attribute == TASK.priority)
+          task[attribute] = this.defaultPrior;
+      } else {
+        if (attribute == TASK.cathegory) task[attribute] = this.defaultCath;
+        else if (attribute == TASK.priority)
+          task[attribute] = this.defaultPrior;
+      }
     });
   }
-  goToPost(id: number) {
-    this.openRedactDIalog(ENTERANIMATIONDURATION, EXITANIMATIONDURATION, id);
+  getData() {
+    const tasks$ = this.http.getTasks();
+    const cathegories$ = this.http.getCathegories();
+    const priorities$ = this.http.getPriorities();
+
+    forkJoin([tasks$, cathegories$, priorities$])
+      .pipe(
+        tap(([tasksTerm$, cathegoriesTerm$, prioritiesTerm$]) => {
+          this.tasks = tasksTerm$;
+          this.cathegories = cathegoriesTerm$;
+          this.priorities = prioritiesTerm$;
+          this.counter.update((value) => (value = tasksTerm$.length));
+        })
+      )
+      .subscribe({
+        complete: () => {
+          this.modifyData(this.cathegories, TASK.cathegory);
+          this.modifyData(this.priorities, TASK.priority);
+          this.dataSource = new MatTableDataSource(this.tasks);
+        },
+      });
   }
+
+  goToPost(taskId: number) {
+    console.log('TRANSFERED ID = ' + taskId);
+    this.openRedactDIalog(
+      ENTERANIMATIONDURATION,
+      EXITANIMATIONDURATION,
+      taskId
+    );
+  }
+
   deleteTask(id: number) {
     console.log(id);
     if (confirm('Are you sure to delete ' + id)) {
@@ -179,7 +164,6 @@ export class TaskListComponent {
   }
 
   resetFilter() {
-    this.dataSource = new MatTableDataSource(this.tasks);
     this.getData();
   }
 
@@ -189,7 +173,10 @@ export class TaskListComponent {
     taskId: number
   ): void {
     const dialogRedact = this.dialog.open(TaskRedactComponent, {
-      data: taskId,
+      data: {
+        id: taskId,
+        redact: true,
+      },
       width: 'auto',
       enterAnimationDuration,
       exitAnimationDuration,

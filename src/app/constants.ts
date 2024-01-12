@@ -1,7 +1,22 @@
+import { Validators } from '@angular/forms';
+
 export const CATHEGORIESURL = 'http://localhost:3000/cathegories/';
 export const PRIORITIESURL = 'http://localhost:3000/priorities/';
 export const USERURL = 'http://localhost:3000/users/';
 export const TASKURL = 'http://localhost:3000/tasks/';
+export const AUTHCONTROLS = {
+  login: [null, [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]*')]],
+  password: [
+    null,
+    [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]*')],
+  ],
+};
+export const TASKCONTROLS = {
+  name: [null, [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]*')]],
+  priority: [null, []],
+  date: [null, [Validators.required]],
+  cathegory: [null, []],
+};
 export const enum TYPES {
   author = 'Автор',
   priority = 'Приоритет',

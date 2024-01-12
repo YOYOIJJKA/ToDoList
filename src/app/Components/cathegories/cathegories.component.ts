@@ -57,7 +57,6 @@ export class CathegoriesComponent implements OnInit {
     event.chipInput.clear();
   }
 
-
   ////////////switchmap
   remove(cathegory: Cathegory): void {
     const index = this.cathegories?.indexOf(cathegory);
@@ -116,8 +115,6 @@ export class CathegoriesComponent implements OnInit {
       });
   }
 
-
-  ////pipe
   getCathegories() {
     this.http.getCathegories().subscribe({
       next: (newCathegories: Cathegory[]) => {
