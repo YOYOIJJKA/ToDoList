@@ -32,13 +32,7 @@
   </p>
 </form>
 
-<table
-  mat-table
-  [dataSource]="dataSource"
-  matSort
-  (matSortChange)="announceSortChange($event)"
-  class="mat-elevation-z8"
->
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
   <ng-container matColumnDef="id">
     <th
       mat-header-cell
@@ -123,6 +117,6 @@
       </button>
     </td>
   </ng-container>
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  <tr mat-header-row *matHeaderRowDef="DISPLAYEDCOLUMNS"></tr>
+  <tr mat-row *matRowDef="let row; columns: DISPLAYEDCOLUMNS"></tr>
 </table>

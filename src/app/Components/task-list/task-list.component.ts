@@ -1,13 +1,7 @@
 import { TaskHttpServiceService } from '../../Services/task-http-service.service';
 import { Task } from '../../Interfaces/task';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import {
-  AfterViewInit,
-  Component,
-  ViewChild,
-  signal,
-  effect,
-} from '@angular/core';
+import { Component, ViewChild, signal, effect } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TaskRedactComponent } from '../task-redact/task-redact.component';
@@ -15,64 +9,53 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Cathegory } from '../../Interfaces/cathegory';
 import { Priority } from '../../Interfaces/priority';
-import { TYPES } from '../../constants';
-import { ENTERANIMATIONDURATION, EXITANIMATIONDURATION } from '../../constants';
+import {
+  ENTERANIMATIONDURATION,
+  EXITANIMATIONDURATION,
+  TYPES,
+  TASK,
+  DISPLAYEDCOLUMNS,
+  DEFAULTCATH,
+  DEFAULTPRIOR,
+} from '../../constants';
 
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss',
 })
-export class TaskListComponent implements AfterViewInit {
+export class TaskListComponent {
   tasks: Task[] = [];
   cathegories: Cathegory[] = [];
   priorities: Priority[] = [];
-  defaultCath = 'No Cathegory';
-  defaultPrior = 'No priority';
-  types = ['Автор', 'Приоритет', 'Категория', 'Имя'];
+
   dataSource = new MatTableDataSource(this.tasks);
+  readonly DISPLAYEDCOLUMNS = DISPLAYEDCOLUMNS;
+  readonly defaultCath = DEFAULTCATH;
+  readonly defaultPrior = DEFAULTPRIOR;
+  readonly types = [TYPES.author, TYPES.cathegory, TYPES.name, TYPES.priority];
 
   filterForm = new FormGroup({
     param: new FormControl(''),
     typeSelect: new FormControl(''),
   });
 
-  constructor(
-    private http: TaskHttpServiceService,
-    private _liveAnnouncer: LiveAnnouncer,
-    private dialog: MatDialog
-  ) {
+  constructor(private http: TaskHttpServiceService, private dialog: MatDialog) {
     effect(() => {
       console.log('Effect Appeared, filter param = ' + this.filterParam());
     });
-  }
-
-  ngAfterViewInit() {
     this.getData();
   }
-
-  displayedColumns: string[] = [
-    'id',
-    'name',
-    'author',
-    'cathegory',
-    'priority',
-    'date',
-    'delete',
-  ];
+  public filterParam = signal<string>('');
 
   @ViewChild(MatSort)
   sort: MatSort = new MatSort();
-  announceSortChange(sortState: Sort) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
+  ///live announcer read
 
   public counter = signal<number>(0);
   getData() {
+    ///forkJoin
+    //вынести все операции с данными в отдельный метод
     this.http.getTasks().subscribe({
       next: (newTasks: Task[]) => {
         this.tasks = newTasks;
@@ -84,7 +67,6 @@ export class TaskListComponent implements AfterViewInit {
       complete: () => {
         console.log('ТАСКИ С СЕРВЕРА ' + this.tasks);
         console.log(this.dataSource);
-
         this.http.getCathegories().subscribe({
           next: (cath: Cathegory[]) => {
             this.cathegories = cath;
@@ -93,7 +75,7 @@ export class TaskListComponent implements AfterViewInit {
                 this.cathegories != undefined &&
                 this.cathegories.length != 0
               ) {
-                var cathArray = this.cathegories.filter(
+                let cathArray = this.cathegories.filter(
                   (cathegory) => cathegory.id.toString() == task.cathegory
                 );
                 console.log('Cath array: ' + cathArray);
@@ -113,7 +95,7 @@ export class TaskListComponent implements AfterViewInit {
                     this.priorities != undefined &&
                     this.priorities.length != 0
                   ) {
-                    var priorArray = this.priorities.filter(
+                    let priorArray = this.priorities.filter(
                       (priority) => priority.id.toString() == task.priority
                     );
                     if (priorArray != undefined && priorArray.length != 0) {
@@ -146,68 +128,59 @@ export class TaskListComponent implements AfterViewInit {
       this.http.deleteTask(id).subscribe({
         next: () => console.log(id),
         error: (e) => console.log(e),
-        complete: () => this.ngAfterViewInit(),
+        complete: () => this.getData(),
       });
     }
   }
 
-  public filterParam = signal<string>('');
-  filterTasks() {
+  filterByType(type: string) {
     let newTaskList;
-    let type;
+    if (this.tasks)
+      if (
+        this.tasks.filter((task) =>
+          (task[type as keyof Task] as string).includes(this.filterParam())
+        )
+      ) {
+        newTaskList = this.tasks.filter((task) =>
+          (task[type as keyof Task] as string).includes(this.filterParam())
+        );
+      }
+    this.dataSource = new MatTableDataSource(newTaskList);
+  }
 
-    type = this.filterForm.get('typeSelect')?.value;
-    this.filterParam.update(
-      (param) => (param = this.filterForm.get('param')?.value!)
-    );
-    console.log('param string: ' + this.filterParam());
-    console.log('type string: ' + type);
+  filterTasks() {
+    let type;
+    if (
+      this.filterForm.get('typeSelect')?.value &&
+      this.filterForm.get('param')?.value
+    ) {
+      type = this.filterForm.get('typeSelect')?.value;
+      this.filterParam.update(
+        (param) => (param = this.filterForm.get('param')?.value!)
+      );
+    }
     switch (type) {
       case TYPES.author:
-        if (
-          this.tasks.filter((task) => task.author.includes(this.filterParam()))
-        ) {
-          newTaskList = this.tasks.filter((task) =>
-            task.author.includes(this.filterParam())
-          );
-        }
+        this.filterByType(TASK.author);
         break;
       case TYPES.name:
-        if (this.tasks.filter((task) => task.name.includes(this.filterParam())))
-          newTaskList = this.tasks.filter((task) =>
-            task.name.includes(this.filterParam())
-          );
+        this.filterByType(TASK.name);
         break;
       case TYPES.cathegory:
-        if (
-          this.tasks.filter((task) =>
-            task.cathegory?.includes(this.filterParam())
-          )
-        )
-          newTaskList = this.tasks.filter((task) =>
-            task.cathegory?.includes(this.filterParam())
-          );
+        this.filterByType(TASK.cathegory);
         break;
       case TYPES.priority:
-        if (
-          this.tasks.filter((task) =>
-            task.priority?.includes(this.filterParam())
-          )
-        )
-          newTaskList = this.tasks.filter((task) =>
-            task.priority?.includes(this.filterParam())
-          );
+        this.filterByType(TASK.priority);
         break;
       default:
-        newTaskList = this.tasks;
+        this.dataSource = new MatTableDataSource(this.tasks);
         break;
     }
-    this.dataSource = new MatTableDataSource(newTaskList);
   }
 
   resetFilter() {
     this.dataSource = new MatTableDataSource(this.tasks);
-    this.ngAfterViewInit();
+    this.getData();
   }
 
   openRedactDIalog(
@@ -223,7 +196,7 @@ export class TaskListComponent implements AfterViewInit {
     });
     dialogRedact.afterClosed().subscribe({
       complete: () => {
-        this.ngAfterViewInit();
+        this.getData();
       },
     });
   }

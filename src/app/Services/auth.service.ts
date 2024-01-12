@@ -11,10 +11,10 @@ export class AuthService {
 
   constructor(private storageService: StorageService) {}
 
-  public getUsers(users: User[] | undefined): void {
+  public setUsers(users: User[] | undefined): void {
     this.users = users;
   }
-
+/// интерсепторы проверяют при каждом запросе юзера
   canActivate(): boolean {
     console.log('USERS ARRAY = ' + this.users);
     let counter = 0;

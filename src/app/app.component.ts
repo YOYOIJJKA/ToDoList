@@ -59,11 +59,11 @@ export class AppComponent implements OnInit {
   getUsers(): void {
     this.http.getUsers().subscribe({
       next: (value) => {
-        this.users = value;
+        this.auth.setUsers(value);
       },
       error: (e) => console.log(e),
       complete: () => {
-        this.auth.getUsers(this.users);
+        console.log('users pulled');
       },
     });
   }

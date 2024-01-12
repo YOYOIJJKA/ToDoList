@@ -19,9 +19,11 @@ export class TaskComponent implements OnInit {
   taskForm: FormGroup;
   cathegories?: Cathegory[];
   priorities?: Priority[];
-
+  cathegoriesObs$?: Observable<Cathegory[]>;
+  prioritiesObs$?: Observable<Priority[]>;
+  ///any - unknown
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: number,
     public formBuilder: FormBuilder,
     public router: Router,
     public http: TaskHttpServiceService,
@@ -39,22 +41,13 @@ export class TaskComponent implements OnInit {
     });
   }
 
-  cathegoriesObs$?: Observable<Cathegory[]>;
-  getCathegories() {
-    this.cathegoriesObs$ = this.http.getCathegories();
-  }
-
-  prioritiesObs$?: Observable<Priority[]>;
-  getPriorities() {
-    this.prioritiesObs$ = this.http.getPriorities();
-  }
   ngOnInit(): void {
-    this.getCathegories();
-    this.getPriorities();
+    this.cathegoriesObs$ = this.http.getCathegories();
+    this.prioritiesObs$ = this.http.getPriorities();
   }
   postTask(): void {
     if (this.taskForm.valid) {
-      console.log("TRYING TO POST")
+      console.log('TRYING TO POST');
       const task = this.taskForm.value;
       task.author = this.storage.getLogin();
       this.http.postTask(task).subscribe();

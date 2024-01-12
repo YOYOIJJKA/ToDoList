@@ -8,6 +8,25 @@ export const enum TYPES {
   cathegory = 'Категория',
   name = 'Имя',
 }
+export const DEFAULTCATH = 'No Cathegory';
+export const DEFAULTPRIOR = 'No priority';
+export const enum TASK {
+  author = 'author',
+  priority = 'priority',
+  id = 'id',
+  name = 'name',
+  cathegory = 'cathegory',
+  date = 'date',
+}
+export const DISPLAYEDCOLUMNS: string[] = [
+  'id',
+  'name',
+  'author',
+  'cathegory',
+  'priority',
+  'date',
+  'delete',
+];
 export const ENTERANIMATIONDURATION: string = '200ms';
 export const EXITANIMATIONDURATION: string = '200ms';
 export const DIALOGSTYLE = {
@@ -26,4 +45,4 @@ export enum URLS {
   cathegory = 'cathegories',
   user = 'users',
 }
-export const INTERCEPTORS: Boolean = true
+export const INTERCEPTORS: Boolean = true;

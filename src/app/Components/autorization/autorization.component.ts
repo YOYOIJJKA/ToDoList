@@ -10,8 +10,7 @@ import { StorageService } from '../../Services/storage.service';
   templateUrl: './autorization.component.html',
   styleUrls: ['./autorization.component.scss'],
 })
-export class AutorizationComponent implements OnInit {
-  // users?:User[]
+export class AutorizationComponent {
   userForm: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
@@ -19,6 +18,7 @@ export class AutorizationComponent implements OnInit {
     private router: Router,
     private storageService: StorageService
   ) {
+    // в configs папка со статическими объектами
     const controls = {
       login: [
         null,
@@ -31,7 +31,6 @@ export class AutorizationComponent implements OnInit {
     };
     this.userForm = this.formBuilder.group(controls);
   }
-  ngOnInit(): void {}
 
   postUser(): void {
     const user: User = this.userForm.value;
@@ -58,5 +57,4 @@ export class AutorizationComponent implements OnInit {
     this.storageService.savePassword(this.userForm.value.password);
     this.router.navigate(['list']);
   }
-
 }
