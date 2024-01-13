@@ -10,6 +10,7 @@ import { ComponentType } from '@angular/cdk/portal';
 import { DIALOGSTYLE, REDACTSTYLE } from './constants';
 import { AutorizationService } from './Services/autorization.service';
 import { User } from './Interfaces/user';
+import { TaskRedactComponent } from './Components/task-redact/task-redact.component';
 
 @Component({
   selector: 'app-root',
@@ -43,7 +44,7 @@ export class AppComponent implements OnInit {
     }
   }
   openTaskDialog() {
-    this.openDialog(TaskComponent);
+    this.openDialog(TaskRedactComponent);
   }
   openCathegoriesDialog(): void {
     this.openRedactDialog(CathegoriesComponent);

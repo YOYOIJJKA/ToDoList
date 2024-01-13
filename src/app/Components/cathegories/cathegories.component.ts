@@ -35,12 +35,12 @@ export class CathegoriesComponent implements OnInit {
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
     if (value) {
-      if (this.cathegories) {
+      if (this.cathegories && this.cathegories.length != 0) {
         this.newId = this.cathegories[this.cathegories.length - 1].id + 1;
       } else {
         this.newId = 1;
       }
-      if (this.cathegories)
+      if (this.cathegories && this.cathegories.length != 0)
         this.cathegories.push({ name: value, id: this.newId });
       else this.cathegories = [{ name: value, id: this.newId }];
       if (this.cathegories)

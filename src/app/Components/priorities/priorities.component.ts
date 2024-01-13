@@ -35,12 +35,12 @@ export class PrioritiesComponent implements OnInit {
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
     if (value) {
-      if (this.prioroties) {
+      if (this.prioroties && this.prioroties.length != 0) {
         this.newId = this.prioroties[this.prioroties.length - 1].id + 1;
       } else {
         this.newId = 1;
       }
-      if (this.prioroties)
+      if (this.prioroties && this.prioroties.length != 0)
         this.prioroties.push({ name: value, id: this.newId });
       else this.prioroties = [{ name: value, id: this.newId }];
       if (this.prioroties)
