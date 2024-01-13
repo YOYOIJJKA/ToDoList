@@ -40,10 +40,10 @@ export class httpInterceptor implements HttpInterceptor {
           console.log('THERE IS ID IN URL');
           newUrl = newUrl.slice(0, -id.length);
           if (localStorage.getItem(newUrl)) {
-            console.log(newUrl)
+            console.log(newUrl);
             term = JSON.parse(localStorage.getItem(newUrl)!);
             let el = term.find((element) => element.id == Number(id));
-            console.log("ELEMENT ="+el)
+            console.log('ELEMENT =' + el);
             return of(new HttpResponse({ status: 200, body: el }));
           } else {
             //// Нет таблицы - возвращаем пустой Obs
@@ -116,9 +116,11 @@ export class httpInterceptor implements HttpInterceptor {
     let item: Task | Cathegory | Priority | User;
     if (localStorage.getItem(url)) {
       term = JSON.parse(localStorage.getItem(url)!);
-      item = term[term.length - 1];
-      if (item.id || item.id == 0) return item.id + 1;
-      else return 0;
+      if (term.length >= 1) {
+        item = term[term.length - 1];
+        if (item.id != undefined || item.id == 0) return item.id + 1;
+        else return 0;
+      } else return 1;
     } else return 0;
   }
 

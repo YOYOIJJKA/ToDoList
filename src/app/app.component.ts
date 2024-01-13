@@ -7,7 +7,12 @@ import { AuthService } from './Services/auth.service';
 import { StorageService } from './Services/storage.service';
 import { Router } from '@angular/router';
 import { ComponentType } from '@angular/cdk/portal';
-import { DIALOGSTYLE, REDACTSTYLE } from './constants';
+import {
+  DIALOGSTYLE,
+  ENTERANIMATIONDURATION,
+  EXITANIMATIONDURATION,
+  REDACTSTYLE,
+} from './constants';
 import { AutorizationService } from './Services/autorization.service';
 import { User } from './Interfaces/user';
 import { TaskRedactComponent } from './Components/task-redact/task-redact.component';
@@ -33,9 +38,21 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.getUsers();
   }
-  openDialog(componentType: ComponentType<any>): void {
+  openDialog(
+    componentType: ComponentType<any>,
+    enterAnimationDuration: string,
+    exitAnimationDuration: string
+  ): void {
     if (this.auth.canActivate()) {
-      this.dialog.open(componentType, DIALOGSTYLE);
+      this.dialog.open(componentType, {
+        data: {
+          id: undefined,
+          redact: false,
+        },
+        width: 'auto',
+        enterAnimationDuration,
+        exitAnimationDuration,
+      });
     }
   }
   openRedactDialog(componentType: ComponentType<any>): void {
@@ -44,7 +61,11 @@ export class AppComponent implements OnInit {
     }
   }
   openTaskDialog() {
-    this.openDialog(TaskRedactComponent);
+    this.openDialog(
+      TaskRedactComponent,
+      ENTERANIMATIONDURATION,
+      EXITANIMATIONDURATION
+    );
   }
   openCathegoriesDialog(): void {
     this.openRedactDialog(CathegoriesComponent);

@@ -1,8 +1,9 @@
 <div class="jw-modal">
   <form [formGroup]="taskForm" style="display: flex; flex-direction: column">
-    <h1>Redact Task</h1>
+    <h1 *ngIf="data.redact">Редактировать</h1>
+    <h1 *ngIf="!data.redact">Создать задачу</h1>
     <mat-form-field>
-      <label mat-label>Name</label>
+      <label mat-label>Имя</label>
       <input
         id="name"
         matInput
@@ -10,39 +11,81 @@
         placeholder="Enter name of task"
       />
     </mat-form-field>
+
     <mat-form-field>
-      <mat-label>Priority</mat-label>
+      <mat-label>Приоритет</mat-label>
       <mat-select formControlName="priority">
-        <div *ngFor="let priority of priorities">
-          <mat-option value="{{ priority.id }}">{{ priority.name }}</mat-option>
-        </div>
+        <ng-container *ngIf="data.redact">
+          <div *ngFor="let priority of priorities">
+            <mat-option value="{{ priority.id }}">{{
+              priority.name
+            }}</mat-option>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="!data.redact">
+          <ng-container *ngIf="prioritiesObs$ | async as priorities">
+            <ng-container *ngFor="let priority of priorities">
+              <mat-option value="{{ priority.id }}">{{
+                priority.name
+              }}</mat-option>
+            </ng-container>
+          </ng-container></ng-container
+        >
       </mat-select>
     </mat-form-field>
+
     <mat-form-field>
-      <label mat-label>Date</label>
+      <label mat-label>Дата</label>
       <input
         id="date"
         matInput
         type="date"
         formControlName="date"
-        placeholder="Enter date"
+        placeholder="Введите дату"
       />
     </mat-form-field>
+
     <mat-form-field>
-      <mat-label>Cathegory</mat-label>
+      <mat-label>Категория</mat-label>
       <mat-select formControlName="cathegory">
-        <div *ngFor="let cathegory of cathegories">
-          <mat-option value="{{ cathegory.id }}">{{
-            cathegory.name
-          }}</mat-option>
-        </div>
+        <ng-container *ngIf="data.redact">
+          <div *ngFor="let cathegory of cathegories">
+            <mat-option value="{{ cathegory.id }}">{{
+              cathegory.name
+            }}</mat-option>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="!data.redact">
+          <ng-container *ngIf="cathegoriesObs$ | async as cathegories">
+            <ng-container *ngFor="let cathegory of cathegories">
+              <mat-option value="{{ cathegory.id }}">{{
+                cathegory.name
+              }}</mat-option>
+            </ng-container>
+          </ng-container>
+          <div *ngFor="let cathegory of cathegories"></div>
+        </ng-container>
       </mat-select>
     </mat-form-field>
-    <button mat-stroked-button color="accent" (click)="putTask()">
-      Submit
+
+    <button
+      *ngIf="data.redact"
+      mat-stroked-button
+      color="accent"
+      (click)="putTask()"
+    >
+      Подтвердить Изменения
+    </button>
+    <button
+      *ngIf="!data.redact"
+      mat-stroked-button
+      color="accent"
+      (click)="postTask()"
+    >
+      Подтвердить
     </button>
     <button mat-stroked-button color="primary" (click)="closeModal()">
-      Close
+      Закрыть
     </button>
   </form>
 </div>

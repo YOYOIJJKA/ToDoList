@@ -40,8 +40,12 @@ export class TaskRedactComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.id = this.data.id;
-    this.getDataById();
+    if (this.data.redact) {
+      this.id = this.data.id;
+      this.getDataById();
+    } else {
+      this.getData();
+    }
   }
 
   getData() {
