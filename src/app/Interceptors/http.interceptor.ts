@@ -10,47 +10,40 @@ import { Cathegory } from '../Interfaces/cathegory';
 import { Task } from '../Interfaces/task';
 import { Priority } from '../Interfaces/priority';
 import { User } from '../Interfaces/user';
-import { INTERCEPTORS, URLS } from '../constants';
-
+import { INTERCEPTORS, URLS, USERURL } from '../constants';
 // export const httpInterceptor: HttpInterceptorFn = (req, next) => {
 //   return next(req);
 // };
 
 export class httpInterceptor implements HttpInterceptor {
   constructor() {}
-
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    ////////////В файле с константами есть INTERCEPTORS, если true, то запускает симуляцию бекенда, если false, то не перехватывает запросы
     if (INTERCEPTORS) {
+      ////////////В файле с константами есть INTERCEPTORS, если true, то запускает симуляцию бекенда, если false, то не перехватывает запросы
       let url = req.url.split('/');
       let id = url[url.length - 1];
       let term: Task[] | Cathegory[] | Priority[] | User[];
       let item: Task | Cathegory | Priority | User;
       let newUrl = req.url;
       let newBody = req.body;
-
       //// Эта часть кода - бекенд на фронтенде, он проверяет метод запроса, затем проверяет наличие ID в запросе, и после этого возвращает
       //// либо таблицу всех элементов, если ID не было, либо элемент, чей ID = ID запроса
       if (req.method == 'GET') {
         if (!Number.isNaN(Number(id)) && id != '') {
           /// Если есть ID, то берем всю таблицу и ищем в ней нужный элемент
-          console.log('THERE IS ID IN URL');
           newUrl = newUrl.slice(0, -id.length);
           if (localStorage.getItem(newUrl)) {
-            console.log(newUrl);
             term = JSON.parse(localStorage.getItem(newUrl)!);
             let el = term.find((element) => element.id == Number(id));
-            console.log('ELEMENT =' + el);
             return of(new HttpResponse({ status: 200, body: el }));
           } else {
             //// Нет таблицы - возвращаем пустой Obs
             return of(new HttpResponse({ status: 200 }));
           }
         } else {
-          console.log('NO ID FOUND');
           /// Если нет ID, то просто берем всю таблицу и отправляем её. Если таблицы нет, то пустой Obs.
           if (localStorage.getItem(req.url)) {
             item = JSON.parse(localStorage.getItem(req.url)!);
@@ -62,7 +55,6 @@ export class httpInterceptor implements HttpInterceptor {
       }
       ///Эта часть обрабатывает пост запрос
       if (req.method == 'POST') {
-        console.log('TRYING TO POST');
         if (url.indexOf(URLS.task) != -1)
           this.postWithId(newUrl, newBody as Task);
         if (url.indexOf(URLS.user) != -1)
@@ -77,7 +69,6 @@ export class httpInterceptor implements HttpInterceptor {
       //////Эта часть обрабатывает PUT запрос
       if (req.method == 'PUT') {
         newUrl = newUrl.slice(0, -id.length);
-        console.log('TRYING TO PUT');
         if (url.indexOf(URLS.task) != -1)
           this.putById(newUrl, newBody as Task, Number(id));
 
@@ -91,7 +82,6 @@ export class httpInterceptor implements HttpInterceptor {
       }
       //////////////Эта часть кода обрабатывает метод DELETE
       if (req.method == 'DELETE') {
-        console.log('TRY TO DELETE');
         newUrl = newUrl.slice(0, -id.length);
         this.deleteById(newUrl, Number(id));
         return of(new HttpResponse({ status: 200 }));

@@ -25,6 +25,7 @@ import { AutorizationComponent } from './Components/autorization/autorization.co
 import { PrioritiesComponent } from './Components/priorities/priorities.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { httpInterceptor } from './Interceptors/http.interceptor';
+import { userInterceptor } from './Interceptors/user.interceptor';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,11 @@ import { httpInterceptor } from './Interceptors/http.interceptor';
     MatChipsModule,
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: userInterceptor,
+      multi: true,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: httpInterceptor,
