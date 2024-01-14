@@ -1,15 +1,12 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, inject, OnInit } from '@angular/core';
-import {
-  MatChipEditedEvent,
-  MatChipInputEvent,
-  MatChipGrid,
-} from '@angular/material/chips';
+import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TaskHttpServiceService } from '../../Services/task-http-service.service';
 import { Priority } from '../../Interfaces/priority';
 import { Task } from '../../Interfaces/task';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 
 @Component({
   selector: 'app-priorities',
@@ -62,38 +59,26 @@ export class PrioritiesComponent implements OnInit {
     if (index || index == 0)
       if (index >= 0) {
         this.prioroties?.splice(index, 1);
-        this.http.deletePriority(priority.id).subscribe({
-          error: (e) => console.log(e),
-          complete: () => {
-            this.http
-              .getTasks()
-              .pipe(
-                map((tasks) =>
-                  tasks.filter(
-                    (task) => task.priority == priority.id.toString()
-                  )
-                )
-              )
-              .subscribe({
-                next: (value) => (this.tasks = value),
-                error: (e) => console.log(e),
-                complete: () => {
-                  this.tasks?.forEach((task) => {
-                    task.priority = task.priority?.replace(
-                      new RegExp(priority.id.toString(), 'g'),
-                      ''
-                    );
-                    this.http
-                      .putTask(task)
-                      .subscribe(() => console.log(task + ' put'));
-                  });
-                },
+        this.http
+          .deletePriority(priority.id)
+          .pipe(
+            switchMap(() => this.http.getTasks()),
+            map((tasks) =>
+              tasks.filter((task) => task.priority == priority.id.toString())
+            ),
+            switchMap((filteredTasks) => {
+              this.tasks = filteredTasks;
+              let updateTasks$ = this.tasks?.map((task) => {
+                task.priority?.replace(
+                  new RegExp(priority.id.toString(), 'g'),
+                  ''
+                );
+                return this.http.putTask(task);
               });
-
-            console.log('Priority deleted ' + priority.name);
-          },
-        });
-        this.announcer.announce(`Removed ${priority}`);
+              return forkJoin(updateTasks$ || []);
+            })
+          )
+          .subscribe();
       }
   }
 
