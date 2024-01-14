@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TaskComponent } from './Components/task/task.component';
 ////////
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -25,13 +24,11 @@ import { MatChipsModule } from '@angular/material/chips';
 import { AutorizationComponent } from './Components/autorization/autorization.component';
 import { PrioritiesComponent } from './Components/priorities/priorities.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpInterceptor } from '@angular/common/http';
 import { httpInterceptor } from './Interceptors/http.interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TaskComponent,
     TaskRedactComponent,
     TaskListComponent,
     CathegoriesComponent,

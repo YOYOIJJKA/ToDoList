@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { TaskComponent } from './Components/task/task.component';
 import { CathegoriesComponent } from './Components/cathegories/cathegories.component';
 import { PrioritiesComponent } from './Components/priorities/priorities.component';
 import { AuthService } from './Services/auth.service';
@@ -8,7 +7,6 @@ import { StorageService } from './Services/storage.service';
 import { Router } from '@angular/router';
 import { ComponentType } from '@angular/cdk/portal';
 import {
-  DIALOGSTYLE,
   ENTERANIMATIONDURATION,
   EXITANIMATIONDURATION,
   REDACTSTYLE,

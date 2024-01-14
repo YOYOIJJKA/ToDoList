@@ -1,11 +1,11 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TaskHttpServiceService } from '../../Services/task-http-service.service';
 import { Cathegory } from '../../Interfaces/cathegory';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { Task } from '../../Interfaces/task';
+import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 
 export interface Cath {
   name: string;
@@ -29,8 +29,6 @@ export class CathegoriesComponent implements OnInit {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   cathegories?: Cathegory[];
   newId?: number;
-
-  announcer = inject(LiveAnnouncer);
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
@@ -63,37 +61,26 @@ export class CathegoriesComponent implements OnInit {
     if (index || index == 0)
       if (index >= 0) {
         this.cathegories?.splice(index, 1);
-        this.http.deleteCathegory(cathegory.id).subscribe({
-          error: (e) => console.log(e),
-          complete: () => {
-            console.log('cathegory deleted ' + cathegory.name);
-            this.http
-              .getTasks()
-              .pipe(
-                map((tasks) =>
-                  tasks.filter(
-                    (task) => task.cathegory == cathegory.id.toString()
-                  )
-                )
-              )
-              .subscribe({
-                next: (value) => (this.tasks = value),
-                error: (e) => console.log(e),
-                complete: () => {
-                  this.tasks?.forEach((task) => {
-                    task.cathegory = task.cathegory?.replace(
-                      new RegExp(cathegory.id.toString(), 'g'),
-                      ''
-                    );
-                    this.http
-                      .putTask(task)
-                      .subscribe(() => console.log(task + ' put'));
-                  });
-                },
+        this.http
+          .deleteCathegory(cathegory.id)
+          .pipe(
+            switchMap(() => this.http.getTasks()),
+            map((tasks) =>
+              tasks.filter((task) => task.cathegory == cathegory.id.toString())
+            ),
+            switchMap((filteredTasks) => {
+              this.tasks = filteredTasks;
+              let updateTasks$ = this.tasks?.map((task) => {
+                task.cathegory?.replace(
+                  new RegExp(cathegory.id.toString(), 'g'),
+                  ''
+                );
+                return this.http.putTask(task);
               });
-          },
-        });
-        this.announcer.announce(`Removed ${cathegory}`);
+              return forkJoin(updateTasks$ || []);
+            })
+          )
+          .subscribe();
       }
   }
 

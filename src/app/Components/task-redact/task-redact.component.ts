@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TaskHttpServiceService } from '../../Services/task-http-service.service';
 import { Cathegory } from '../../Interfaces/cathegory';
@@ -52,7 +52,7 @@ export class TaskRedactComponent implements OnInit {
     this.cathegoriesObs$ = this.http.getCathegories();
     this.prioritiesObs$ = this.http.getPriorities();
   }
-  ///////////////один компонент, тип передается в зависимости от редактирования/создания
+
   getDataById() {
     const subsTask$ = this.http.getTask(this.id);
     const subsCath$ = this.http.getCathegories();
