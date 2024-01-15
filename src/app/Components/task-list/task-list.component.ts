@@ -52,28 +52,32 @@ export class TaskListComponent {
   @ViewChild(MatSort)
   sort: MatSort = new MatSort();
 
-  modifyData(sourceArray: Cathegory[] | Priority[], attribute: keyof Task) {
-    this.tasks.forEach((task: Task) => {
-      if (sourceArray != undefined && sourceArray.length != 0) {
-        let filteredArray = sourceArray.filter(
-          (element) => element.id.toString() == task[attribute]
-        );
-        if (
-          filteredArray != undefined &&
-          filteredArray.length != 0 &&
-          (attribute == TASK.priority || attribute == TASK.cathegory)
-        ) {
-          task[attribute] = filteredArray[0].name;
-        } else if (attribute == TASK.cathegory)
-          task[attribute] = this.defaultCath;
-        else if (attribute == TASK.priority)
-          task[attribute] = this.defaultPrior;
-      } else {
-        if (attribute == TASK.cathegory) task[attribute] = this.defaultCath;
-        else if (attribute == TASK.priority)
-          task[attribute] = this.defaultPrior;
-      }
-    });
+  modifyData(
+    sourceArray: Cathegory[] | Priority[] | undefined | null,
+    attribute: keyof Task
+  ) {
+    if (this.tasks)
+      this.tasks.forEach((task: Task) => {
+        if (sourceArray && sourceArray.length != 0) {
+          let filteredArray = sourceArray.filter(
+            (element) => element.id.toString() == task[attribute]
+          );
+          if (
+            filteredArray &&
+            filteredArray.length != 0 &&
+            (attribute == TASK.priority || attribute == TASK.cathegory)
+          ) {
+            task[attribute] = filteredArray[0].name;
+          } else if (attribute == TASK.cathegory)
+            task[attribute] = this.defaultCath;
+          else if (attribute == TASK.priority)
+            task[attribute] = this.defaultPrior;
+        } else {
+          if (attribute == TASK.cathegory) task[attribute] = this.defaultCath;
+          else if (attribute == TASK.priority)
+            task[attribute] = this.defaultPrior;
+        }
+      });
   }
   getData() {
     const tasks$ = this.http.getTasks();
@@ -86,7 +90,8 @@ export class TaskListComponent {
           this.tasks = tasksTerm$;
           this.cathegories = cathegoriesTerm$;
           this.priorities = prioritiesTerm$;
-          this.counter.update((value) => (value = tasksTerm$.length));
+          if (tasksTerm$)
+            this.counter.update((value) => (value = tasksTerm$.length));
         })
       )
       .subscribe({

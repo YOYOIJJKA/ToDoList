@@ -27,12 +27,14 @@ export class userInterceptor implements HttpInterceptor {
       login = this.storage.getLogin();
       return this.http.getUsers().pipe(
         switchMap((users) => {
-          const filteredUsers = users.filter(
-            (user) => user.login == login && user.password == password
-          );
-          if (filteredUsers.length > 0) {
-            return next.handle(req);
-          } else return of(new HttpResponse({ status: 403 }));
+          if (users) {
+            let filteredUsers = users.filter(
+              (user) => user.login == login && user.password == password
+            );
+            if (filteredUsers.length > 0) {
+              return next.handle(req);
+            } else return of(new HttpResponse({ status: 401 }));
+          } else return of(new HttpResponse({ status: 401 }));
         })
       );
     } else return next.handle(req);
