@@ -28,19 +28,27 @@ export class CathegoriesComponent implements OnInit {
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   cathegories?: Cathegory[];
-  newId?: number;
+
+  generateId(): number {
+    if (this.cathegories && this.cathegories.length != 0) {
+      return this.cathegories[this.cathegories.length - 1].id + 1;
+    } else {
+      return 1;
+    }
+  }
+
+  updateCathegoriesArray(newValue: string, newId: number) {
+    if (this.cathegories && this.cathegories.length != 0)
+      this.cathegories.push({ name: newValue, id: newId });
+    else this.cathegories = [{ name: newValue, id: newId }];
+  }
 
   add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-    if (value) {
-      if (this.cathegories && this.cathegories.length != 0) {
-        this.newId = this.cathegories[this.cathegories.length - 1].id + 1;
-      } else {
-        this.newId = 1;
-      }
-      if (this.cathegories && this.cathegories.length != 0)
-        this.cathegories.push({ name: value, id: this.newId });
-      else this.cathegories = [{ name: value, id: this.newId }];
+    const newValue = (event.value || '').trim();
+    let newId;
+    if (newValue) {
+      newId = this.generateId();
+      this.updateCathegoriesArray(newValue, newId);
       if (this.cathegories)
         this.http
           .postCathegory(this.cathegories[this.cathegories.length - 1])
@@ -51,11 +59,9 @@ export class CathegoriesComponent implements OnInit {
               ),
           });
     }
-
     event.chipInput.clear();
   }
 
-  ////////////switchmap
   remove(cathegory: Cathegory): void {
     const index = this.cathegories?.indexOf(cathegory);
     if (index || index == 0)

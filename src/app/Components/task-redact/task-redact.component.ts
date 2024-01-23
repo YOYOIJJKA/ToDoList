@@ -72,7 +72,7 @@ export class TaskRedactComponent implements OnInit {
       });
   }
 
-  getNewAttribute(
+  getNewAttributeValue(
     attributeArray: Cathegory[] | Priority[] | undefined,
     attribute: string
   ): number | undefined {
@@ -97,13 +97,13 @@ export class TaskRedactComponent implements OnInit {
   }
 
   setTaskData() {
-    this.patch(
-      this.getNewAttribute(this.cathegories, TASK.cathegory),
-      this.getNewAttribute(this.priorities, TASK.priority)
+    this.patchForm(
+      this.getNewAttributeValue(this.cathegories, TASK.cathegory),
+      this.getNewAttributeValue(this.priorities, TASK.priority)
     );
   }
 
-  patch(
+  patchForm(
     cathegoriesSelectId: number | undefined,
     prioritySelectId: number | undefined
   ) {
@@ -121,7 +121,7 @@ export class TaskRedactComponent implements OnInit {
           date: this.task.date,
         };
       if (
-        (prioritySelectId == 0 || prioritySelectId) &&
+        prioritySelectId != undefined &&
         prioritySelectId != -1 &&
         this.priorities
       ) {
@@ -131,7 +131,7 @@ export class TaskRedactComponent implements OnInit {
         };
       }
       if (
-        (cathegoriesSelectId || cathegoriesSelectId == 0) &&
+        cathegoriesSelectId != undefined &&
         cathegoriesSelectId != -1 &&
         this.cathegories
       )
@@ -159,6 +159,7 @@ export class TaskRedactComponent implements OnInit {
       console.log('invalid');
     }
   }
+
   closeModal() {
     this.dialog.closeAll();
   }

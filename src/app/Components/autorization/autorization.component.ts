@@ -33,17 +33,21 @@ export class AutorizationComponent {
       this.httpAutorizationService.postUser(user).subscribe({
         error: (e) => console.error(e),
         complete: () => {
-          this.storageService.saveLogin(user.login);
-          this.storageService.savePassword(user.password);
+          this.saveUser(user as User);
           this.storageService.setAuth();
           this.router.navigate(['list']);
         },
       });
     }
   }
+
   tryLogIn(): void {
-    this.storageService.saveLogin(this.userForm.value.login);
-    this.storageService.savePassword(this.userForm.value.password);
+    this.saveUser(this.userForm.value as User);
     this.router.navigate(['list']);
+  }
+
+  saveUser(user: User): void {
+    this.storageService.saveLogin(user.login);
+    this.storageService.savePassword(user.password);
   }
 }

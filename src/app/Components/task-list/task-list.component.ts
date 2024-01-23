@@ -1,11 +1,11 @@
 import { TaskHttpServiceService } from '../../Services/task-http-service.service';
 import { Task } from '../../Interfaces/task';
-import { Component, ViewChild, signal, effect } from '@angular/core';
+import { Component, ViewChild, signal, effect, OnInit } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TaskRedactComponent } from '../task-redact/task-redact.component';
 import { MatDialog } from '@angular/material/dialog';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Cathegory } from '../../Interfaces/cathegory';
 import { Priority } from '../../Interfaces/priority';
 import {
@@ -16,6 +16,7 @@ import {
   DISPLAYEDCOLUMNS,
   DEFAULTCATH,
   DEFAULTPRIOR,
+  FILTERFORM,
 } from '../../constants';
 import { forkJoin, tap } from 'rxjs';
 
@@ -24,7 +25,7 @@ import { forkJoin, tap } from 'rxjs';
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss',
 })
-export class TaskListComponent {
+export class TaskListComponent implements OnInit {
   tasks: Task[] = [];
   cathegories: Cathegory[] = [];
   priorities: Priority[] = [];
@@ -37,22 +38,22 @@ export class TaskListComponent {
   public filterParam = signal<string>('');
   public counter = signal<number>(0);
 
-  filterForm = new FormGroup({
-    param: new FormControl(''),
-    typeSelect: new FormControl(''),
-  });
+  filterForm = new FormGroup(FILTERFORM);
 
   constructor(private http: TaskHttpServiceService, private dialog: MatDialog) {
     effect(() => {
       console.log('Effect Appeared, filter param = ' + this.filterParam());
     });
+  }
+
+  ngOnInit(): void {
     this.getData();
   }
 
   @ViewChild(MatSort)
   sort: MatSort = new MatSort();
 
-  modifyData(
+  replaceIdWithName(
     sourceArray: Cathegory[] | Priority[] | undefined | null,
     attribute: keyof Task
   ) {
@@ -96,14 +97,14 @@ export class TaskListComponent {
       )
       .subscribe({
         complete: () => {
-          this.modifyData(this.cathegories, TASK.cathegory);
-          this.modifyData(this.priorities, TASK.priority);
+          this.replaceIdWithName(this.cathegories, TASK.cathegory);
+          this.replaceIdWithName(this.priorities, TASK.priority);
           this.dataSource = new MatTableDataSource(this.tasks);
         },
       });
   }
 
-  goToPost(taskId: number) {
+  redactById(taskId: number) {
     console.log('TRANSFERED ID = ' + taskId);
     this.openRedactDIalog(
       ENTERANIMATIONDURATION,

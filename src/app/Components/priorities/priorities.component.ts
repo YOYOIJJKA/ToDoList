@@ -25,21 +25,29 @@ export class PrioritiesComponent implements OnInit {
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   prioroties?: Priority[];
-  newId?: number;
 
   announcer = inject(LiveAnnouncer);
 
+  generateId(): number {
+    if (this.prioroties && this.prioroties.length != 0) {
+      return this.prioroties[this.prioroties.length - 1].id + 1;
+    } else {
+      return 1;
+    }
+  }
+
+  updatePrioritiesArray(newValue: string, newId: number) {
+    if (this.prioroties && this.prioroties.length != 0)
+      this.prioroties.push({ name: newValue, id: newId });
+    else this.prioroties = [{ name: newValue, id: newId }];
+  }
+
   add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-    if (value) {
-      if (this.prioroties && this.prioroties.length != 0) {
-        this.newId = this.prioroties[this.prioroties.length - 1].id + 1;
-      } else {
-        this.newId = 1;
-      }
-      if (this.prioroties && this.prioroties.length != 0)
-        this.prioroties.push({ name: value, id: this.newId });
-      else this.prioroties = [{ name: value, id: this.newId }];
+    let newId;
+    const newValue = (event.value || '').trim();
+    if (newValue) {
+      newId = this.generateId();
+      this.updatePrioritiesArray(newValue, newId);
       if (this.prioroties)
         this.http
           .postPriority(this.prioroties[this.prioroties.length - 1])
@@ -50,7 +58,6 @@ export class PrioritiesComponent implements OnInit {
               ),
           });
     }
-
     event.chipInput?.clear();
   }
 
@@ -84,12 +91,10 @@ export class PrioritiesComponent implements OnInit {
 
   edit(priority: Priority, event: MatChipEditedEvent) {
     const value = event.value.trim();
-
     if (!value) {
       this.remove(priority);
       return;
     }
-
     const index = this.prioroties?.indexOf(priority);
     if ((index || index == 0) && this.prioroties)
       if (index >= 0) {
