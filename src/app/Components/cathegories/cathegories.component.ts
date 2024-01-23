@@ -7,10 +7,6 @@ import { map, switchMap } from 'rxjs/operators';
 import { Task } from '../../Interfaces/task';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 
-export interface Cath {
-  name: string;
-}
-
 @Component({
   selector: 'app-cathegories',
   templateUrl: './cathegories.component.html',

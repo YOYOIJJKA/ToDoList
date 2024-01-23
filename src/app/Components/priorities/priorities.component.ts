@@ -1,7 +1,6 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TaskHttpServiceService } from '../../Services/task-http-service.service';
 import { Priority } from '../../Interfaces/priority';
 import { Task } from '../../Interfaces/task';
@@ -25,8 +24,6 @@ export class PrioritiesComponent implements OnInit {
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   prioroties?: Priority[];
-
-  announcer = inject(LiveAnnouncer);
 
   generateId(): number {
     if (this.prioroties && this.prioroties.length != 0) {
