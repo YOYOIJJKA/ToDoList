@@ -81,12 +81,12 @@ export class TaskRedactComponent implements OnInit {
     if (this.task && this.task.id) this.id = this.task.id;
 
     if (this.task && this.task[attribute as keyof Task] && attributeArray) {
-      let filteredArray = attributeArray.filter(
+      attributeArray = attributeArray.filter(
         (element) =>
           element.id.toString() == this.task![attribute as keyof Task]
       );
-      if (filteredArray != undefined && filteredArray[0].name) {
-        newAttribute = filteredArray[0].name;
+      if (attributeArray != undefined && attributeArray[0].name) {
+        newAttribute = attributeArray[0].name;
       } else newAttribute = null;
     }
     if (attributeArray)

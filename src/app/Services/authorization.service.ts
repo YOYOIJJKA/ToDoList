@@ -7,7 +7,7 @@ import { USERURL } from '../constants';
 @Injectable({
   providedIn: 'root',
 })
-export class AutorizationService {
+export class AuthorizationService {
   constructor(private http: HttpClient) {}
   postUser(user: User): Observable<User> {
     return this.http.post<User>(USERURL, user);

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CathegoriesComponent } from './Components/cathegories/cathegories.component';
 import { PrioritiesComponent } from './Components/priorities/priorities.component';
-import { AuthService } from './Services/auth.service';
+import { AuthGuardService } from './Services/auth-guard.service';
 import { StorageService } from './Services/storage.service';
 import { Router } from '@angular/router';
 import { ComponentType } from '@angular/cdk/portal';
@@ -11,7 +11,7 @@ import {
   EXITANIMATIONDURATION,
   REDACTSTYLE,
 } from './constants';
-import { AutorizationService } from './Services/autorization.service';
+import { AuthorizationService } from './Services/authorization.service';
 import { User } from './Interfaces/user';
 import { TaskRedactComponent } from './Components/task-redact/task-redact.component';
 
@@ -27,10 +27,10 @@ export class AppComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private auth: AuthService,
+    private auth: AuthGuardService,
     private storageService: StorageService,
     private router: Router,
-    private http: AutorizationService
+    private http: AuthorizationService
   ) {}
 
   ngOnInit() {

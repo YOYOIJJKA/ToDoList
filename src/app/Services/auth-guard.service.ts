@@ -6,7 +6,7 @@ import { CanActivateFn } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthGuardService {
   users?: User[];
 
   constructor(private storageService: StorageService) {}
@@ -37,5 +37,5 @@ export class AuthService {
 }
 
 export const AuthGuard: CanActivateFn = (): boolean => {
-  return inject(AuthService).canActivate();
+  return inject(AuthGuardService).canActivate();
 };

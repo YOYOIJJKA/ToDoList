@@ -7,14 +7,14 @@ import {
 } from '@angular/common/http';
 import { Observable, switchMap, of } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { AutorizationService } from '../Services/autorization.service';
+import { AuthorizationService } from '../Services/authorization.service';
 import { StorageService } from '../Services/storage.service';
 import { USERURL } from '../constants';
 
 @Injectable()
 export class userInterceptor implements HttpInterceptor {
   constructor(
-    private http: AutorizationService,
+    private http: AuthorizationService,
     private storage: StorageService
   ) {}
   intercept(
@@ -40,6 +40,3 @@ export class userInterceptor implements HttpInterceptor {
     } else return next.handle(req);
   }
 }
-
-// private http: AutorizationService,
-// private storage: StorageService

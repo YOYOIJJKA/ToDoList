@@ -59,15 +59,15 @@ export class TaskListComponent {
     if (this.tasks)
       this.tasks.forEach((task: Task) => {
         if (sourceArray && sourceArray.length != 0) {
-          let filteredArray = sourceArray.filter(
+          sourceArray = sourceArray.filter(
             (element) => element.id.toString() == task[attribute]
           );
           if (
-            filteredArray &&
-            filteredArray.length != 0 &&
+            sourceArray &&
+            sourceArray.length != 0 &&
             (attribute == TASK.priority || attribute == TASK.cathegory)
           ) {
-            task[attribute] = filteredArray[0].name;
+            task[attribute] = sourceArray[0].name;
           } else if (attribute == TASK.cathegory)
             task[attribute] = this.defaultCath;
           else if (attribute == TASK.priority)
@@ -91,7 +91,7 @@ export class TaskListComponent {
           this.cathegories = cathegoriesTerm$;
           this.priorities = prioritiesTerm$;
           if (tasksTerm$)
-            this.counter.update((value) => (value = tasksTerm$.length));
+            this.counter.update((amount) => (amount = tasksTerm$.length));
         })
       )
       .subscribe({
@@ -166,10 +166,6 @@ export class TaskListComponent {
         this.dataSource = new MatTableDataSource(this.tasks);
         break;
     }
-  }
-
-  resetFilter() {
-    this.getData();
   }
 
   openRedactDIalog(

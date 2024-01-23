@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../../Interfaces/user';
-import { AutorizationService } from '../../Services/autorization.service';
+import { AuthorizationService } from '../../Services/authorization.service';
 import { StorageService } from '../../Services/storage.service';
 import { AUTHCONTROLS } from '../../constants';
 
@@ -15,7 +15,7 @@ export class AutorizationComponent {
   userForm: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
-    private httpAutorizationService: AutorizationService,
+    private httpAutorizationService: AuthorizationService,
     private router: Router,
     private storageService: StorageService
   ) {
@@ -30,7 +30,6 @@ export class AutorizationComponent {
       user.login != '' &&
       user.password != ''
     ) {
-      console.log(user);
       this.httpAutorizationService.postUser(user).subscribe({
         error: (e) => console.error(e),
         complete: () => {
