@@ -36,14 +36,17 @@ export class TaskListComponent implements AfterViewInit {
   tasks: Task[] = [];
   cathegories: Cathegory[] = [];
   priorities: Priority[] = [];
-
   dataSource = new MatTableDataSource(this.tasks);
+
   readonly DISPLAYEDCOLUMNS = DISPLAYEDCOLUMNS;
   readonly defaultCath = DEFAULTCATH;
   readonly defaultPrior = DEFAULTPRIOR;
   readonly types = [TYPES.author, TYPES.cathegory, TYPES.name, TYPES.priority]; ////// Object.value не работает
   public filterParam = signal<string>('');
   public counter = signal<number>(0);
+
+  @ViewChild(MatSort)
+  sort: MatSort = new MatSort();
 
   filterForm = new FormGroup(FILTERFORM);
 
@@ -57,9 +60,6 @@ export class TaskListComponent implements AfterViewInit {
     this.getData();
     this.dataSource.sort = this.sort;
   }
-
-  @ViewChild(MatSort)
-  sort: MatSort = new MatSort();
 
   replaceIdWithName(
     sourceArray: Cathegory[] | Priority[] | undefined | null,
@@ -109,6 +109,7 @@ export class TaskListComponent implements AfterViewInit {
           this.replaceIdWithName(this.cathegories, TASK.cathegory);
           this.replaceIdWithName(this.priorities, TASK.priority);
           this.dataSource = new MatTableDataSource(this.tasks);
+          this.dataSource.sort = this.sort;
         },
       });
   }
@@ -147,6 +148,7 @@ export class TaskListComponent implements AfterViewInit {
         );
       }
     this.dataSource = new MatTableDataSource(newTaskList);
+    this.dataSource.sort = this.sort;
   }
 
   filterTasks() {
@@ -174,7 +176,10 @@ export class TaskListComponent implements AfterViewInit {
         this.filterByType(TASK.priority);
         break;
       default:
-        this.dataSource = new MatTableDataSource(this.tasks);
+        {
+          this.dataSource = new MatTableDataSource(this.tasks);
+          this.dataSource.sort = this.sort;
+        }
         break;
     }
   }
