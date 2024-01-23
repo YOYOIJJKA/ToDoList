@@ -5,7 +5,6 @@ import {
   ViewChild,
   signal,
   effect,
-  OnInit,
   AfterViewInit,
 } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
