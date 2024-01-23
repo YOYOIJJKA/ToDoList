@@ -1,6 +1,13 @@
 import { TaskHttpServiceService } from '../../Services/task-http-service.service';
 import { Task } from '../../Interfaces/task';
-import { Component, ViewChild, signal, effect, OnInit } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  signal,
+  effect,
+  OnInit,
+  AfterViewInit,
+} from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TaskRedactComponent } from '../task-redact/task-redact.component';
@@ -25,7 +32,7 @@ import { forkJoin, tap } from 'rxjs';
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss',
 })
-export class TaskListComponent implements OnInit {
+export class TaskListComponent implements AfterViewInit {
   tasks: Task[] = [];
   cathegories: Cathegory[] = [];
   priorities: Priority[] = [];
@@ -46,8 +53,9 @@ export class TaskListComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.getData();
+    this.dataSource.sort = this.sort;
   }
 
   @ViewChild(MatSort)
@@ -80,6 +88,7 @@ export class TaskListComponent implements OnInit {
         }
       });
   }
+
   getData() {
     const tasks$ = this.http.getTasks();
     const cathegories$ = this.http.getCathegories();
@@ -126,6 +135,7 @@ export class TaskListComponent implements OnInit {
 
   filterByType(type: string) {
     let newTaskList;
+    console.log('TRYING TO FILTER');
     if (this.tasks)
       if (
         this.tasks.filter((task) =>

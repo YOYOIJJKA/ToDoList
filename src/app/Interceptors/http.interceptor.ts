@@ -10,10 +10,8 @@ import { Cathegory } from '../Interfaces/cathegory';
 import { Task } from '../Interfaces/task';
 import { Priority } from '../Interfaces/priority';
 import { User } from '../Interfaces/user';
-import { INTERCEPTORS, URLS, USERURL } from '../constants';
-// export const httpInterceptor: HttpInterceptorFn = (req, next) => {
-//   return next(req);
-// };
+import { INTERCEPTORS, URLS } from '../constants';
+
 
 export class httpInterceptor implements HttpInterceptor {
   constructor() {}
